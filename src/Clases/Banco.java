@@ -2,6 +2,7 @@ package Clases;
 
 import java.util.ArrayList;
 
+//Banco
 public class Banco {
 	private String telefono;
 	private String direccion;
