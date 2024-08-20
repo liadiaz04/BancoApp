@@ -1,9 +1,14 @@
 package GUI.Components;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import GUI.Views.Principal;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Color;
+import java.net.URL;
 
 public class SidebarButton extends JButton {
 	
@@ -12,19 +17,20 @@ public class SidebarButton extends JButton {
     private Color textColor;
     private Font font;
 
-    public SidebarButton(String text, Icon icon, Font font, Color backgroundColor, Color hoverColor, Color textColor) {
+    public SidebarButton(String text, String iconPath, Font font, Color backgroundColor, Color hoverColor, Color textColor) {
         super(text);
         this.backgroundColor = backgroundColor;
         this.hoverColor = hoverColor;
         this.textColor = textColor;
         this.font = font;
+        loadIcon(iconPath);
         initializate();
+        setIconTextGap(15); // Espacio entre el ícono y el texto
     }
     
     
     private void initializate() {
     	setFont(font);
-        //setIcon(icon);
         setBackground(backgroundColor);
         setForeground(textColor);
         setBorderPainted(false);
@@ -55,8 +61,20 @@ public class SidebarButton extends JButton {
     	setBackground(backgroundColor);
     }
 
-    public void setButtonAction(ActionListener action) {
+    private void setButtonAction(ActionListener action) {
         addActionListener(action);
+    }
+    
+    private void loadIcon(String iconPath) {
+    	if (iconPath == null || iconPath.isEmpty()) {
+    		setIcon(null);
+    	}
+    	else {
+    		ImageIcon imageIcon = new ImageIcon(Principal.class.getResource(iconPath));
+    		setIcon(imageIcon);
+    	}
+        
+        
     }
     
     public void addToPanel(JPanel panel, int x, int y, int width, int height) {

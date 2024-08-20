@@ -4,7 +4,7 @@ import java.awt.Font;
 
 public enum Fonts {
 	
-    BUTTONS(new Font("Arial", Font.PLAIN, 20));
+    BUTTONS(new Font("Arial", Font.PLAIN, 25));
 
     private final Font font;
 
