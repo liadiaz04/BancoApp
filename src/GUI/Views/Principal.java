@@ -65,9 +65,6 @@ import javax.swing.ImageIcon;
 public class Principal extends JFrame {
 	
 	private JPanel contentPane;
-	private JPanel cardPanel;
-	private JPanel CardLayout;
-	
 	private SidebarButton principalButton;
 	private SidebarButton clientesButton;
 	private SidebarButton cuentasButton;
@@ -98,8 +95,6 @@ public class Principal extends JFrame {
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 651);
-		
-		
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);
 		contentPane.setBorder(null);
@@ -107,12 +102,11 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		// Panel lateral (Sidebar)
-		JPanel sidebarPanel = new JPanel();
-		sidebarPanel.setBounds(0, 0, 379, 1004);
-		sidebarPanel.setBackground(new Color(0, 153, 102));
-		sidebarPanel.setLayout(null);
-		contentPane.add(sidebarPanel);
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 379, 1004);
+		panel.setBackground(new Color(0, 153, 102));
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Banco Metropolitano");
 		lblNewLabel.setBounds(57, 50, 280, 60);
