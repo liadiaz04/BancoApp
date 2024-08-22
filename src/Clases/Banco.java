@@ -14,20 +14,62 @@ public class Banco {
     public Banco(String telefono, String direccion) {
         this.telefono = telefono;
         this.direccion = direccion;
-        this.clientes = new ArrayList<Cliente>(); // Inicializa el ArrayList
+        this.clientes = new ArrayList<Cliente>(); 
     }
+    
+    //CLIENTES
 
-    // Método para agregar un cliente
-    public void agregarCliente(Cliente cliente) {
-        clientes.add(cliente);
+    public void addCliente(String idCliente, String direccion, String nombre, String telefono, String correo) {
+        if (buscarClientePorId(idCliente) == null) {
+            Cliente cliente = new Cliente(idCliente, direccion, nombre, telefono, correo);
+            clientes.add(cliente);
+        } else {
+            System.out.println("El cliente con ID " + idCliente + " ya existe.");
+        }
     }
+    
+    public Cliente buscarClientePorId(String idCliente) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getIdCliente().equals(idCliente)) {
+                return cliente;
+            }
+        }
+        return null; 
+    }
+    
+     public boolean eliminarCliente(String idCliente) {
+        boolean eliminado = false; 
+        
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getIdCliente().equals(idCliente)) {
+                clientes.remove(i);
+                eliminado = true; 
+            }
+        }
 
-    // Método para obtener la lista de clientes
+        return eliminado; 
+    }
+     
+     //Reporte 1
+     public ArrayList<String> obtenerSaldosCliente(String idCliente) {
+         ArrayList<String> saldos = new ArrayList<String>(); 
+         Cliente cliente = buscarClientePorId(idCliente);
+         
+         if (cliente != null) {
+             saldos = cliente.obtenerSaldosPorCuenta(); 
+         } else {
+             System.out.println("Cliente no encontrado.");
+         }
+         
+         return saldos; 
+     }
+  
+
+
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
 
-    // Métodos para obtener información adicional
     public String getTelefono() {
         return telefono;
     }
