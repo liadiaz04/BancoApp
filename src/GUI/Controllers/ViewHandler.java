@@ -1,4 +1,4 @@
-package GUI.Components;
+package GUI.Controllers;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import GUI.Components.BaseScreen;
 import GUI.Views.AccountsScreen;
 import GUI.Views.AgencyScreen;
 import GUI.Views.ClientScreen;

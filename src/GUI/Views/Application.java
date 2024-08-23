@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import GUI.Components.*;
+import GUI.Controllers.ViewHandler;
 
 public class Application extends JFrame {
 
