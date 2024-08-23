@@ -3,7 +3,7 @@ package GUI.Components;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import GUI.Views.Principal;
+import GUI.Views.Application;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -70,7 +70,7 @@ public class SidebarButton extends JButton {
     		setIcon(null);
     	}
     	else {
-    		ImageIcon imageIcon = new ImageIcon(Principal.class.getResource(iconPath));
+    		ImageIcon imageIcon = new ImageIcon(Application.class.getResource(iconPath));
     		setIcon(imageIcon);
     	}
         

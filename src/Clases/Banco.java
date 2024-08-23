@@ -51,6 +51,7 @@ public class Banco {
     }
      
      //Reporte 1
+     //Obtener el saldo de todas las cuentas de un cliente
      public ArrayList<String> obtenerSaldosCliente(String idCliente) {
          ArrayList<String> saldos = new ArrayList<String>(); 
          Cliente cliente = buscarClientePorId(idCliente);
