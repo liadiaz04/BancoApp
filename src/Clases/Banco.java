@@ -19,7 +19,7 @@ public class Banco {
     
     //CLIENTES
 
-    public void addCliente(String idCliente, String direccion, String nombre, String telefono, String correo) {
+    public void addCliente(String idCliente, String nombre, String direccion, String telefono, String correo) {
         if (buscarClientePorId(idCliente) == null) {
             Cliente cliente = new Cliente(idCliente, direccion, nombre, telefono, correo);
             clientes.add(cliente);
