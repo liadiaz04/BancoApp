@@ -4,7 +4,7 @@ package Clases;
 
 public class Main {
     public static void main(String[] args) {
-        Banco banco = new Banco("123456789", "Calle Falsa 123");
+        Banco banco = Banco.getInstancia();
 
         try {
             banco.addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
@@ -20,5 +20,8 @@ public class Main {
                                ", Dirección: " + cliente.getDireccion() + 
                                ", Teléfono: " + cliente.getTelefono() + 
                                ", Email: " + cliente.getGmail());
-        }    }
+        }
+        
+        
+    }
 }

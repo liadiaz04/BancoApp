@@ -8,11 +8,11 @@ public class C_Corriente extends CuentaBancaria implements Intereses, Deposito, 
 	private ArrayList<String> titulares;
 	
 
-	public C_Corriente(String noCuenta, double saldo, String beneficiario,
-			String moneda, boolean estado, LocalDate fecha,
-			ArrayList<Operacion> operaciones, ArrayList<String> titulares) {
-		super(noCuenta, saldo, beneficiario, moneda, estado, fecha, operaciones);
+	public C_Corriente(String noCuenta, double saldo, String beneficiario, String moneda, ArrayList<String> titulares) {
+		
+		super(noCuenta, saldo, beneficiario, moneda);
 		this.titulares = titulares;
+		depositar(50);
 	}
 
 	public void extraer(double saldo) {
@@ -29,4 +29,24 @@ public class C_Corriente extends CuentaBancaria implements Intereses, Deposito, 
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean tieneCuenta(String nombreCliente) {
+		String titularActual = null;
+		boolean encontrado = false;
+		int size = titulares.size();
+		
+		for(int i=0; i<size && !encontrado; i++) {
+			titularActual = titulares.get(i);
+			
+			if (titularActual == nombreCliente) {
+				encontrado = true;
+			}
+		}
+		
+		return encontrado;
+	}
+
+
+
 }

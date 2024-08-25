@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 public class Cliente {
+	
 	private String idCliente;
 	private String nombre;
 	private String direccion;

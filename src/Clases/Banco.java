@@ -2,19 +2,27 @@ package Clases;
 
 import java.util.ArrayList;
 
-
-import java.util.ArrayList;
-
 public class Banco {
-    private String telefono;
-    private String direccion;
+	
+	private static Banco instancia; // Instancia única
     private ArrayList<Cliente> clientes;
+    private ArrayList<CuentaBancaria> cuentas;
 
     // Constructor
-    public Banco(String telefono, String direccion) {
-        this.telefono = telefono;
-        this.direccion = direccion;
+    public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
+        this.cuentas = new ArrayList<CuentaBancaria>(); 
+        
+        loadTestUsers(); //Carga los usuarios de prueba
+        crearCuentasBancarias(); //Carga las cuentas de prueba
+    }
+    
+    // Método para obtener la instancia única
+    public static Banco getInstancia() {
+        if (instancia == null) {
+            instancia = new Banco();
+        }
+        return instancia;
     }
     
     //CLIENTES
@@ -66,16 +74,56 @@ public class Banco {
      }
   
 
+     private void loadTestUsers() {
+    	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
+    	    addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
+    	    addCliente("05040178176", "Calle C 3", "Carlos", "34567890", "carlos.garcia@gmail.com");
+    	    addCliente("06040178177", "Calle D 4", "Ana", "45678901", "ana.martinez@gmail.com");
+    	    addCliente("07040178178", "Calle E 5", "Luis", "56789012", "luis.rodriguez@gmail.com");
+    	}
+    
+     private void crearCuentasBancarias() {
+    	    
+         C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC", "Titular1");
+         C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC", "Titular2");
+         C_MLC cuenta3 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC", "Titular3");
+         C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC", "Titular1");
+         C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC", "Titular2");
+         C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC", "Titular3");
+         
+         cuentas.add(cuenta3);
+         cuentas.add(cuenta2);
+         cuentas.add(cuenta1);
+         cuentas.add(cuenta4);
+         cuentas.add(cuenta5);
+         cuentas.add(cuenta6);
+	} 
+     
+     
+     //Dado un cliente retorna todas sus cuentas
+     public ArrayList<CuentaBancaria> getCuentasDadoCliente(String nombreCliente) {
+    	 
+    	 ArrayList<CuentaBancaria> cuentasUsuario = new ArrayList<CuentaBancaria>();
+    	 CuentaBancaria cuentaAcutal;
+    	 int size = this.cuentas.size();
+    	 
+    	 for( int i=0; i<size; i++) {
+    		 cuentaAcutal = this.cuentas.get(i);
+    		 
+    		 if (cuentaAcutal.tieneCuenta(nombreCliente))
+    			 cuentasUsuario.add(cuentaAcutal);
+    	 }
+    	 
+    	 return cuentasUsuario;
+     }
+
 
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
-
-    public String getTelefono() {
-        return telefono;
+    
+    public ArrayList<CuentaBancaria> getCuentas() {
+        return cuentas;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
 }

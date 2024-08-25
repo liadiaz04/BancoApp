@@ -3,6 +3,7 @@ package Clases;
 import java.time.LocalDate;
 
 public class Operacion {
+	
     private String tipo; 
     private double monto;
     private LocalDate fecha;
