@@ -13,10 +13,12 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 		super(noCuenta,saldo,beneficiario,moneda);
 		this.contrato = new Contrato (entidad,tiempo,salario);
 	    this.fechaUltimaActualizacion = LocalDate.now();
+	    this.saldo= 30;
 	}
 
 	public double getSaldo() {
 		actualizarSaldo();
+		interes();
 		return this.saldo;
 	}
 
@@ -24,6 +26,7 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 	public Contrato getContrato() {
 		return contrato;
 	}
+	
 	public void setContrato(String entidad , int tiempo , double salario ) {
 		this.contrato.setEntidad(entidad);
 		this.contrato.setPeriodoTiempo(tiempo);
@@ -32,13 +35,17 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 
 
 	public void extraer(double cantidad) {
+		if(Validaciones.validarDinero(cantidad)){
 		if((this.saldo - cantidad) > 30 && cantOperacionesDeUnTipo("Extraccion",LocalDate.now()) < 4) {
 			this.saldo -= 30;
 			operaciones.add(new Operacion ("Extraccion",cantidad,LocalDate.now()));
 		}
 		else
 			throw new IllegalArgumentException("No es posible realizar la extraccion");
+	}else 
+		throw new IllegalArgumentException ("Debe extrar una cantidad valida");
 	}
+	
 
 	public void actualizarSaldo () {
 
@@ -53,18 +60,10 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 	}
 
 	public void interes() {
-		boolean found = false;
-
-		for (int i = this.operaciones.size() - 1; i >= 0 && !found; i--) {
-			Operacion op = this.operaciones.get(i);
-			if (op.getTipo().equals("Extraccion")) {
-				found = true;
-				long diasDesdeUltimoDeposito = ChronoUnit.DAYS.between(op.getFecha(), LocalDate.now());
-				if (diasDesdeUltimoDeposito >= 365) {
+		long meses = mesesDeUltimaExtraccion();
+				if (meses >= 12) {
 					this.saldo += saldo * 0.02;
 				}
-			}
-		}
 	}
 
 }

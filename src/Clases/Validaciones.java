@@ -10,5 +10,8 @@ package Clases;
 	        }
 	        return valido;
 	    }
- 
+   
+	 public static boolean validarDinero (double cant){
+		 return cant > 0 ? true : false;
+	 }
 }

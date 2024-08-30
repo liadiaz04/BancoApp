@@ -1,6 +1,7 @@
 package Clases;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public abstract class CuentaBancaria {
@@ -89,4 +90,29 @@ public abstract class CuentaBancaria {
 		}
 		return cantidad;
 	}
+	
+	public Operacion ultimaOperacionDeUnTipo (){
+		Operacion op = null;
+		boolean found = false;
+		for (int i = this.operaciones.size() - 1; i >= 0 && !found; i--) {
+			 op = this.operaciones.get(i);
+			if (op.getTipo().equals("Cobro de Intereses")) {
+				found = true;
+			}
+		}
+		return op;
+	}
+	
+   public long mesesDeUltimaExtraccion(){
+	   boolean found = false;
+       long cantMeses = -1;
+		for (int i = this.operaciones.size() - 1; i >= 0 && !found; i--) {
+			Operacion op = this.operaciones.get(i);
+			if (op.getTipo().equals("Extraccion")) {
+				found = true;
+				cantMeses = ChronoUnit.MONTHS.between(op.getFecha(), LocalDate.now());
+			}
+		}
+		return cantMeses;
+   } 
 }
