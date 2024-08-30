@@ -60,10 +60,15 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 	}
 
 	public void interes() {
-		long meses = mesesDeUltimaExtraccion();
-				if (meses >= 12) {
-					this.saldo += saldo * 0.02;
-				}
+		Operacion op = ultimaOperacionDeUnTipo("Cobro de Intereses");
+		if(op != null  && ChronoUnit.YEARS.between(op.getFecha(), LocalDate.now())>= 1){
+			long meses = mesesDeUltimaExtraccion();
+			if (meses >= 12) {
+				double nuevo = this.saldo * 0.02;
+				this.saldo += nuevo;
+				this.operaciones.add(new Operacion("Cobro de Intereses",nuevo,LocalDate.now()));
+			}
+		}
 	}
 
 }

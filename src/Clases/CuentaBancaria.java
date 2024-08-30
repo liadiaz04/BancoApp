@@ -91,12 +91,12 @@ public abstract class CuentaBancaria {
 		return cantidad;
 	}
 	
-	public Operacion ultimaOperacionDeUnTipo (){
+	public Operacion ultimaOperacionDeUnTipo (String tipo){
 		Operacion op = null;
 		boolean found = false;
 		for (int i = this.operaciones.size() - 1; i >= 0 && !found; i--) {
 			 op = this.operaciones.get(i);
-			if (op.getTipo().equals("Cobro de Intereses")) {
+			if (op.getTipo().equals(tipo)) {
 				found = true;
 			}
 		}
