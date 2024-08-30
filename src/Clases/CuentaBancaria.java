@@ -26,8 +26,6 @@ public abstract class CuentaBancaria {
 
 	}
 	
-	public abstract boolean tieneCuenta(String nombreCliente);
-	
 	public String getNoCuenta() {
 		return noCuenta;
 	}
@@ -74,5 +72,21 @@ public abstract class CuentaBancaria {
 	
 	public LocalDate getFechaApertura() {
 		return fechaApertura;
+	}
+	
+	//Hecha en el IntelliJ 
+	public int cantOperacionesDeUnTipo (String tipoOperacion,LocalDate fecha) {
+
+		int cantidad = 0;
+		for (int i = 0; i < operaciones.size(); i++) {
+			Operacion op = operaciones.get(i);
+			if (fecha.getYear() == op.getFecha().getYear()) {
+				if (op.getTipo().equalsIgnoreCase(tipoOperacion)) {
+					cantidad++;
+				}
+			}
+
+		}
+		return cantidad;
 	}
 }

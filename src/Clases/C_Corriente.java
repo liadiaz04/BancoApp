@@ -30,23 +30,6 @@ public class C_Corriente extends CuentaBancaria implements Intereses, Deposito, 
 		return 0;
 	}
 
-	@Override
-	public boolean tieneCuenta(String nombreCliente) {
-		String titularActual = null;
-		boolean encontrado = false;
-		int size = titulares.size();
-		
-		for(int i=0; i<size && !encontrado; i++) {
-			titularActual = titulares.get(i);
-			
-			if (titularActual == nombreCliente) {
-				encontrado = true;
-			}
-		}
-		
-		return encontrado;
-	}
-
-
+	
 
 }

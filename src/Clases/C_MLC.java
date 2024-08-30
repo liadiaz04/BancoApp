@@ -17,14 +17,6 @@ public class C_MLC extends CuentaBancaria implements Extraccion {
 		
 	}
 
-	@Override
-	public boolean tieneCuenta(String nombreCliente) {
-		boolean encontrado = false;
-		
-		if (nombreCliente == titular)
-			encontrado = true;
-		
-		return encontrado;
-	}
+	
 
 }

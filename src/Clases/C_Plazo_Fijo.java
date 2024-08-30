@@ -18,14 +18,5 @@ public class C_Plazo_Fijo extends CuentaBancaria implements Intereses {
 		return 0;
 	}
 
-	@Override
-	public boolean tieneCuenta(String nombreCliente) {
-		boolean encontrado = false;
-		
-		if (nombreCliente == titular)
-			encontrado = true;
-		
-		return encontrado;
-	}
-
+	
 }
