@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Extraccion{
 
-    private Contrato contrato;
+	private Contrato contrato;
 	private LocalDate fechaUltimaActualizacion;
 
 	public C_Formacion_Fondos(String noCuenta, double saldo, String beneficiario, String moneda,String entidad, int tiempo , double salario) {
-	 
+
 		super(noCuenta,saldo,beneficiario,moneda);
 		this.contrato = new Contrato (entidad,tiempo,salario);
-	    this.fechaUltimaActualizacion = LocalDate.now();
-	    this.saldo= 30;
+		this.fechaUltimaActualizacion = LocalDate.now();
+		this.saldo= 30;
 	}
 
 	public double getSaldo() {
@@ -22,11 +22,11 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 		return this.saldo;
 	}
 
-	
+
 	public Contrato getContrato() {
 		return contrato;
 	}
-	
+
 	public void setContrato(String entidad , int tiempo , double salario ) {
 		this.contrato.setEntidad(entidad);
 		this.contrato.setPeriodoTiempo(tiempo);
@@ -36,27 +36,27 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 
 	public void extraer(double cantidad) {
 		if(Validaciones.validarDinero(cantidad)){
-		if((this.saldo - cantidad) > 30 && cantOperacionesDeUnTipo("Extraccion",LocalDate.now()) < 4) {
-			this.saldo -= 30;
-			operaciones.add(new Operacion ("Extraccion",cantidad,LocalDate.now()));
-		}
-		else
-			throw new IllegalArgumentException("No es posible realizar la extraccion");
-	}else 
-		throw new IllegalArgumentException ("Debe extrar una cantidad valida");
+			if((this.saldo - cantidad) > 30 && cantOperacionesDeUnTipo("Extraccion",LocalDate.now()) < 4) {
+				this.saldo -= 30;
+				operaciones.add(new Operacion ("Extraccion",cantidad,LocalDate.now()));
+			}
+			else
+				throw new IllegalArgumentException("No es posible realizar la extraccion");
+		}else 
+			throw new IllegalArgumentException ("Debe extrar una cantidad valida");
 	}
-	
+
 
 	public void actualizarSaldo () {
 
 		long mesesDesdeUltimaActualizacion = ChronoUnit.MONTHS.between(fechaUltimaActualizacion, LocalDate.now());
 
-			if (mesesDesdeUltimaActualizacion >= contrato.getPeriodoTiempo()) {
-				int numeroDeIncrementos = (int) (mesesDesdeUltimaActualizacion / contrato.getPeriodoTiempo());
-				saldo += numeroDeIncrementos * contrato.getSalario();
-				fechaUltimaActualizacion = fechaUltimaActualizacion.plusMonths(numeroDeIncrementos * contrato.getPeriodoTiempo());
-				this.operaciones.add(new Operacion ("Deposito",contrato.getSalario(),LocalDate.now()));
-			}
+		if (mesesDesdeUltimaActualizacion >= contrato.getPeriodoTiempo()) {
+			int numeroDeIncrementos = (int) (mesesDesdeUltimaActualizacion / contrato.getPeriodoTiempo());
+			saldo += numeroDeIncrementos * contrato.getSalario();
+			fechaUltimaActualizacion = fechaUltimaActualizacion.plusMonths(numeroDeIncrementos * contrato.getPeriodoTiempo());
+			this.operaciones.add(new Operacion ("Deposito",contrato.getSalario(),LocalDate.now()));
+		}
 	}
 
 	public void interes() {

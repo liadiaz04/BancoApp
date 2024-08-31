@@ -5,24 +5,26 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class C_Plazo_Fijo extends CuentaBancaria implements Intereses,Deposito,Extraccion{
-	
-    private boolean interesCobrado;
+
 	private Plazo_Deposito plazo;
 
 	public C_Plazo_Fijo(String noCuenta, double saldo, String beneficiario, String moneda, Plazo_Deposito plazo,double cantInicial) {
 		super(noCuenta, saldo, beneficiario, moneda);
 		this.plazo = plazo;
-		this.interesCobrado = false;
 		depositar(cantInicial);
 	}
 
-
+    public double getSaldo(){
+		interes();
+		return this.saldo;
+	}
+	
 	public void interes() {
-		if(!this.interesCobrado){
+		if(ultimaOperacionDeUnTipo("Cobro de Interes")== null){
 			long diferenciaMeses = ChronoUnit.MONTHS.between(this.fechaApertura,LocalDate.now());
 			if(diferenciaMeses >= this.plazo.getMeses()){
 				this.saldo += plazo.getTasaInteres();
-				this.estado = true;
+				operaciones.add(new Operacion ("Cobro de Interes",plazo.getTasaInteres(),LocalDate.now()));
 			}
 		}
 	}
@@ -37,8 +39,8 @@ public class C_Plazo_Fijo extends CuentaBancaria implements Intereses,Deposito,E
 
 
 	public void extraer(double saldo) {
-		 this.saldo = 0;
+		this.saldo = 0;
+		operaciones.add(new Operacion ("Extraccion",this.saldo,LocalDate.now()));
 	}
 
-	
 }

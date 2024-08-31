@@ -10,18 +10,15 @@ public abstract class CuentaBancaria {
 	protected double saldo;
 	protected String beneficiario;
 	protected String moneda;
-	protected boolean estado;
 	protected LocalDate fechaApertura;
 	protected ArrayList<Operacion> operaciones;
 	
 	public CuentaBancaria(String noCuenta, double saldo, String beneficiario, String moneda) {
 		
-		setNoCuenta(noCuenta);
+		this.noCuenta = noCuenta;
 		setSaldo(saldo);
 		setBeneficiario(beneficiario);
 		setMoneda(moneda);
-		
-		setEstado(true);
 		this.fechaApertura =  LocalDate.now();
 		this.operaciones = new ArrayList<Operacion>();
 
@@ -31,10 +28,7 @@ public abstract class CuentaBancaria {
 		return noCuenta;
 	}
 	
-	public void setNoCuenta(String noCuenta) {
-		this.noCuenta = noCuenta;
-	}
-	
+
 	public double getSaldo() {
 		return saldo;
 	}
@@ -48,9 +42,13 @@ public abstract class CuentaBancaria {
 	}
 	
 	public void setBeneficiario(String beneficiario) {
-		this.beneficiario = beneficiario;
+		if(Validaciones.validarNombre(beneficiario)){
+			this.beneficiario = beneficiario;
+		} else
+			throw new IllegalArgumentException (" El nombre del Beneficiario debe tener minimmo 3 caracteres que sean letras.");
 	}
-	
+
+
 	public String getMoneda() {
 		return moneda;
 	}
@@ -59,13 +57,6 @@ public abstract class CuentaBancaria {
 		this.moneda = moneda;
 	}
 	
-	public boolean getEstado() {
-		return estado;
-	}
-	
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
 	
 	public ArrayList<Operacion> getOperaciones() {
 		return operaciones;
@@ -75,7 +66,8 @@ public abstract class CuentaBancaria {
 		return fechaApertura;
 	}
 	
-	//Hecha en el IntelliJ 
+	                     //FUNCIONES ADICIONALES   
+	
 	public int cantOperacionesDeUnTipo (String tipoOperacion,LocalDate fecha) {
 
 		int cantidad = 0;
@@ -88,7 +80,7 @@ public abstract class CuentaBancaria {
 			}
 
 		}
-		return cantidad;
+		return cantidad; //CANTIDAD DE OPERACIONES DE UN TIPO EN UN ANNIO
 	}
 	
 	public Operacion ultimaOperacionDeUnTipo (String tipo){
@@ -100,7 +92,7 @@ public abstract class CuentaBancaria {
 				found = true;
 			}
 		}
-		return op;
+		return op; //ULTIMA OPERACION DE UN TIPO 
 	}
 	
    public long mesesDeUltimaExtraccion(){
@@ -113,6 +105,8 @@ public abstract class CuentaBancaria {
 				cantMeses = ChronoUnit.MONTHS.between(op.getFecha(), LocalDate.now());
 			}
 		}
-		return cantMeses;
-   } 
+		return cantMeses; // CANTIDAD DE MESES DE LA ULTIMA EXTRACCION
+   }
+   
+   
 }

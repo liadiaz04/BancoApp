@@ -1,23 +1,24 @@
 package Clases;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Banco {
 	
-	private static Banco instancia; // Instancia única
+	private static Banco instancia; 
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
 
-    // Constructor
+    // CONSTRUCTOR
     public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         
-        loadTestUsers(); //Carga los usuarios de prueba
-        crearCuentasBancarias(); //Carga las cuentas de prueba
+        loadTestUsers(); 
+        crearCuentasBancarias();
     }
     
-    // Método para obtener la instancia única
+    // METODO PARA OBTENER LA INTANCIA UNICA
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
@@ -58,8 +59,8 @@ public class Banco {
         return eliminado; 
     }
      
-     //Reporte 1
-     //Obtener el saldo de todas las cuentas de un cliente
+     //REPORTE 1
+     //OBTENER EL SALDO DE TODAS LAS CUENTAS DE UN CLIENTE
      public ArrayList<String> obtenerSaldosCliente(String idCliente) {
          ArrayList<String> saldos = new ArrayList<String>(); 
          Cliente cliente = buscarClientePorId(idCliente);
@@ -73,7 +74,7 @@ public class Banco {
          return saldos; 
      }
   
-
+     //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
     	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
     	    addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
@@ -84,12 +85,12 @@ public class Banco {
     
      private void crearCuentasBancarias() {
     	    
-         C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC", "Titular1");
-         C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC", "Titular2");
-         C_MLC cuenta3 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC", "Titular3");
-         C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC", "Titular1");
-         C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC", "Titular2");
-         C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC", "Titular3");
+         C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
+         C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
+         C_MLC cuenta3 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
+         C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
+         C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
+         C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
          
          cuentas.add(cuenta3);
          cuentas.add(cuenta2);
@@ -100,20 +101,14 @@ public class Banco {
 	} 
      
      
-     //Dado un cliente retorna todas sus cuentas
-     public ArrayList<CuentaBancaria> getCuentasDadoCliente(String nombreCliente) {
+     //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
+     public ArrayList<CuentaBancaria> getCuentasDadoCliente(String id) {
     	 
     	 ArrayList<CuentaBancaria> cuentasUsuario = new ArrayList<CuentaBancaria>();
-    	 CuentaBancaria cuentaAcutal;
-    	 int size = this.cuentas.size();
-    	 
-    	 for( int i=0; i<size; i++) {
-    		 cuentaAcutal = this.cuentas.get(i);
-    		 
-    		 if (cuentaAcutal.tieneCuenta(nombreCliente))
-    			 cuentasUsuario.add(cuentaAcutal);
+    	 Cliente aux = buscarClientePorId(id);
+    	 if(aux != null){
+    		 cuentasUsuario = aux.getCuentas();
     	 }
-    	 
     	 return cuentasUsuario;
      }
 
@@ -125,5 +120,51 @@ public class Banco {
     public ArrayList<CuentaBancaria> getCuentas() {
         return cuentas;
     }
+    
+   
+    
+    // FUNCION PARA LA GENERACION DE NUMEROS DE CUENTAS
+
+    public static String generarNumeroCuenta(String tipoCuenta) {
+    	String primerosCuatroDigitos = "";
+
+    	switch (tipoCuenta.toLowerCase()) {
+    	case "corriente":
+    	case "plazo fijo":
+    		primerosCuatroDigitos = "9205";
+    		break;
+    	case "formacion de fondos":
+    		primerosCuatroDigitos = "9227";
+    		break;
+    	case "mlc":
+    		primerosCuatroDigitos = "9235";
+    		break;
+    	default:
+    		throw new IllegalArgumentException("Tipo de cuenta desconocido: " + tipoCuenta);
+    	}
+
+    	String siguientesCuatroDigitos = "9598";
+
+    	String ultimosOchoDigitos = generarDigitosAleatorios(8);
+
+
+    	return primerosCuatroDigitos + siguientesCuatroDigitos + ultimosOchoDigitos;
+    }
+
+
+    private static String generarDigitosAleatorios(int longitud) {
+    	Random random = new Random();
+    	StringBuilder sb = new StringBuilder();
+
+    	for (int i = 0; i < longitud; i++) {
+    		int digito = random.nextInt(10); 
+    		sb.append(digito);
+    	}
+
+    	return sb.toString();
+    }
+
+
+    
 
 }

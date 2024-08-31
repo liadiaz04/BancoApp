@@ -14,4 +14,8 @@ package Clases;
 	 public static boolean validarDinero (double cant){
 		 return cant > 0 ? true : false;
 	 }
-}
+    
+	 
+ 
+ 
+ }
