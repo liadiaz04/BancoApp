@@ -8,11 +8,13 @@ public class Banco {
 	private static Banco instancia; 
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
+    private ArrayList<Agencia> agencias;
 
     // CONSTRUCTOR
     public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
+        this.agencias = new ArrayList<Agencia>();
         
         loadTestUsers(); 
         crearCuentasBancarias();
@@ -58,6 +60,35 @@ public class Banco {
 
         return eliminado; 
     }
+     
+     //AGENCIAS 
+    
+     public void agregarAgencia(String gerente , String direccion) {
+         int numeroAgencia = this.agencias.size() + 1;
+         String idAgencia = String.format("Ag%02d", numeroAgencia);
+         agencias.add(new Agencia(idAgencia, gerente, direccion));
+        
+     }
+     
+     public boolean eliminarAgencia(String idAgencia) {
+         boolean eliminado = false; 
+         
+         for (int i = 0; i < clientes.size(); i++) {
+             if (clientes.get(i).getIdCliente().equals(idAgencia)) {
+                 clientes.remove(i);
+                 eliminado = true; 
+             }
+         }
+
+         return eliminado; 
+     }
+     
+
+    
+     
+     
+     
+     
      
      //REPORTE 1
      //OBTENER EL SALDO DE TODAS LAS CUENTAS DE UN CLIENTE
@@ -163,8 +194,8 @@ public class Banco {
 
     	return sb.toString();
     }
-
-
+ 
+ 
     
 
 }
