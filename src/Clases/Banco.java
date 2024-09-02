@@ -29,6 +29,17 @@ public class Banco {
     }
     
     //CLIENTES
+    
+    public Cliente buscarClientePorId(String idCliente) {
+    	Cliente aux = null;
+        for (int i = 0 ; i < clientes.size() && aux != null; i++ ) {
+            if (clientes.get(i).getIdCliente().equals(idCliente)) {
+               aux = clientes.get(i);
+            }
+        }
+        return aux; 
+    }
+    
 
     public void addCliente(String idCliente, String nombre, String direccion, String telefono, String correo) {
         if (buscarClientePorId(idCliente) == null) {
@@ -37,15 +48,6 @@ public class Banco {
         } else {
             System.out.println("El cliente con ID " + idCliente + " ya existe.");
         }
-    }
-    
-    public Cliente buscarClientePorId(String idCliente) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getIdCliente().equals(idCliente)) {
-                return cliente;
-            }
-        }
-        return null; 
     }
     
      public boolean eliminarCliente(String idCliente) {
@@ -62,6 +64,16 @@ public class Banco {
     }
      
      //AGENCIAS 
+     
+     public Agencia buscarAgenciaPorId(String idAgencia) {
+     	Agencia aux = null;
+         for (int i = 0 ; i < agencias.size() && aux != null; i++ ) {
+             if (agencias.get(i).getIdAgencia().equals(idAgencia)) {
+                aux = agencias.get(i);
+             }
+         }
+         return aux; 
+     }
     
      public void agregarAgencia(String gerente , String direccion) {
          int numeroAgencia = this.agencias.size() + 1;
@@ -84,27 +96,26 @@ public class Banco {
      }
      
 
-    
+    //CUENTAS
      
-     
-     
-     
-     
-     //REPORTE 1
-     //OBTENER EL SALDO DE TODAS LAS CUENTAS DE UN CLIENTE
-     public ArrayList<String> obtenerSaldosCliente(String idCliente) {
-         ArrayList<String> saldos = new ArrayList<String>(); 
-         Cliente cliente = buscarClientePorId(idCliente);
-         
-         if (cliente != null) {
-             saldos = cliente.obtenerSaldosPorCuenta(); 
-         } else {
-             System.out.println("Cliente no encontrado.");
+     public CuentaBancaria buscarCuentaBancariaPorNo(String noCuenta) {
+    	 
+    	 CuentaBancaria aux = null;
+      
+    	 for (int i = 0 ; i < cuentas.size() && aux != null; i++ ) {
+             if (cuentas.get(i).getNoCuenta().equals(noCuenta)) {
+                aux = cuentas.get(i);
+             }
          }
-         
-         return saldos; 
+         return aux; 
      }
-  
+     
+     
+     public void agregarCuenta (String tipo){
+    	 
+     }
+     
+     
      //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
     	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
@@ -195,7 +206,15 @@ public class Banco {
     	return sb.toString();
     }
  
- 
+  // REPORTES 
+   
+    // 1.	VER ULTIMAS OPERACIONES DE UNA CUENTA 
+    
+    public ArrayList <Operacion> ultimasOperacionesUnCuenta (String numeroCuenta){
+    	
+    }
+    
+    
     
 
 }
