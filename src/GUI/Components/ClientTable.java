@@ -2,6 +2,8 @@ package GUI.Components;
 
 import java.util.List;
 
+import javax.swing.JTable;
+
 import Clases.Cliente;
 
 import com.sun.security.ntlm.Client;
@@ -12,6 +14,8 @@ public class ClientTable extends BaseTable<Cliente> {
 		super(dataList, columnNames);
 	}
 
+	
+	
 	@Override
 	protected void populateTable(List<Cliente> dataList) {
 		
@@ -28,6 +32,10 @@ public class ClientTable extends BaseTable<Cliente> {
 		
 	}
 	
+	// Método para obtener la JTable
+    public JTable getTable() {
+        return dataTable; // Asegúrate de que 'table' sea un campo de tipo JTable en BaseTable
+    }
 	
 
 }

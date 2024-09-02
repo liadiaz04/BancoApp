@@ -62,7 +62,7 @@ public abstract class BaseScreenWithSideMenu extends BaseScreen {
         button.addToPanel(panel, 0, yPosition, 400, 80);
         
         // Asignar un ActionListener al botón
-        button.addActionListener(listener);
+        button.addActionListener(listener); 
         button.addToPanel(panel, 0, yPosition, 400, 80);
     }
 

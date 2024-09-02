@@ -24,7 +24,6 @@ public class Cliente {
 	}
 
 	
-	
 	public String getIdCliente() {
 		return idCliente;
 	}
