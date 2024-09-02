@@ -19,7 +19,6 @@ public class AccountTable extends BaseTable<CuentaBancaria> {
                 String.valueOf(cuenta.getSaldo()),
                 cuenta.getBeneficiario(),
                 cuenta.getMoneda(),
-                String.valueOf(cuenta.getEstado()),
                 String.valueOf(cuenta.getFechaApertura()),
                 cuenta.getClass().getSimpleName()
             };

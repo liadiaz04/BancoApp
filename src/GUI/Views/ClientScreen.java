@@ -118,7 +118,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
                     Cliente clienteSeleccionado = clientes.get(selectedRow);
                     detailLabel.setText("<html><strong>Nombre:</strong> " + clienteSeleccionado.getNombre() + "<br/>" +
                         "<strong>Dirección:</strong> " + clienteSeleccionado.getDireccion() + "<br/>" +
-                        "<strong>Email:</strong> " + clienteSeleccionado.getGmail() + "</html>");
+                        "<strong>Email:</strong> " + clienteSeleccionado.getEmail() + "</html>");
                 } else {
                     // Mostrar mensaje de advertencia
                     JOptionPane.showMessageDialog(null, 

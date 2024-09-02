@@ -70,6 +70,11 @@ public class Banco {
      
      //AGENCIAS 
      
+     public ArrayList<Agencia> getAgencias() {
+ 		return agencias;
+ 	}
+  
+     
      public Agencia buscarAgenciaPorId(String idAgencia) {
      	Agencia aux = null;
          for (int i = 0 ; i < agencias.size() && aux != null; i++ ) {
@@ -148,11 +153,11 @@ public class Banco {
 	} 
      
      private void crearAgencias() {
-    	    Agencia agencia1 = new Agencia(1, "Gerente A", "Calle Principal 1");
-    	    Agencia agencia2 = new Agencia(2, "Gerente B", "Calle Norte 2");
-    	    Agencia agencia3 = new Agencia(3, "Gerente C", "Calle Sur 3");
-    	    Agencia agencia4 = new Agencia(4, "Gerente D", "Calle Este 4");
-    	    Agencia agencia5 = new Agencia(5, "Gerente E", "Calle Oeste 5");
+    	    Agencia agencia1 = new Agencia("A001", "Gerente1", "Direccion1");
+    	    Agencia agencia2 = new Agencia("A002", "Gerente2", "Direccion2");
+    	    Agencia agencia3 = new Agencia("A003", "Gerente3", "Direccion3");
+    	    Agencia agencia4 = new Agencia("A004", "Gerente4", "Direccion4");
+    	    Agencia agencia5 = new Agencia("A005", "Gerente5", "Direccion5");
 
     	    agencias.add(agencia1);
     	    agencias.add(agencia2);
@@ -161,7 +166,6 @@ public class Banco {
     	    agencias.add(agencia5);
     	}
 
-     
      
      //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
      public ArrayList<CuentaBancaria> getCuentasDadoCliente(String id) {
@@ -225,15 +229,8 @@ public class Banco {
 
     	return sb.toString();
     }
- 
-  // REPORTES 
-   
-    // 1.	VER ULTIMAS OPERACIONES DE UNA CUENTA 
-    
-    public ArrayList <Operacion> ultimasOperacionesUnCuenta (String numeroCuenta){
-    	
-    }
-    
+	
+
     
     
 

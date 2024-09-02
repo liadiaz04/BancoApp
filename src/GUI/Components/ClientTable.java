@@ -6,7 +6,6 @@ import javax.swing.JTable;
 
 import Clases.Cliente;
 
-import com.sun.security.ntlm.Client;
 
 public class ClientTable extends BaseTable<Cliente> {
 
@@ -25,7 +24,7 @@ public class ClientTable extends BaseTable<Cliente> {
                 cliente.getNombre(),
                 cliente.getDireccion(),
                 cliente.getTelefono(),
-                cliente.getGmail()
+                cliente.getEmail()
             };
             tableModel.addRow(rowData);
         }
