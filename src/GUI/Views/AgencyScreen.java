@@ -1,15 +1,24 @@
 package GUI.Views;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
+import Clases.Agencia;
+import Clases.Banco;
+import GUI.Components.AgenciesTable;
 import GUI.Components.BaseScreenWithSideMenu;
+
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class AgencyScreen extends BaseScreenWithSideMenu {
-	private JTable table;
+	private JTable AgenciesTable;
+	private DefaultTableModel mt;
+	private JScrollPane s1;
 	
 	public AgencyScreen(ActionListener listener) {
 		super(listener);
@@ -18,18 +27,24 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
 	@Override
 	protected void loadContent() {
 		
-		JLabel label = new JLabel("Agencia");
+		JLabel label = new JLabel("Agencias");
         label.setBounds(550, 50, 200, 30);
         add(label);
         
-        JButton btnNewButton = new JButton("New button");
-        btnNewButton.setBounds(630, 210, 97, 25);
-        add(btnNewButton);
+        ArrayList<Agencia> agencias = getAgenciesList();
+        String[] columns = new String[]{"Identificador", "Gerente", "Direccion"};
         
-        table = new JTable();
-        table.setBounds(537, 290, 158, 156);
-        add(table);
+        AgenciesTable agenciesTable = new AgenciesTable(agencias, columns);
+        agenciesTable.setBounds(550, 100, 1180, 600);
+        add(agenciesTable);
         
 		
 	}
+	
+	 private ArrayList<Agencia> getAgenciesList() {
+ 		Banco banco = Banco.getInstancia();
+ 		ArrayList<Agencia> agencias = banco.getAgencias();
+ 		return agencias;
+ 	}
+
 }

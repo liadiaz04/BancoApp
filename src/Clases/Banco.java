@@ -7,23 +7,30 @@ public class Banco {
 	private static Banco instancia; // Instancia única
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
+    private ArrayList<Agencia> agencias;
 
     // Constructor
     public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
+        this.agencias = new ArrayList<Agencia>();
         
         loadTestUsers(); //Carga los usuarios de prueba
         crearCuentasBancarias(); //Carga las cuentas de prueba
     }
     
-    // Método para obtener la instancia única
+   
+
+	// Método para obtener la instancia única
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
         }
         return instancia;
     }
+    
+   
+    
     
     //CLIENTES
 
@@ -99,6 +106,21 @@ public class Banco {
          cuentas.add(cuenta6);
 	} 
      
+     private void crearAgencias() {
+    	    Agencia agencia1 = new Agencia(1, "Gerente A", "Calle Principal 1");
+    	    Agencia agencia2 = new Agencia(2, "Gerente B", "Calle Norte 2");
+    	    Agencia agencia3 = new Agencia(3, "Gerente C", "Calle Sur 3");
+    	    Agencia agencia4 = new Agencia(4, "Gerente D", "Calle Este 4");
+    	    Agencia agencia5 = new Agencia(5, "Gerente E", "Calle Oeste 5");
+
+    	    agencias.add(agencia1);
+    	    agencias.add(agencia2);
+    	    agencias.add(agencia3);
+    	    agencias.add(agencia4);
+    	    agencias.add(agencia5);
+    	}
+
+     
      
      //Dado un cliente retorna todas sus cuentas
      public ArrayList<CuentaBancaria> getCuentasDadoCliente(String nombreCliente) {
@@ -125,5 +147,9 @@ public class Banco {
     public ArrayList<CuentaBancaria> getCuentas() {
         return cuentas;
     }
+    
+    public ArrayList<Agencia> getAgencias() {
+		return agencias;
+	}
 
 }

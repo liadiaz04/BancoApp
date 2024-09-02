@@ -14,7 +14,7 @@ public class Agencia {
 		setDireccion(direccion);
 		this.cajeros = new ArrayList<Cajero>();
 	}
-	
+
 	public int getIdAgencia() {
 		return idAgencia;
 	}
