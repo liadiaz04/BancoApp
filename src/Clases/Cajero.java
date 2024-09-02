@@ -3,22 +3,20 @@ package Clases;
 import java.util.ArrayList;
 
 public class Cajero {
-	private int idCajero;
+	private String idCajero;
 	private ArrayList<Billete> billetes;
 	
-	public Cajero(int idCajero) {
-		setIdCajero(idCajero);
+	public Cajero(String idCajero) {
+		this.idCajero = idCajero;
 		this.billetes = new ArrayList<Billete>();
 	}
 
-	public int getIdCajero() {
+	
+
+	public String getIdCajero() {
 		return idCajero;
 	}
-
-	public void setIdCajero(int idCajero) {
-		this.idCajero = idCajero;
-	}
-
+	
 	public ArrayList<Billete> getBilletes() {
 		return billetes;
 	}

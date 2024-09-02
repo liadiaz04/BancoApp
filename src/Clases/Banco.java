@@ -1,27 +1,28 @@
 package Clases;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Banco {
 	
-	private static Banco instancia; // Instancia única
+	private static Banco instancia; 
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
     private ArrayList<Agencia> agencias;
 
-    // Constructor
+    // CONSTRUCTOR
     public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         this.agencias = new ArrayList<Agencia>();
         
-        loadTestUsers(); //Carga los usuarios de prueba
-        crearCuentasBancarias(); //Carga las cuentas de prueba
+        loadTestUsers(); 
+        crearCuentasBancarias();
     }
     
    
 
-	// Método para obtener la instancia única
+	// Mï¿½todo para obtener la instancia ï¿½nica
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
@@ -33,6 +34,17 @@ public class Banco {
     
     
     //CLIENTES
+    
+    public Cliente buscarClientePorId(String idCliente) {
+    	Cliente aux = null;
+        for (int i = 0 ; i < clientes.size() && aux != null; i++ ) {
+            if (clientes.get(i).getIdCliente().equals(idCliente)) {
+               aux = clientes.get(i);
+            }
+        }
+        return aux; 
+    }
+    
 
     public void addCliente(String idCliente, String nombre, String direccion, String telefono, String correo) {
         if (buscarClientePorId(idCliente) == null) {
@@ -41,15 +53,6 @@ public class Banco {
         } else {
             System.out.println("El cliente con ID " + idCliente + " ya existe.");
         }
-    }
-    
-    public Cliente buscarClientePorId(String idCliente) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getIdCliente().equals(idCliente)) {
-                return cliente;
-            }
-        }
-        return null; 
     }
     
      public boolean eliminarCliente(String idCliente) {
@@ -65,22 +68,60 @@ public class Banco {
         return eliminado; 
     }
      
-     //Reporte 1
-     //Obtener el saldo de todas las cuentas de un cliente
-     public ArrayList<String> obtenerSaldosCliente(String idCliente) {
-         ArrayList<String> saldos = new ArrayList<String>(); 
-         Cliente cliente = buscarClientePorId(idCliente);
-         
-         if (cliente != null) {
-             saldos = cliente.obtenerSaldosPorCuenta(); 
-         } else {
-             System.out.println("Cliente no encontrado.");
+     //AGENCIAS 
+     
+     public Agencia buscarAgenciaPorId(String idAgencia) {
+     	Agencia aux = null;
+         for (int i = 0 ; i < agencias.size() && aux != null; i++ ) {
+             if (agencias.get(i).getIdAgencia().equals(idAgencia)) {
+                aux = agencias.get(i);
+             }
          }
-         
-         return saldos; 
+         return aux; 
      }
-  
+    
+     public void agregarAgencia(String gerente , String direccion) {
+         int numeroAgencia = this.agencias.size() + 1;
+         String idAgencia = String.format("Ag%02d", numeroAgencia);
+         agencias.add(new Agencia(idAgencia, gerente, direccion));
+        
+     }
+     
+     public boolean eliminarAgencia(String idAgencia) {
+         boolean eliminado = false; 
+         
+         for (int i = 0; i < clientes.size(); i++) {
+             if (clientes.get(i).getIdCliente().equals(idAgencia)) {
+                 clientes.remove(i);
+                 eliminado = true; 
+             }
+         }
 
+         return eliminado; 
+     }
+     
+
+    //CUENTAS
+     
+     public CuentaBancaria buscarCuentaBancariaPorNo(String noCuenta) {
+    	 
+    	 CuentaBancaria aux = null;
+      
+    	 for (int i = 0 ; i < cuentas.size() && aux != null; i++ ) {
+             if (cuentas.get(i).getNoCuenta().equals(noCuenta)) {
+                aux = cuentas.get(i);
+             }
+         }
+         return aux; 
+     }
+     
+     
+     public void agregarCuenta (String tipo){
+    	 
+     }
+     
+     
+     //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
     	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
     	    addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
@@ -91,12 +132,12 @@ public class Banco {
     
      private void crearCuentasBancarias() {
     	    
-         C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC", "Titular1");
-         C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC", "Titular2");
-         C_MLC cuenta3 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC", "Titular3");
-         C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC", "Titular1");
-         C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC", "Titular2");
-         C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC", "Titular3");
+         C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
+         C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
+         C_MLC cuenta3 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
+         C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
+         C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
+         C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
          
          cuentas.add(cuenta3);
          cuentas.add(cuenta2);
@@ -122,20 +163,14 @@ public class Banco {
 
      
      
-     //Dado un cliente retorna todas sus cuentas
-     public ArrayList<CuentaBancaria> getCuentasDadoCliente(String nombreCliente) {
+     //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
+     public ArrayList<CuentaBancaria> getCuentasDadoCliente(String id) {
     	 
     	 ArrayList<CuentaBancaria> cuentasUsuario = new ArrayList<CuentaBancaria>();
-    	 CuentaBancaria cuentaAcutal;
-    	 int size = this.cuentas.size();
-    	 
-    	 for( int i=0; i<size; i++) {
-    		 cuentaAcutal = this.cuentas.get(i);
-    		 
-    		 if (cuentaAcutal.tieneCuenta(nombreCliente))
-    			 cuentasUsuario.add(cuentaAcutal);
+    	 Cliente aux = buscarClientePorId(id);
+    	 if(aux != null){
+    		 cuentasUsuario = aux.getCuentas();
     	 }
-    	 
     	 return cuentasUsuario;
      }
 
@@ -148,8 +183,58 @@ public class Banco {
         return cuentas;
     }
     
-    public ArrayList<Agencia> getAgencias() {
-		return agencias;
-	}
+   
+    
+    // FUNCION PARA LA GENERACION DE NUMEROS DE CUENTAS
+
+    public static String generarNumeroCuenta(String tipoCuenta) {
+    	String primerosCuatroDigitos = "";
+
+    	switch (tipoCuenta.toLowerCase()) {
+    	case "corriente":
+    	case "plazo fijo":
+    		primerosCuatroDigitos = "9205";
+    		break;
+    	case "formacion de fondos":
+    		primerosCuatroDigitos = "9227";
+    		break;
+    	case "mlc":
+    		primerosCuatroDigitos = "9235";
+    		break;
+    	default:
+    		throw new IllegalArgumentException("Tipo de cuenta desconocido: " + tipoCuenta);
+    	}
+
+    	String siguientesCuatroDigitos = "9598";
+
+    	String ultimosOchoDigitos = generarDigitosAleatorios(8);
+
+
+    	return primerosCuatroDigitos + siguientesCuatroDigitos + ultimosOchoDigitos;
+    }
+
+
+    private static String generarDigitosAleatorios(int longitud) {
+    	Random random = new Random();
+    	StringBuilder sb = new StringBuilder();
+
+    	for (int i = 0; i < longitud; i++) {
+    		int digito = random.nextInt(10); 
+    		sb.append(digito);
+    	}
+
+    	return sb.toString();
+    }
+ 
+  // REPORTES 
+   
+    // 1.	VER ULTIMAS OPERACIONES DE UNA CUENTA 
+    
+    public ArrayList <Operacion> ultimasOperacionesUnCuenta (String numeroCuenta){
+    	
+    }
+    
+    
+    
 
 }

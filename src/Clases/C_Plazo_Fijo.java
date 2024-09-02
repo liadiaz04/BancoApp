@@ -1,31 +1,46 @@
 package Clases;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public class C_Plazo_Fijo extends CuentaBancaria implements Intereses {
-	
-	private String titular;
+public class C_Plazo_Fijo extends CuentaBancaria implements Intereses,Deposito,Extraccion{
 
-	public C_Plazo_Fijo(String noCuenta, double saldo, String beneficiario, String moneda, String titular) {
+	private Plazo_Deposito plazo;
+
+	public C_Plazo_Fijo(String noCuenta, double saldo, String beneficiario, String moneda, Plazo_Deposito plazo,double cantInicial) {
 		super(noCuenta, saldo, beneficiario, moneda);
-		
-		this.titular = titular;
+		this.plazo = plazo;
+		depositar(cantInicial);
 	}
 
-	public double calcularInteres() {
-		// TODO Auto-generated method stub
-		return 0;
+    public double getSaldo(){
+		interes();
+		return this.saldo;
+	}
+	
+	public void interes() {
+		if(ultimaOperacionDeUnTipo("Cobro de Interes")== null){
+			long diferenciaMeses = ChronoUnit.MONTHS.between(this.fechaApertura,LocalDate.now());
+			if(diferenciaMeses >= this.plazo.getMeses()){
+				this.saldo += plazo.getTasaInteres();
+				operaciones.add(new Operacion ("Cobro de Interes",plazo.getTasaInteres(),LocalDate.now()));
+			}
+		}
 	}
 
-	@Override
-	public boolean tieneCuenta(String nombreCliente) {
-		boolean encontrado = false;
-		
-		if (nombreCliente == titular)
-			encontrado = true;
-		
-		return encontrado;
+	public void depositar(double saldo) {
+		if(Validaciones.validarDinero(saldo)){
+			this.saldo += saldo;
+			operaciones.add(new Operacion ("Deposito",saldo,LocalDate.now()));
+		}else 
+			throw new IllegalArgumentException ("Debe extraer una cantidad valida");
+	}
+
+
+	public void extraer(double saldo) {
+		this.saldo = 0;
+		operaciones.add(new Operacion ("Extraccion",this.saldo,LocalDate.now()));
 	}
 
 }

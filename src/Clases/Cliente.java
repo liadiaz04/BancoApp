@@ -9,17 +9,17 @@ public class Cliente {
 	private String nombre;
 	private String direccion;
 	private String telefono;
-	private String gmail;
+	private String email;
 	private ArrayList <CuentaBancaria> cuentas;
 	
 	public Cliente(String idCliente, String nombre, String direccion,
-			String telefono, String gmail) {
+			String telefono, String email) {
 		
 		setIdCliente(idCliente);
 		setNombre(nombre);
 		setDireccion(direccion);
 		setTelefono(telefono);
-		setGmail(gmail);
+		setEmail(email);
 		this.cuentas = new ArrayList<CuentaBancaria>();
 	}
 
@@ -31,19 +31,28 @@ public class Cliente {
 
 
 	public void setIdCliente(String idCliente) {
-		this.idCliente = idCliente;
+		try{
+			Validaciones.validarCI(idCliente);
+			this.idCliente = idCliente;
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 
 
 	public String getNombre() {
+		
 		return nombre;
 	}
 
 
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		if(Validaciones.validarNombre(nombre)){
+			this.nombre = nombre;
+		}else 
+			throw new IllegalArgumentException ("Nombre Invalido");
 	}
 
 
@@ -55,31 +64,40 @@ public class Cliente {
 
 
 	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+		if(Validaciones.validarNombre(direccion)){
+			this.direccion = direccion;
+		}else 
+			throw new IllegalArgumentException ("Nombre Invalido");
 	}
 
 
 
 	public String getTelefono() {
-		return telefono;
+		return this.telefono;
 	}
 
 
 
 	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+		if(Validaciones.validarTelefono(telefono)){
+			this.telefono = telefono;
+		}else 
+			throw new IllegalArgumentException ("Numero de telefono no valido");
 	}
 
 
 
-	public String getGmail() {
-		return gmail;
+	public String getEmail() {
+		return email;
 	}
 
 
 
-	public void setGmail(String gmail) {
-		this.gmail = gmail;
+	public void setEmail(String email) {
+		if(Validaciones.validadorCorreo(email)){
+			this.email = email;
+		}else 
+			throw new IllegalArgumentException ("Su correo electronico no es valido");
 	}
 
 
@@ -88,11 +106,6 @@ public class Cliente {
 		return cuentas;
 	}
 
-
-
-	public void setCuentas(ArrayList<CuentaBancaria> cuentas) {
-		this.cuentas = cuentas;
-	}
 
 
 
