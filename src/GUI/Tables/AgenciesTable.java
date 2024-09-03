@@ -1,4 +1,4 @@
-package GUI.Components;
+package GUI.Tables;
 
 import java.util.List;
 

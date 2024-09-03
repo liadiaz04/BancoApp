@@ -1,4 +1,4 @@
-package GUI.Components;
+package GUI.Tables;
 
 import java.util.List;
 
@@ -31,10 +31,6 @@ public class ClientTable extends BaseTable<Cliente> {
 		
 	}
 	
-	// Método para obtener la JTable
-    public JTable getTable() {
-        return dataTable; // Asegúrate de que 'table' sea un campo de tipo JTable en BaseTable
-    }
 	
 
 }

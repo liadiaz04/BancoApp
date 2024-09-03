@@ -101,6 +101,10 @@ public class Cliente {
 	}
 
 
+	public void agregarCuenta(CuentaBancaria cuenta) {
+		cuentas.add(cuenta);
+	}
+	
 
 	public ArrayList<CuentaBancaria> getCuentas() {
 		return cuentas;

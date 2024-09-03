@@ -126,6 +126,15 @@ public class Banco {
     	 
      }
      
+     public ArrayList<CuentaBancaria> getCuentasCliente(Cliente cliente) {
+ 		ArrayList<CuentaBancaria> cuentas = new ArrayList<>();
+ 		
+ 		cuentas.addAll(cliente.getCuentas());
+ 		
+ 		
+ 		return cuentas;
+ 	}
+ 	
      
      //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
@@ -134,6 +143,9 @@ public class Banco {
     	    addCliente("05040178176", "Calle C 3", "Carlos", "34567890", "carlos.garcia@gmail.com");
     	    addCliente("06040178177", "Calle D 4", "Ana", "45678901", "ana.martinez@gmail.com");
     	    addCliente("07040178178", "Calle E 5", "Luis", "56789012", "luis.rodriguez@gmail.com");
+    	    
+    	    C_MLC cuenta = new C_MLC("011", 1000.0, "Beneficiario1", "MLC"); 
+    	    clientes.get(0).agregarCuenta(cuenta);
     	}
     
      private void crearCuentasBancarias() {
@@ -230,6 +242,9 @@ public class Banco {
 
     	return sb.toString();
     }
+
+
+
 	
 
     

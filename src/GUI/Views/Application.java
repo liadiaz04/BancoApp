@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import GUI.Components.*;
+import GUI.Controllers.SelectedUserManager;
 import GUI.Controllers.ViewHandler;
 
 public class Application extends JFrame {
@@ -35,7 +36,6 @@ public class Application extends JFrame {
     
 
     public Application() {
-    	System.out.print("aa");
     	
         setConfigs(); //Inicializa las configuraciones de la pantalla
         setApplicationValues(); //Inicializa el panel de contenido y el layout de la pantalla

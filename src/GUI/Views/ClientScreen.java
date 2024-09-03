@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,7 +27,9 @@ import Clases.Banco;
 import Clases.Cliente;
 import Clases.CuentaBancaria;
 import GUI.Components.BaseScreenWithSideMenu;
-import GUI.Components.ClientTable;
+import GUI.Components.NavigationButton;
+import GUI.Controllers.SelectedUserManager;
+import GUI.Tables.ClientTable;
 
 public class ClientScreen extends BaseScreenWithSideMenu {
     private JTable clientTable;
@@ -49,6 +52,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
 
     @Override
     protected void loadContent() {
+    	
         JLabel label = new JLabel("Clientes");
         label.setFont(new Font("Tahoma", Font.BOLD, 24)); // Cambiar el tamaño de la fuente
         label.setForeground(new Color(0, 128, 0)); // Cambiar el color de la fuente
@@ -74,10 +78,39 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         JButton deleteClient = new JButton("Eliminar");
         customizeButton(deleteClient, buttonFont, 760, 800);
         add(deleteClient);
+        
+        NavigationButton clientButton = new NavigationButton(
+        	    "Cuentas del Cliente", 
+        	    null, 
+        	    new Font("Arial", Font.PLAIN, 16), 
+        	    Color.BLACK, 
+        	    Color.LIGHT_GRAY, 
+        	    Color.WHITE, 
+        	    "Cuentas del Cliente"
+        	);
 
-        JButton viewAccounts = new JButton("Ver Cuentas");
-        customizeButton(viewAccounts, buttonFont, 1020, 800);
-        add(viewAccounts);
+        	clientButton.addActionListener(listener);
+        	customizeButton(clientButton, buttonFont, 1020, 800);
+        	add(clientButton);
+
+        	// Verificar si hay un cliente seleccionado
+        	clientButton.addActionListener(new ActionListener() {
+        	    @Override
+        	    public void actionPerformed(ActionEvent e) {
+        	    	int selectedRow = clientTable.getSelectedRow();
+        	    	
+                    if (selectedRow != -1){
+                    	Cliente clienteSeleccionado = clientes.get(selectedRow);
+                    	SelectedUserManager.getInstancia().setClienteSeleccionado(clienteSeleccionado);
+                    	System.out.println(clienteSeleccionado);
+                    }
+                    else {
+        	            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente antes de continuar.");
+                    }
+        	    }
+        	});
+
+
 
         JButton details = new JButton("Ver Detalles");
         customizeButton(details, buttonFont, 1280, 800);
@@ -250,8 +283,8 @@ public class ClientScreen extends BaseScreenWithSideMenu {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.");
                 }
             }
-        });
-        
+        });  
+
         
     }
     
@@ -266,4 +299,5 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         Banco banco = Banco.getInstancia();
         return banco.getClientes();
     }
+
 }

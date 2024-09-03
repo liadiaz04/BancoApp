@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import Clases.Agencia;
 import Clases.Banco;
 import GUI.Components.BaseScreenWithSideMenu;
-import GUI.Components.AgenciesTable;
+import GUI.Tables.AgenciesTable;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;

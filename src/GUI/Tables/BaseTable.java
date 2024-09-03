@@ -1,10 +1,11 @@
-package GUI.Components;
+package GUI.Tables;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.JTableHeader;
+
 import java.awt.*;
 import java.util.List;
 
@@ -61,6 +62,11 @@ public abstract class BaseTable<T> extends JPanel {
         header.setBackground(new Color(119, 221, 119));
         header.setForeground(Color.WHITE);
         header.setPreferredSize(new Dimension(header.getWidth(), 40)); // Ajustar la altura del encabezado
+    }
+    
+	// Método para obtener la JTable
+    public JTable getTable() {
+        return dataTable; // Asegúrate de que 'table' sea un campo de tipo JTable en BaseTable
     }
 
     protected abstract void populateTable(List<T> dataList);

@@ -14,19 +14,16 @@ import GUI.Utils.Fonts;
 
 public abstract class BaseScreenWithSideMenu extends BaseScreen {
 	
+	
 	public BaseScreenWithSideMenu(ActionListener listener) {
 		super(listener);
+        
 		loadSideMenu();
 	}
 
 	protected void loadSideMenu() {
 		setLayout(null);
-        // Panel principal
-        JPanel panel = new JPanel();
-        panel.setBounds(0, 0, 379, 1004);
-        panel.setBackground(new Color(0, 153, 102));
-        panel.setLayout(null);
-        add(panel); // Asegúrate de añadir el panel al JFrame
+        System.out.println(panel);
 
         // Etiqueta de título
         JLabel lblNewLabel = new JLabel("Banco Metropolitano");

@@ -10,8 +10,8 @@ import javax.swing.table.DefaultTableModel;
 
 import Clases.Banco;
 import Clases.CuentaBancaria;
-import GUI.Components.AccountTable;
 import GUI.Components.BaseScreenWithSideMenu;
+import GUI.Tables.AccountTable;
 
 public class AccountsScreen extends BaseScreenWithSideMenu{
 	private JTable accountTable;

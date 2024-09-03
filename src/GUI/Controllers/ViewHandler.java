@@ -12,6 +12,7 @@ import GUI.Views.AgencyScreen;
 import GUI.Views.ClientScreen;
 import GUI.Views.MainScreen;
 import GUI.Views.ReportsScreen;
+import GUI.Views.UserAccountScreen;
 
 public class ViewHandler {
 	
@@ -31,12 +32,14 @@ public class ViewHandler {
         BaseScreen accountScreen = loadAccountScreen();
         BaseScreen agencyScreen = loadAgencyScreen();
         BaseScreen reportScreen = loadReportScreen();
+        BaseScreen userAccountScreen = loadUserAccountScreen();
         
         contentPane.add(mainScreen, "MainScreen");
         contentPane.add(clientScreen, "ClientScreen");
         contentPane.add(accountScreen, "AccountScreen");
         contentPane.add(agencyScreen, "AgencyScreen");
         contentPane.add(reportScreen, "ReportScreen");
+        contentPane.add(userAccountScreen, "Cuentas del Cliente");
 
         // Mostrar la pantalla principal por defecto
         cardLayout.show(contentPane, "MainScreen");
@@ -59,6 +62,8 @@ public class ViewHandler {
             cardLayout.show(contentPane, "AgencyScreen");
         } else if ("Reportes".equals(command)) {
             cardLayout.show(contentPane, "ReportScreen");
+        }else if ("Cuentas del Cliente".equals(command)) {
+            cardLayout.show(contentPane, "Cuentas del Cliente");
         }
     }
 	
@@ -105,6 +110,15 @@ public class ViewHandler {
     private BaseScreen loadReportScreen() {
     	
     	return new ReportsScreen(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            Router(e);
+	        }
+	    });
+    }
+    
+    private BaseScreen loadUserAccountScreen() {
+    	
+    	return new UserAccountScreen(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            Router(e);
 	        }
