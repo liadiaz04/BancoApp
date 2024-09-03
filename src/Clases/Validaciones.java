@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 	 public static boolean validarNombre(String nombre) {/*
 	        String regex = ".*[^a-zA-Z].*[^a-zA-Z].*[^a-zA-Z].*";
 	        boolean valido = false;
-	        if (!(nombre.trim().length() < 1)) {
+	        if (!(nombre.trim().length() < 3)) {
 	            valido = nombre.matches(regex);
 	        }
 	        return valido;*/

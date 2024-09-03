@@ -1,6 +1,7 @@
 package GUI.Controllers;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -64,6 +65,18 @@ public class ViewHandler {
             cardLayout.show(contentPane, "ReportScreen");
         }else if ("Cuentas del Cliente".equals(command)) {
             cardLayout.show(contentPane, "Cuentas del Cliente");
+            
+            for (Component component : contentPane.getComponents()) {
+                if (component instanceof UserAccountScreen && "Cuentas del Cliente".equals(component.getName())) {
+                    UserAccountScreen cuentasDelClienteScreen = (UserAccountScreen) component;
+                    
+                    // Llamar al método refreshContent() del componente
+                    cuentasDelClienteScreen.refreshContent();
+                    break; // Salimos del ciclo una vez que encontramos el componente
+                }
+            }
+
+            
         }
     }
 	
