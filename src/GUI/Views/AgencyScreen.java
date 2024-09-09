@@ -63,10 +63,6 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
 
         Font buttonFont = new Font("Arial", Font.PLAIN, 16);
         
-        JButton viewCajerosButton = new JButton("Ver cajeros");
-        customizeButton(viewCajerosButton, buttonFont, 1280, 800);
-        add(viewCajerosButton);
-
         // Cajeros table setup
         String[] cajeroColumns = new String[]{"ID Cajero", "Saldo Total"};
         cajerosTableModel = new DefaultTableModel(cajeroColumns, 0);
@@ -82,27 +78,29 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
 
         // Crear y personalizar los botones
         JButton addAgencyButton = new JButton("Agregar");
-        customizeButton(addAgencyButton, buttonFont, 480, 800);
+        customizeButton(addAgencyButton, buttonFont, 550, 800);
         add(addAgencyButton);
 
         JButton deleteAgencyButton = new JButton("Eliminar");
-        customizeButton(deleteAgencyButton, buttonFont, 760, 800);
+        customizeButton(deleteAgencyButton, buttonFont, 780, 800);
         add(deleteAgencyButton);
+        
+        JButton viewCajerosButton = new JButton("Ver cajeros");
+        customizeButton(viewCajerosButton, buttonFont, 1010, 800);
+        add(viewCajerosButton);
+        
 
         JButton viewAgencyDetailsButton = new JButton("Agregar cajero");
-        customizeButton(viewAgencyDetailsButton, buttonFont, 1020, 800);
+        customizeButton(viewAgencyDetailsButton, buttonFont, 1350, 650);
         add(viewAgencyDetailsButton);
 
-        JButton viewCajerosButton1 = new JButton("Ver cajeros");
-        customizeButton(viewCajerosButton1, buttonFont, 1280, 800);
-        add(viewCajerosButton1);
         
 
         // Asignar ActionListeners
         addAgencyButton.addActionListener(listener);
         deleteAgencyButton.addActionListener(listener);
         viewAgencyDetailsButton.addActionListener(listener);
-        viewCajerosButton1.addActionListener(listener);
+        viewCajerosButton.addActionListener(listener);
         
         viewCajerosButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
