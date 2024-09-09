@@ -2,6 +2,8 @@ package GUI.Tables;
 
 import java.util.List;
 
+import javax.swing.table.DefaultTableModel;
+
 import Clases.Agencia;
 
 public class AgenciesTable extends BaseTable<Agencia> {
@@ -23,6 +25,11 @@ public class AgenciesTable extends BaseTable<Agencia> {
 	            tableModel.addRow(rowData);
 		}
 		
+	}
+
+	public DefaultTableModel getModel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

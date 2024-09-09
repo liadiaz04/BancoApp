@@ -9,9 +9,17 @@ public class Agencia {
 	private ArrayList<Cajero> cajeros;
 
 	public Agencia(String idAgencia, String gerente, String direccion) {
-		setGerente(gerente);
-		setDireccion(direccion);
+		setIdAgencia(idAgencia);
+		this.gerente = gerente;
+		this.direccion = direccion;
+		//setGerente(gerente);
+		//setDireccion(direccion);
 		this.cajeros = new ArrayList<Cajero>();
+	}
+
+	private void setIdAgencia(String idAgencia2) {
+		this.idAgencia = idAgencia2;
+		
 	}
 
 	public String getIdAgencia() {
@@ -23,13 +31,20 @@ public class Agencia {
 		return gerente;
 	}
 	
-
 	public void setGerente(String gerente) {
+		this.gerente = gerente;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	/*public void setGerente(String gerente) {
 		if(Validaciones.validarNombre(gerente)){
 			this.gerente = gerente;
 		}else 
 			throw new IllegalArgumentException ("El nombre del gerente no es correcto");
-	}
+	}*/
 
 
 	public String getDireccion() {
@@ -37,12 +52,12 @@ public class Agencia {
 	}
 	
 
-	public void setDireccion(String direccion) {
+	/*public void setDireccion(String direccion) {
 		if(Validaciones.validarNombre(direccion)){
 			this.direccion = direccion;
 		}else 
 			throw new IllegalArgumentException ("Direccion no valida");
-	}
+	}*/
 	
 
 	public ArrayList<Cajero> getCajeros() {

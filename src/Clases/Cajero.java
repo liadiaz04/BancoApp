@@ -21,4 +21,16 @@ public class Cajero {
 		return billetes;
 	}
 
+	public int mostrarSaldoTotal() {
+        int saldoTotal = 0;
+
+       
+        for (Billete billete : billetes) {
+            saldoTotal += billete.valorTotal();
+        }
+
+        return saldoTotal;
+    }
 }
+
+

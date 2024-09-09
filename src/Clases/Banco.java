@@ -86,12 +86,12 @@ public class Banco {
          return aux; 
      }
     
-     public void agregarAgencia(String gerente , String direccion) {
+    /* public void agregarAgencia(String gerente , String direccion) {
          int numeroAgencia = this.agencias.size() + 1;
          String idAgencia = String.format("Ag%02d", numeroAgencia);
          agencias.add(new Agencia(idAgencia, gerente, direccion));
         
-     }
+     }*/
      
      public boolean eliminarAgencia(String idAgencia) {
          boolean eliminado = false; 
@@ -177,6 +177,19 @@ public class Banco {
     	    agencias.add(agencia3);
     	    agencias.add(agencia4);
     	    agencias.add(agencia5);
+    	    
+    	 // Crear cajeros y asignarlos a las agencias
+            Cajero cajero1 = new Cajero("C001");
+            Cajero cajero2 = new Cajero("C002");
+            Cajero cajero3 = new Cajero("C003");
+            Cajero cajero4 = new Cajero("C004");
+            Cajero cajero5 = new Cajero("C005");
+
+            agencia1.getCajeros().add(cajero1);
+            agencia1.getCajeros().add(cajero2);
+            agencia2.getCajeros().add(cajero3);
+            agencia2.getCajeros().add(cajero4);
+            agencia3.getCajeros().add(cajero5);
     	}
 
      
