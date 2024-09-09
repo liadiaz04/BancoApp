@@ -31,6 +31,14 @@ public class Cajero {
 
         return saldoTotal;
     }
+	
+	public double mostrarSaldoDesglosado() {
+        double total = 0;
+        for (Billete billete : billetes) {
+            total += billete.getCantidad() * billete.getTipo().getValor();
+        }
+        return total;
+    }
 }
 
 

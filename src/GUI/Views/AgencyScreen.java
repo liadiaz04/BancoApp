@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 
 import Clases.Agencia;
 import Clases.Banco;
+import Clases.Billete;
 import Clases.Cajero;
 import Clases.Cliente;
 import GUI.Components.BaseScreenWithSideMenu;
@@ -41,12 +42,14 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
     private JTable cajerosTable; // Tabla de cajeros
     private JScrollPane cajerosScrollPane; // JScrollPane para la tabla de cajeros
     private DefaultTableModel cajerosTableModel;
-
+    
+    
     public AgencyScreen(ActionListener listener) {
         super(listener);
         setBackground(Color.WHITE);
     }
 
+    
     @Override
     protected void loadContent() {
         JLabel label = new JLabel("Agencias");
@@ -94,6 +97,10 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
         customizeButton(viewAgencyDetailsButton, buttonFont, 1350, 650);
         add(viewAgencyDetailsButton);
 
+        JButton viewCajeroDetailsButton = new JButton("Ver Detalles Cajero");
+        customizeButton(viewCajeroDetailsButton, buttonFont, 1350, 800);
+        add(viewCajeroDetailsButton);
+
         
 
         // Asignar ActionListeners
@@ -101,6 +108,7 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
         deleteAgencyButton.addActionListener(listener);
         viewAgencyDetailsButton.addActionListener(listener);
         viewCajerosButton.addActionListener(listener);
+        viewCajeroDetailsButton.addActionListener(listener);
         
         viewCajerosButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -220,7 +228,7 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                 }
             }
         });
-        
+                
       
     }
     private Agencia findAgencyById(String id) {

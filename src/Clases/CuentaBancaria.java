@@ -66,7 +66,7 @@ public abstract class CuentaBancaria {
 		return fechaApertura;
 	}
 	
-	                     //FUNCIONES ADICIONALES   
+	                   //FUNCIONES ADICIONALES   
 	
 	public int cantOperacionesDeUnTipo (String tipoOperacion,LocalDate fecha) {
 

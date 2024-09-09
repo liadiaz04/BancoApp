@@ -20,6 +20,7 @@ public class C_Corriente extends CuentaBancaria implements Intereses, Deposito, 
 		return this.saldo;
 	}
 
+	
 	public void extraer(double saldo) {
 		if(Validaciones.validarDinero(saldo) && (this.saldo - saldo) > 50){
 			this.saldo -= saldo;

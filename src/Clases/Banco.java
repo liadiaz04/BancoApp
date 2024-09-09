@@ -19,11 +19,10 @@ public class Banco {
         loadTestUsers(); 
         crearCuentasBancarias();
         crearAgencias();
+        inicializarBilletes(); 
     }
-    
-   
+     
 
-	// M�todo para obtener la instancia �nica
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
@@ -190,6 +189,23 @@ public class Banco {
             agencia2.getCajeros().add(cajero3);
             agencia2.getCajeros().add(cajero4);
             agencia3.getCajeros().add(cajero5);
+    	}
+
+     
+     private void inicializarBilletes() {
+    	    // Definir los billetes que se van a agregar
+    	    int[] cantidades = {3, 20, 10}; // Cantidades de billetes de 500, 100 y 50
+    	    TipoBillete[] tipos = {TipoBillete.Quiniento, TipoBillete.Cien, TipoBillete.Cincuenta};
+
+    	    // Asignar billetes a cada cajero
+    	    for (Agencia agencia : agencias) {
+    	        for (Cajero cajero : agencia.getCajeros()) {
+    	            for (int i = 0; i < tipos.length; i++) {
+    	                Billete billete = new Billete(tipos[i], cantidades[i]);
+    	                cajero.getBilletes().add(billete);
+    	            }
+    	        }
+    	    }
     	}
 
      
