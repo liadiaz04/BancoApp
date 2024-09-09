@@ -28,6 +28,7 @@ public class ViewHandler {
 	
 	public void loadViews() {
 		
+		//Instancias de los componenetes
 		BaseScreen mainScreen = loadMainScreen();
         BaseScreen clientScreen = loadClientScreen();
         BaseScreen accountScreen = loadAccountScreen();
@@ -35,6 +36,15 @@ public class ViewHandler {
         BaseScreen reportScreen = loadReportScreen();
         BaseScreen userAccountScreen = loadUserAccountScreen();
         
+        //nombres de los componentes
+        mainScreen.setName("MainScreen");
+        clientScreen.setName("ClientScreen");
+        accountScreen.setName("AccountScreen");
+        agencyScreen.setName("AgencyScreen");
+        reportScreen.setName("ReportScreen");
+        userAccountScreen.setName("Cuentas del Cliente");
+        
+        //Agrgando los componenets a la pantalla
         contentPane.add(mainScreen, "MainScreen");
         contentPane.add(clientScreen, "ClientScreen");
         contentPane.add(accountScreen, "AccountScreen");
@@ -67,12 +77,10 @@ public class ViewHandler {
             cardLayout.show(contentPane, "Cuentas del Cliente");
             
             for (Component component : contentPane.getComponents()) {
-                if (component instanceof UserAccountScreen && "Cuentas del Cliente".equals(component.getName())) {
+                if (component.getName().equals("Cuentas del Cliente")) {
                     UserAccountScreen cuentasDelClienteScreen = (UserAccountScreen) component;
-                    
-                    // Llamar al método refreshContent() del componente
                     cuentasDelClienteScreen.refreshContent();
-                    break; // Salimos del ciclo una vez que encontramos el componente
+                    break;
                 }
             }
 

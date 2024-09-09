@@ -102,7 +102,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
                     if (selectedRow != -1){
                     	Cliente clienteSeleccionado = clientes.get(selectedRow);
                     	SelectedUserManager.getInstancia().setClienteSeleccionado(clienteSeleccionado);
-                    	System.out.println(clienteSeleccionado);
+                    	System.out.println(clienteSeleccionado.getNombre());
                     }
                     else {
         	            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente antes de continuar.");
