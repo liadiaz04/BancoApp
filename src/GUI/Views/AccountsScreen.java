@@ -1,5 +1,7 @@
 package GUI.Views;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -25,7 +27,9 @@ public class AccountsScreen extends BaseScreenWithSideMenu{
 	@Override
 	protected void loadContent() {
 		
-		JLabel label = new JLabel("Cuentas");
+		JLabel label = new JLabel("Contratos");
+        label.setFont(new Font("Tahoma", Font.BOLD, 24)); 
+        label.setForeground(new Color(0, 128, 0)); 
         label.setBounds(550, 50, 200, 30);
         add(label);
         

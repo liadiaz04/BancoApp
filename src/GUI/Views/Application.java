@@ -62,8 +62,7 @@ public class Application extends JFrame {
         this.viewHandler.loadViews();
     }
 
-    
-// Hermanaaaaa jajjajaj  
+
 
 
 }

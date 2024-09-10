@@ -1,6 +1,8 @@
 package GUI.Views;
 
 import java.awt.Color;
+import GUI.Components.SaldoDesglosadoDialog;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -39,8 +41,8 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
     private DefaultTableModel mt;
     private JScrollPane s1;
     private ArrayList<Agencia> agencias;
-    private JTable cajerosTable; // Tabla de cajeros
-    private JScrollPane cajerosScrollPane; // JScrollPane para la tabla de cajeros
+    private JTable cajerosTable; 
+    private JScrollPane cajerosScrollPane;
     private DefaultTableModel cajerosTableModel;
     
     
@@ -52,9 +54,17 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
     
     @Override
     protected void loadContent() {
-        JLabel label = new JLabel("Agencias");
+    	JLabel label = new JLabel("Agencias ");
+        label.setFont(new Font("Tahoma", Font.BOLD, 24)); 
+        label.setForeground(new Color(0, 128, 0)); 
         label.setBounds(550, 50, 200, 30);
         add(label);
+        
+        JLabel labelCajero = new JLabel("Cajeros ");
+        labelCajero.setFont(new Font("Tahoma", Font.BOLD, 24)); 
+        labelCajero.setForeground(new Color(0, 128, 0)); 
+        labelCajero.setBounds(1400, 50, 200, 250);
+        add(labelCajero);
 
         agencias = getAgenciesList();
         String[] columns = new String[]{"Identificador", "Gerente", "Direccion"};
@@ -66,7 +76,7 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
 
         Font buttonFont = new Font("Arial", Font.PLAIN, 16);
         
-        // Cajeros table setup
+        // TABLA CAJEROS
         String[] cajeroColumns = new String[]{"ID Cajero", "Saldo Total"};
         cajerosTableModel = new DefaultTableModel(cajeroColumns, 0);
         cajerosTable = new JTable(cajerosTableModel);
@@ -79,49 +89,56 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
         styleTable(cajerosTable);
 
 
-        // Crear y personalizar los botones
+        // BOTONES
         JButton addAgencyButton = new JButton("Agregar");
-        customizeButton(addAgencyButton, buttonFont, 550, 800);
+        customizeButton(addAgencyButton, buttonFont, 480, 800);
         add(addAgencyButton);
 
         JButton deleteAgencyButton = new JButton("Eliminar");
-        customizeButton(deleteAgencyButton, buttonFont, 780, 800);
+        customizeButton(deleteAgencyButton, buttonFont, 680, 800);
         add(deleteAgencyButton);
         
         JButton viewCajerosButton = new JButton("Ver cajeros");
-        customizeButton(viewCajerosButton, buttonFont, 1010, 800);
+        customizeButton(viewCajerosButton, buttonFont, 880, 800);
         add(viewCajerosButton);
         
 
-        JButton viewAgencyDetailsButton = new JButton("Agregar cajero");
-        customizeButton(viewAgencyDetailsButton, buttonFont, 1350, 650);
-        add(viewAgencyDetailsButton);
+        JButton addCajero = new JButton("Agregar cajero");
+        customizeButton(addCajero, buttonFont, 1080, 800);
+        add(addCajero);
 
-        JButton viewCajeroDetailsButton = new JButton("Ver Detalles Cajero");
-        customizeButton(viewCajeroDetailsButton, buttonFont, 1350, 800);
+        JButton viewCajeroDetailsButton = new JButton("Saldo Desglosado");
+        customizeButton(viewCajeroDetailsButton, buttonFont, 1350, 650);
         add(viewCajeroDetailsButton);
 
-        
+        JButton deleteCajero = new JButton("Eliminar Cajero");
+        customizeButton(deleteCajero, buttonFont, 1560, 650);
+        add(deleteCajero);
 
-        // Asignar ActionListeners
+        // ASIGNAR ActionListeners
         addAgencyButton.addActionListener(listener);
         deleteAgencyButton.addActionListener(listener);
-        viewAgencyDetailsButton.addActionListener(listener);
+        addCajero.addActionListener(listener);
         viewCajerosButton.addActionListener(listener);
         viewCajeroDetailsButton.addActionListener(listener);
+        deleteCajero.addActionListener(listener);
         
+        
+       
+        
+        //VER CAJEROS
         viewCajerosButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = agenciesTable.getSelectedRow(); // Get the selected row from agenciesTable
+                int selectedRow = agenciesTable.getSelectedRow(); 
                 if (selectedRow != -1) {
-                    String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0); // Get the ID of the selected agency
-                    Agencia selectedAgency = findAgencyById(agencyId); // Find the agency by ID
+                    String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0); 
+                    Agencia selectedAgency = findAgencyById(agencyId); 
                     if (selectedAgency != null) {
-                        ArrayList<Cajero> cajeros = selectedAgency.getCajeros(); // Retrieve the cashiers for the selected agency
+                        ArrayList<Cajero> cajeros = selectedAgency.getCajeros(); 
                         if (cajeros.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "No hay cajeros disponibles para esta agencia.", "Información", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            updateCajerosTable(cajeros); // Update the cajerosTable with the cashiers
+                            updateCajerosTable(cajeros); 
                         }
                     }
                 } else {
@@ -130,13 +147,83 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
             }
         });
 
+     // AGREGAR CAJERO
+        addCajero.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = agenciesTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0);
+                    Agencia selectedAgency = findAgencyById(agencyId);
+                    if (selectedAgency != null) {
+                        
+                        if (selectedAgency.getCajeros().size() < 5) {
+                            selectedAgency.agregarCajero(); 
+                            JOptionPane.showMessageDialog(null, "Cajero agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            updateCajerosTable(selectedAgency.getCajeros());
+                        } else {
+                            
+                            JOptionPane.showMessageDialog(null, "La agencia no puede tener más de 5 cajeros.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione una agencia.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
 
-
-
+     // SALDO DESGLOSADO
+        viewCajeroDetailsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = cajerosTable.getSelectedRow(); 
+                if (selectedRow != -1) {
+                    String cajeroId = (String) cajerosTable.getValueAt(selectedRow, 0); 
+                    Agencia selectedAgency = getSelectedAgency(); 
+                    if (selectedAgency != null) {
+                        Cajero selectedCajero = findCajeroById(selectedAgency, cajeroId); 
+                        if (selectedCajero != null) {
+                            String saldoDesglosado = selectedCajero.mostrarSaldoDesglosado();                         
+                            if (saldoDesglosado == null || saldoDesglosado.isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "El cajero " + cajeroId + " no tiene saldo.", "Sin Saldo", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                new SaldoDesglosadoDialog(null, cajeroId, saldoDesglosado); 
+                            }
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un cajero.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
         
-    
-       
+        
+        //ELIMINAR CAJERO
+        deleteCajero.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = cajerosTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    String cajeroId = (String) cajerosTable.getValueAt(selectedRow, 0);
+                    Agencia selectedAgency = getSelectedAgency();
+                    if (selectedAgency != null) {
+                        int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar el cajero " + cajeroId + "?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                            boolean deleted = selectedAgency.eliminarCajero(cajeroId);
+                            if (deleted) {
+                                JOptionPane.showMessageDialog(null, "Cajero eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                updateCajerosTable(selectedAgency.getCajeros());
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Cajero no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un cajero para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
 
+
+
+     // AGREGAR AGENCIA
         addAgencyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final JDialog addAgencyDialog = new JDialog();
@@ -148,37 +235,26 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.insets = new Insets(5, 5, 5, 5);
 
-                JLabel idLabel = new JLabel("ID Agencia:");
-                idLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                addAgencyDialog.add(idLabel, gbc);
-
-                final JTextField idField = new JTextField(20);
-                gbc.gridx = 0;
-                gbc.gridy = 1;
-                addAgencyDialog.add(idField, gbc);
-
                 JLabel managerLabel = new JLabel("Gerente:");
                 managerLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
                 gbc.gridx = 0;
-                gbc.gridy = 2;
+                gbc.gridy = 0;
                 addAgencyDialog.add(managerLabel, gbc);
 
                 final JTextField managerField = new JTextField(20);
                 gbc.gridx = 0;
-                gbc.gridy = 3;
+                gbc.gridy = 1;
                 addAgencyDialog.add(managerField, gbc);
 
                 JLabel addressLabel = new JLabel("Dirección:");
                 addressLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
                 gbc.gridx = 0;
-                gbc.gridy = 4;
+                gbc.gridy = 2;
                 addAgencyDialog.add(addressLabel, gbc);
 
                 final JTextField addressField = new JTextField(20);
                 gbc.gridx = 0;
-                gbc.gridy = 5;
+                gbc.gridy = 3;
                 addAgencyDialog.add(addressField, gbc);
 
                 JButton saveButton = new JButton("Guardar");
@@ -187,19 +263,23 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                 saveButton.setForeground(Color.WHITE);
                 saveButton.setPreferredSize(new Dimension(150, 40)); // Hacer el botón más grande
                 gbc.gridx = 0;
-                gbc.gridy = 6;
+                gbc.gridy = 4;
                 addAgencyDialog.add(saveButton, gbc);
 
                 saveButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        String idAgencia = idField.getText();
                         String gerente = managerField.getText();
                         String direccion = addressField.getText();
 
-                        // Crear nueva agencia y agregarla a la lista
-                        Agencia nuevaAgencia = new Agencia(idAgencia, gerente, direccion);
-                        Banco.getInstancia().getAgencias().add(nuevaAgencia);
-                        ((DefaultTableModel) agenciesTable.getModel()).addRow(new Object[]{nuevaAgencia.getIdAgencia(), gerente, direccion});
+                        
+                        Banco.getInstancia().agregarAgencia(gerente, direccion);
+
+                        
+                        ((DefaultTableModel) agenciesTable.getModel()).addRow(new Object[]{
+                            Banco.getInstancia().getAgencias().get(Banco.getInstancia().getAgencias().size() - 1).getIdAgencia(),
+                            gerente,
+                            direccion
+                        });
                         addAgencyDialog.dispose();
                     }
                 });
@@ -207,30 +287,49 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                 addAgencyDialog.setVisible(true);
             }
         });
-        
+
         
 
-        //Eliminar agencia
+     // ELIMINAR AGENCIA
         deleteAgencyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = agenciesTable.getSelectedRow();
                 if (selectedRow != -1) {
-                    // Mostrar un cuadro de diálogo de confirmación
                     int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar esta agencia?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if (response == JOptionPane.YES_OPTION) {
-                        // Eliminar la agencia de la lista y del modelo de la tabla
-                        agencias.remove(selectedRow);
-                        ((DefaultTableModel) agenciesTable.getModel()).removeRow(selectedRow);
+                    if (response == JOptionPane.YES_OPTION) { 
+                        String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0); 
+                        Banco.getInstancia().eliminarAgencia(agencyId); 
+                        agencias.remove(selectedRow); 
+                        ((DefaultTableModel) agenciesTable.getModel()).removeRow(selectedRow); 
                     }
-                } else {
-                    // Mostrar un mensaje de advertencia si no hay ninguna fila seleccionada
+                } else { 
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
-                
+ 
       
     }
+    
+    private Agencia getSelectedAgency() {
+        int selectedRow = agenciesTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0);
+            return findAgencyById(agencyId);
+        }
+        return null;
+    }
+
+    private Cajero findCajeroById(Agencia agencia, String cajeroId) {
+        for (Cajero cajero : agencia.getCajeros()) {
+            if (cajero.getIdCajero().equals(cajeroId)) {
+                return cajero;
+            }
+        }
+        return null;
+    }
+
+
     private Agencia findAgencyById(String id) {
         for (Agencia agencia : agencias) {
             if (agencia.getIdAgencia().equals(id)) {
@@ -247,7 +346,7 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
         }
     }
 
-    // Método para personalizar botones
+    
     private void customizeButton(JButton button, Font font, int x, int y) {
     	button.setBounds(x, y, 185, 53);
         button.setBackground(new Color(119, 221, 119));

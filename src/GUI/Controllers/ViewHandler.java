@@ -67,7 +67,7 @@ public class ViewHandler {
             cardLayout.show(contentPane, "MainScreen");
         } else if ("Clientes".equals(command)) {
             cardLayout.show(contentPane, "ClientScreen");
-        } else if ("Cuentas".equals(command)) {
+        } else if ("Contratos".equals(command)) {
             cardLayout.show(contentPane, "AccountScreen");
         } else if ("Agencias".equals(command)) {
             cardLayout.show(contentPane, "AgencyScreen");

@@ -213,6 +213,9 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	                    // Crear nuevo cliente y agregarlo a la lista
         	                    Cliente nuevoCliente = new Cliente(idCliente, nombre, direccion, telefono, email);
         	                    clientes.add(nuevoCliente);
+        	                    Banco.getInstancia().addCliente(idCliente, nombre, direccion, telefono, email);
+        	                    
+        	                    
         	                    
         	                    // Actualizar la tabla
         	                    ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{idCliente, nombre, telefono});

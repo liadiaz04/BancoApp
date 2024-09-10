@@ -86,12 +86,12 @@ public class Banco {
          return aux; 
      }
     
-    /* public void agregarAgencia(String gerente , String direccion) {
+     public void agregarAgencia(String gerente , String direccion) {
          int numeroAgencia = this.agencias.size() + 1;
          String idAgencia = String.format("Ag%02d", numeroAgencia);
          agencias.add(new Agencia(idAgencia, gerente, direccion));
         
-     }*/
+     }
      
      public boolean eliminarAgencia(String idAgencia) {
          boolean eliminado = false; 
