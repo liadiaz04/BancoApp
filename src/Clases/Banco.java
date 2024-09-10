@@ -159,6 +159,7 @@ public class Banco {
     	    clientes.get(0).agregarCuenta(cuenta);
     	    clientes.get(1).agregarCuenta(cuenta);
     	    clientes.get(2).agregarCuenta(cuenta);
+    	    clientes.get(3).agregarCuenta(cuenta);
     	}
     
      private void crearCuentasBancarias() {
