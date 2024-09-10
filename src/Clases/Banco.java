@@ -32,7 +32,7 @@ public class Banco {
     }
     
    
-    
+  
     
     //CLIENTES
     
@@ -147,7 +147,6 @@ public class Banco {
      }
      
      
-     
      //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
     	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
@@ -159,6 +158,7 @@ public class Banco {
     	    C_MLC cuenta = new C_MLC("011", 1000.0, "Beneficiario1", "MLC"); 
     	    clientes.get(0).agregarCuenta(cuenta);
     	    clientes.get(1).agregarCuenta(cuenta);
+    	    clientes.get(2).agregarCuenta(cuenta);
     	}
     
      private void crearCuentasBancarias() {
