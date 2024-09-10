@@ -6,6 +6,7 @@ import java.util.Random;
 public class Banco {
 	
 	private static Banco instancia; 
+	private ArrayList<Contrato> contratos;
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
     private ArrayList<Agencia> agencias;
@@ -115,6 +116,18 @@ public class Banco {
     	 
      }
      
+     //CONTRATOS
+     public Contrato buscarContratoporEntidad(String entidad) {
+     	Contrato aux = null;
+         for (int i = 0 ; i < contratos.size() && aux != null; i++ ) {
+             if (contratos.get(i).getEntidad().equals(entidad)) {
+                aux = contratos.get(i);
+             }
+         }
+         return aux; 
+     }
+     
+     
      
      //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
@@ -141,6 +154,7 @@ public class Banco {
          cuentas.add(cuenta5);
          cuentas.add(cuenta6);
 	} 
+     
      
      
      //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
@@ -211,10 +225,127 @@ public class Banco {
     // 1.	VER ULTIMAS OPERACIONES DE UNA CUENTA 
     
     public ArrayList <Operacion> ultimasOperacionesUnCuenta (String numeroCuenta){
-    	
+    	ArrayList <Operacion> operaciones = new ArrayList <Operacion> ();
+    	CuentaBancaria aux = buscarCuentaBancariaPorNo (numeroCuenta);
+    	if(aux != null){
+    		operaciones = aux.getOperaciones();
+    	}
+    	return operaciones;
+    }
+    
+   // 2. LISTA DE CLIENTES CON AL MENOS UNA CUENTA CON SALDO SUPERIOR A UN VALOR DADO 
+    
+    public ArrayList <Cliente> clientesConCuentaSuperiorASaldoDado (double saldoDado){
+
+    	ArrayList <Cliente> aux = new ArrayList <Cliente> ();
+
+    	for(Cliente c : clientes){
+    		boolean found = false;
+    		for (int j = 0 ; j < c.getCuentas().size() && !found ; j ++){
+    			if(c.getCuentas().get(j).getSaldo() > saldoDado ){
+    				aux.add(c);
+    				found = true;
+    			}
+    		}
+    	}
+
+    	return aux;
+    }
+
+    
+  // 3. TITULARES DE UNA CUENTA CORRIENTE DADA 
+    
+    public ArrayList <Cliente> titularesDeCuentaCorrienteDada (String numeroCuenta){
+
+    	ArrayList <Cliente> titulares = new ArrayList <Cliente> ();
+
+    	for(Cliente c : clientes){
+
+    		boolean found = false;
+
+    		for (int j = 0 ; j < c.getCuentas().size() && !found ; j ++){
+    			
+    			CuentaBancaria x = c.getCuentas().get(j);
+    			if( x instanceof C_Corriente){
+    				if(x.getNoCuenta().equals(numeroCuenta)){
+    					titulares.add(c);
+    					found = true;
+    				}
+    			}
+    		}
+    	}
+
+    	return titulares ;
+    }
+    
+  // 4. ENTIDAD CON MAYOR CANTIDAD DE CONTRATOS CON EL BANCO 
+    
+    public String entidadConMasContratos() {
+        ArrayList<String> entidades = new ArrayList<>();
+        ArrayList<Integer> conteos = new ArrayList<>();
+
+        for(int i = 0 ; i < contratos.size() ; i++){
+        	String entidad = contratos.get(i).getEntidad();
+        	
+        	if (entidades.contains(entidad)) {
+                int index = entidades.indexOf(entidad);
+                conteos.set(index, conteos.get(index) + 1);
+            } else {
+                entidades.add(entidad);
+                conteos.add(1);
+            }
+        }
+        
+        int posicionMaxima = encontrarPosicionMaxima(conteos);
+        
+        return entidades.get(posicionMaxima);
     }
     
     
-    
+    private int encontrarPosicionMaxima(ArrayList<Integer> conteos) {
+        int maxPosicion = 0;
+        int maxValor = 0;
 
+        for (int i = 0; i < conteos.size(); i++) {
+            if (conteos.get(i) > maxValor) {
+                maxValor = conteos.get(i);
+                maxPosicion = i;
+            }
+        }
+        
+        return maxPosicion;
+    }
+   
+
+    // 5. TODAS LAS CUENTAS DE FORMACION DE FONDOS ASOCIADAS A UNA ENTIDAD DADA 
+
+    public ArrayList<CuentaBancaria> cuentasFormacionFondosDeEntidadDada (String entidad){
+    	ArrayList<CuentaBancaria> cuentasFF = new  ArrayList<CuentaBancaria>();
+
+    	for(CuentaBancaria c : cuentas){
+    		if(c instanceof C_Formacion_Fondos){
+    			if(((C_Formacion_Fondos)c).getContrato().getEntidad().equalsIgnoreCase(entidad)){
+    				cuentasFF.add(c);
+    			}
+    		}
+    	}
+
+    	return cuentasFF;
+    }
+
+
+    // 6.CAJEROS CON SALDO INSUFICIENTE DE CADA AGENCIA 
+    public ArrayList<Cajero> cajerosConSaldoInsuficiente (){
+
+    	ArrayList<Cajero> cajerosSinSaldo = new ArrayList<>();
+
+    	for(Agencia a : agencias){
+    		for (Cajero c : a.getCajeros()){
+    			if(c.getBilletes().size()==0){
+    				cajerosSinSaldo.add(c);
+    			}
+    		}
+    	}
+    	return cajerosSinSaldo;
+    }
 }

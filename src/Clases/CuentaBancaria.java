@@ -108,5 +108,13 @@ public abstract class CuentaBancaria {
 		return cantMeses; // CANTIDAD DE MESES DE LA ULTIMA EXTRACCION
    }
    
+   public ArrayList <Operacion> ultimasDiezOperaciones (){
+	   
+	   ArrayList<Operacion> ultimasOperaciones = new ArrayList<Operacion>();
+	   for (int i = this.operaciones.size() - 1 ; i >= 0  && ultimasOperaciones.size() < 10; i--){
+		   ultimasOperaciones.add(operaciones.get(i));
+	   }
+	   return ultimasOperaciones;
+   }
    
 }
