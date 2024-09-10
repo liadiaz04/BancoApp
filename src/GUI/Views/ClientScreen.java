@@ -24,6 +24,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import Clases.Banco;
+import Clases.C_Corriente;
+import Clases.C_Formacion_Fondos;
+import Clases.C_MLC;
 import Clases.Cliente;
 import Clases.CuentaBancaria;
 import GUI.Components.BaseScreenWithSideMenu;
@@ -110,6 +113,123 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	    }
         	});
 
+        	addClient.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent e) {
+        	        final JDialog addClientDialog = new JDialog();
+        	        addClientDialog.setTitle("Agregar Cliente");
+        	        addClientDialog.setSize(400, 400);
+        	        addClientDialog.setLayout(new GridBagLayout());
+        	        addClientDialog.getContentPane().setBackground(new Color(240, 255, 240));
+
+        	        GridBagConstraints gbc = new GridBagConstraints();
+        	        gbc.insets = new Insets(5, 5, 5, 5);
+
+        	        // ID Cliente
+        	        JLabel idLabel = new JLabel("ID Cliente:");
+        	        idLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 0;
+        	        addClientDialog.add(idLabel, gbc);
+
+        	        final JTextField idField = new JTextField(20);
+        	        gbc.gridx = 1;
+        	        gbc.gridy = 0;
+        	        addClientDialog.add(idField, gbc);
+
+        	        // Nombre
+        	        JLabel nameLabel = new JLabel("Nombre:");
+        	        nameLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 1;
+        	        addClientDialog.add(nameLabel, gbc);
+
+        	        final JTextField nameField = new JTextField(20);
+        	        gbc.gridx = 1;
+        	        gbc.gridy = 1;
+        	        addClientDialog.add(nameField, gbc);
+
+        	        // Dirección
+        	        JLabel addressLabel = new JLabel("Dirección:");
+        	        addressLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 2;
+        	        addClientDialog.add(addressLabel, gbc);
+
+        	        final JTextField addressField = new JTextField(20);
+        	        gbc.gridx = 1;
+        	        gbc.gridy = 2;
+        	        addClientDialog.add(addressField, gbc);
+
+        	        // Teléfono
+        	        JLabel phoneLabel = new JLabel("Teléfono:");
+        	        phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 3;
+        	        addClientDialog.add(phoneLabel, gbc);
+
+        	        final JTextField phoneField = new JTextField(20);
+        	        gbc.gridx = 1;
+        	        gbc.gridy = 3;
+        	        addClientDialog.add(phoneField, gbc);
+
+        	        // Email
+        	        JLabel emailLabel = new JLabel("Email:");
+        	        emailLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 4;
+        	        addClientDialog.add(emailLabel, gbc);
+
+        	        final JTextField emailField = new JTextField(20);
+        	        gbc.gridx = 1;
+        	        gbc.gridy = 4;
+        	        addClientDialog.add(emailField, gbc);
+
+        	        // Botón Guardar
+        	        JButton saveButton = new JButton("Guardar");
+        	        saveButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+        	        saveButton.setBackground(new Color(119, 221, 119));
+        	        saveButton.setForeground(Color.WHITE);
+        	        saveButton.setPreferredSize(new Dimension(150, 40));
+        	        gbc.gridx = 1;
+        	        gbc.gridy = 5;
+        	        addClientDialog.add(saveButton, gbc);
+
+        	        // Acción del botón Guardar
+        	        saveButton.addActionListener(new ActionListener() {
+        	            public void actionPerformed(ActionEvent e) {
+        	                try {
+        	                    String idCliente = idField.getText();
+        	                    String nombre = nameField.getText();
+        	                    String direccion = addressField.getText();
+        	                    String telefono = phoneField.getText();
+        	                    String email = emailField.getText();
+
+        	                    // Validar que no haya campos vacíos
+        	                    if (idCliente.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
+        	                        JOptionPane.showMessageDialog(addClientDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        	                        return;
+        	                    }
+
+        	                    // Crear nuevo cliente y agregarlo a la lista
+        	                    Cliente nuevoCliente = new Cliente(idCliente, nombre, direccion, telefono, email);
+        	                    clientes.add(nuevoCliente);
+        	                    
+        	                    // Actualizar la tabla
+        	                    ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{idCliente, nombre, telefono});
+
+        	                    // Cerrar el diálogo
+        	                    addClientDialog.dispose();
+        	                } catch (Exception ex) {
+        	                    JOptionPane.showMessageDialog(addClientDialog, "Error al agregar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        	                }
+        	            }
+        	        });
+
+        	        addClientDialog.setVisible(true);
+        	    }
+        	});
+
+        	
 
 
         JButton details = new JButton("Ver Detalles");
@@ -161,108 +281,8 @@ public class ClientScreen extends BaseScreenWithSideMenu {
             }
         });
 
-        // Acción para el botón "Agregar"
-        addClient.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                final JDialog addClientDialog = new JDialog();
-                addClientDialog.setTitle("Agregar Cliente");
-                addClientDialog.setSize(500, 500);
-                addClientDialog.setLayout(new GridBagLayout());
-                addClientDialog.getContentPane().setBackground(new Color(240, 255, 240)); // Cambiar el color de fondo
-
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.insets = new Insets(5, 5, 5, 5);
-
-                JLabel idLabel = new JLabel("ID Cliente:");
-                idLabel.setFont(new Font("Tahoma", Font.BOLD, 16)); // Cambiar la fuente
-                idLabel.setForeground(new Color(0, 128, 0));
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                addClientDialog.add(idLabel, gbc);
-
-                idField = new JTextField(20);
-                gbc.gridx = 0;
-                gbc.gridy = 1;
-                addClientDialog.add(idField, gbc);
-
-                JLabel nameLabel = new JLabel("Nombre:");
-                nameLabel.setFont(new Font("Tahoma", Font.BOLD, 16)); // Cambiar la fuente
-                nameLabel.setForeground(new Color(0, 128, 0));
-                gbc.gridx = 0;
-                gbc.gridy = 2;
-                addClientDialog.add(nameLabel, gbc);
-
-                nameField = new JTextField(20);
-                gbc.gridx = 0;
-                gbc.gridy = 3;
-                addClientDialog.add(nameField, gbc);
-
-                JLabel addressLabel = new JLabel("Dirección:");
-                addressLabel.setFont(new Font("Tahoma", Font.BOLD, 16)); // Cambiar la fuente
-                addressLabel.setForeground(new Color(0, 128, 0));
-                gbc.gridx = 0;
-                gbc.gridy = 4;
-                addClientDialog.add(addressLabel, gbc);
-
-                addressField = new JTextField(20);
-                gbc.gridx = 0;
-                gbc.gridy = 5;
-                addClientDialog.add(addressField, gbc);
-
-                JLabel emailLabel = new JLabel("Email:");
-                emailLabel.setFont(new Font("Tahoma", Font.BOLD, 16)); // Cambiar la fuente
-                emailLabel.setForeground(new Color(0, 128, 0));
-                gbc.gridx = 0;
-                gbc.gridy = 6;
-                addClientDialog.add(emailLabel, gbc);
-
-                emailField = new JTextField(20);
-                gbc.gridx = 0;
-                gbc.gridy = 7;
-                addClientDialog.add(emailField, gbc);
-
-                JLabel phoneLabel = new JLabel("Teléfono:");
-                phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16)); // Cambiar la fuente
-                phoneLabel.setForeground(new Color(0, 128, 0));
-                gbc.gridx = 0;
-                gbc.gridy = 8;
-                addClientDialog.add(phoneLabel, gbc);
-
-                phoneField = new JTextField(20);
-                gbc.gridx = 0;
-                gbc.gridy = 9;
-                addClientDialog.add(phoneField, gbc);
-                
-                JButton saveButton = new JButton("Guardar");
-                saveButton.setFont(new Font("Tahoma", Font.BOLD, 14)); // Cambiar la fuente
-                saveButton.setBackground(new Color(119, 221, 119)); // Cambiar el color de fondo del botón
-
-                saveButton.setForeground(Color.WHITE); // Cambiar el color del texto del botón
-                saveButton.setPreferredSize(new Dimension(150, 40)); // Hacer el botón más grande
-                gbc.gridx = 0;
-                gbc.gridy = 10;
-                gbc.gridwidth = 2; // Hacer que el botón ocupe dos columnas
-                addClientDialog.add(saveButton, gbc);
-
-                saveButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        String idCliente = idField.getText();
-                        String nombre = nameField.getText();
-                        String direccion = addressField.getText();
-                        String email = emailField.getText();
-                        String telefono = phoneField.getText();
-
-                        Cliente nuevoCliente = new Cliente(idCliente, nombre, direccion, telefono, email);
-                        clientes.add(nuevoCliente);
-                        ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{nuevoCliente.getIdCliente(), nombre, telefono});
-                        addClientDialog.dispose();
-                    }
-                });
-
-                addClientDialog.setVisible(true);
-            }
-        });
         
+
      // Acción para el botón "Eliminar"
         deleteClient.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

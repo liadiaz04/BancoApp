@@ -145,6 +145,7 @@ public class Banco {
     	    
     	    C_MLC cuenta = new C_MLC("011", 1000.0, "Beneficiario1", "MLC"); 
     	    clientes.get(0).agregarCuenta(cuenta);
+    	    clientes.get(1).agregarCuenta(cuenta);
     	}
     
      private void crearCuentasBancarias() {
