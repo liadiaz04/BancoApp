@@ -13,6 +13,7 @@ public class Banco {
 
     
     // CONSTRUCTOR
+    
     public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
@@ -52,7 +53,7 @@ public class Banco {
             Cliente cliente = new Cliente(idCliente, direccion, nombre, telefono, correo);
             clientes.add(cliente);
         } else {
-            System.out.println("El cliente con ID " + idCliente + " ya existe.");
+        	throw new IllegalArgumentException("El cliente con ID " + idCliente + " ya existe.");
         }
     }
     
@@ -82,11 +83,29 @@ public class Banco {
           return aux; 
       }
      
-     public void agregarContrato (){
-    	 
+     public void agregarContrato (String entidad, int periodoTiempo , double salario ){
+    	 boolean existe= contratoExistente(entidad, periodoTiempo, salario);
+    	 if(!existe){
+    		 String idContrato = generarDigitosAleatorios(5);
+    		 contratos.add(new Contrato (idContrato,entidad,periodoTiempo,salario));
+    	 }
+     }
+     
+
+     public boolean contratoExistente(String entidad, int periodoTiempo , double salario ){
+    	 boolean found = false;
+
+    	 for(int i = 0; i < contratos.size() && !found ; i++){
+    		 Contrato c= contratos.get(i);
+    		 if((c.getEntidad().equalsIgnoreCase(entidad))&& (c.getPeriodoTiempo()== periodoTiempo) && (c.getSalario()== salario)){
+    			 found = true;
+    		 }
+    	 }
+    	 return found;
      }
      
      
+
      //AGENCIAS 
      
      public ArrayList<Agencia> getAgencias() {
@@ -144,7 +163,7 @@ public class Banco {
     	 
     	 String numCuenta = generarNumeroCuenta (tipo);
 
-    	 if(tipo == "Formacion Fondos"){
+    	 if(tipo == "Formacion de Fondos"){
     		 Contrato c = buscarContratoPorId(idContrato);
     		 if(c != null){
     			 C_Formacion_Fondos aux = new C_Formacion_Fondos (numCuenta,beneficiario,"CUP",c);
@@ -179,20 +198,9 @@ public class Banco {
  		return cuentas;
  	}
  	
-     //CONTRATOS
-     public Contrato buscarContratoporEntidad(String entidad) {
-     	Contrato aux = null;
-         for (int i = 0 ; i < contratos.size() && aux != null; i++ ) {
-             if (contratos.get(i).getEntidad().equals(entidad)) {
-                aux = contratos.get(i);
-             }
-         }
-         return aux; 
-     }
-     
      
      //FUNCIONES DE PRUEBA DE DATOS
-     private void loadTestUsers() {
+     /*private void loadTestUsers() {
     	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
     	    addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
     	    addCliente("05040178176", "Calle C 3", "Carlos", "34567890", "carlos.garcia@gmail.com");
@@ -266,7 +274,7 @@ public class Banco {
     	        }
     	    }
     	}
-
+*/
      
      
      //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 

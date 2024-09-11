@@ -7,7 +7,8 @@ public class Contrato {
 	   private int periodoTiempo;
 	   private double salario;
 
-	   public Contrato(String entidad, int periodoTiempo, double salario) {
+	   public Contrato(String id, String entidad, int periodoTiempo, double salario) {
+		   this.idContrato = id;
 	        setEntidad(entidad);
 	        setPeriodoTiempo(periodoTiempo);
 	        setSalario(salario);
