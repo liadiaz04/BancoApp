@@ -8,38 +8,38 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+
 import java.awt.Rectangle;
+
 import javax.swing.JSeparator;
+
 import java.awt.Component;
+
 import javax.swing.JPasswordField;
+
+import Clases.Banco;
+
 import java.awt.Cursor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtIngreseSuUsuario;
 	private JPasswordField passwordField;
-
+    private JButton entrarBtn ;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
@@ -48,6 +48,8 @@ public class Login extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
+		setVisible(true);
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(null);
@@ -96,15 +98,33 @@ public class Login extends JFrame {
 		contentPane.add(txtIngreseSuUsuario);
 		txtIngreseSuUsuario.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Entrar");
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setFocusable(false);
-		btnNewButton.setBackground(new Color(124, 189, 107));
-		btnNewButton.setForeground(UIManager.getColor("Button.disabledShadow"));
-		btnNewButton.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		btnNewButton.setBounds(512, 382, 136, 34);
-		contentPane.add(btnNewButton);
-		
+		entrarBtn = new JButton("Entrar");
+		entrarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String username = txtIngreseSuUsuario.getText();
+        		String password = new String(passwordField.getPassword()); 
+
+        		boolean isAuthenticated = Banco.getInstancia().authenticateUser(username, password);
+
+        		if (isAuthenticated) {
+        			Application app = new Application();
+        			app.setVisible(true);
+        			dispose();
+
+        			
+        		} else {
+        			//Panelito de error
+        		}
+			}
+		});
+		entrarBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		entrarBtn.setFocusable(false);
+		entrarBtn.setBackground(new Color(124, 189, 107));
+		entrarBtn.setForeground(UIManager.getColor("Button.disabledShadow"));
+		entrarBtn.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		entrarBtn.setBounds(512, 382, 136, 34);
+		contentPane.add(entrarBtn);
+	
 		passwordField = new JPasswordField();
 		passwordField.setBounds(441, 298, 252, 34);
 		contentPane.add(passwordField);
@@ -112,6 +132,16 @@ public class Login extends JFrame {
 		
 	}
 	
+	public JButton getBtnEnviar (){
+		return entrarBtn;
+	}
 	
+	  public String getUsername() {
+	        return txtIngreseSuUsuario.getText();
+	    }
+
+	    public char[] getPassword() {
+	        return passwordField.getPassword();
+	    }
     
 }

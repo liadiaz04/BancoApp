@@ -10,11 +10,13 @@ public class Banco {
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
     private ArrayList<Agencia> agencias;
+    private ArrayList<User> usuarios;
 
     
     // CONSTRUCTOR
     
     public Banco() {
+    	this.usuarios = new ArrayList<User>();
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         this.agencias = new ArrayList<Agencia>();
@@ -23,6 +25,7 @@ public class Banco {
         crearCuentasBancarias();
         crearAgencias();
         inicializarBilletes(); */
+        usuariosValidos();
     }
      
 
@@ -33,7 +36,22 @@ public class Banco {
         return instancia;
     }
     
-   
+   //USUARIOS
+    
+    public void usuariosValidos(){
+    	usuarios.add(new User("Clari", "55659908"));
+    }
+    
+    public boolean authenticateUser(String username,String  password){
+    	boolean found = false;
+     for(int i = 0 ; i < usuarios.size() && !found ; i++){
+    	 User user = usuarios.get(i);
+    	 if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+    		 found = true;
+    	 }
+     }
+     return found;
+    }
   
     //CLIENTES
     
