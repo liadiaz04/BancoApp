@@ -37,11 +37,11 @@ import GUI.Tables.ClientTable;
 public class ClientScreen extends BaseScreenWithSideMenu {
     private JTable clientTable;
     private JLabel detailLabel;
-    private JLabel staticDetailLabel; // Nueva etiqueta para "Detalles del Cliente:"
+    private JLabel staticDetailLabel; 
     private ArrayList<Cliente> clientes;
-    private JPanel detailPanel; // Panel para los detalles del cliente
+    private JPanel detailPanel; 
 
-    // Declarar los campos de texto como variables de instancia
+    //CAMPOS DE TEXTO
     private JTextField idField;
     private JTextField nameField;
     private JTextField addressField;
@@ -73,7 +73,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         clientTableComponent.setBounds(480, 100, 1000, 600);
         add(clientTableComponent);
 
-        // Crear botones
+        // BOTONES
         JButton addClient = new JButton("Agregar");
         customizeButton(addClient, buttonFont, 500, 800);
         add(addClient);
@@ -91,12 +91,17 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	    Color.WHITE, 
         	    "Cuentas del Cliente"
         	);
+        
+        JButton details = new JButton("Ver Detalles");
+        customizeButton(details, buttonFont, 1280, 800);
+        add(details);
 
+        	
         	clientButton.addActionListener(listener);
         	customizeButton(clientButton, buttonFont, 1020, 800);
         	add(clientButton);
 
-        	// Verificar si hay un cliente seleccionado
+        	//CUENTAS DEL CLIENTE
         	clientButton.addActionListener(new ActionListener() {
         	    @Override
         	    public void actionPerformed(ActionEvent e) {
@@ -113,6 +118,9 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	    }
         	});
 
+        	
+        	
+        	//AGREGAR CLIENTE 
         	addClient.addActionListener(new ActionListener() {
         	    public void actionPerformed(ActionEvent e) {
         	        final JDialog addClientDialog = new JDialog();
@@ -124,7 +132,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        GridBagConstraints gbc = new GridBagConstraints();
         	        gbc.insets = new Insets(5, 5, 5, 5);
 
-        	        // ID Cliente
+        	        //ETIQUETAS
         	        JLabel idLabel = new JLabel("ID Cliente:");
         	        idLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -136,7 +144,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 0;
         	        addClientDialog.add(idField, gbc);
 
-        	        // Nombre
         	        JLabel nameLabel = new JLabel("Nombre:");
         	        nameLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -148,7 +155,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 1;
         	        addClientDialog.add(nameField, gbc);
 
-        	        // Dirección
         	        JLabel addressLabel = new JLabel("Dirección:");
         	        addressLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -160,7 +166,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 2;
         	        addClientDialog.add(addressField, gbc);
 
-        	        // Teléfono
         	        JLabel phoneLabel = new JLabel("Teléfono:");
         	        phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -172,7 +177,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 3;
         	        addClientDialog.add(phoneField, gbc);
 
-        	        // Email
         	        JLabel emailLabel = new JLabel("Email:");
         	        emailLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -184,69 +188,89 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 4;
         	        addClientDialog.add(emailField, gbc);
 
-        	        // Botón Guardar
+        	        //BOTON GUARDAR
         	        JButton saveButton = new JButton("Guardar");
         	        saveButton.setFont(new Font("Tahoma", Font.BOLD, 14));
         	        saveButton.setBackground(new Color(119, 221, 119));
         	        saveButton.setForeground(Color.WHITE);
-        	        saveButton.setPreferredSize(new Dimension(150, 40));
         	        gbc.gridx = 1;
         	        gbc.gridy = 5;
         	        addClientDialog.add(saveButton, gbc);
 
-        	        // Acción del botón Guardar
         	        saveButton.addActionListener(new ActionListener() {
         	            public void actionPerformed(ActionEvent e) {
-        	                try {
-        	                    String idCliente = idField.getText();
-        	                    String nombre = nameField.getText();
-        	                    String direccion = addressField.getText();
-        	                    String telefono = phoneField.getText();
-        	                    String email = emailField.getText();
+        	                String idCliente = idField.getText();
+        	                String nombre = nameField.getText();
+        	                String direccion = addressField.getText();
+        	                String telefono = phoneField.getText();
+        	                String email = emailField.getText();
 
-        	                    // Validar que no haya campos vacíos
-        	                    if (idCliente.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
-        	                        JOptionPane.showMessageDialog(addClientDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-        	                        return;
-        	                    }
-
-        	                    // Crear nuevo cliente y agregarlo a la lista
-        	                    Cliente nuevoCliente = new Cliente(idCliente, nombre, direccion, telefono, email);
-        	                    clientes.add(nuevoCliente);
-        	                    Banco.getInstancia().addCliente(idCliente, nombre, direccion, telefono, email);
-        	                    
-        	                    
-        	                    
-        	                    // Actualizar la tabla
-        	                    ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{idCliente, nombre, telefono});
-
-        	                    // Cerrar el diálogo
-        	                    addClientDialog.dispose();
-        	                } catch (Exception ex) {
-        	                    JOptionPane.showMessageDialog(addClientDialog, "Error al agregar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        	                if (idCliente.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
+        	                    JOptionPane.showMessageDialog(addClientDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        	                    return;
         	                }
+
+        	                // AGREGAR CLIENTE
+        	                Banco.getInstancia().addCliente(idCliente, nombre, direccion, telefono, email);
+
+        	                ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{idCliente, nombre, telefono});
+
+        	                addClientDialog.dispose();
         	            }
         	        });
 
         	        addClientDialog.setVisible(true);
         	    }
         	});
-
         	
+        	//ELIMINAR CLIENTE
+            deleteClient.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int selectedRow = clientTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String clientId = (String) clientTable.getValueAt(selectedRow, 0); 
+                        int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar al cliente " + clientId + "?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                          
+                            boolean deleted = Banco.getInstancia().eliminarCliente(clientId);
+                            if (deleted) {
+                                ((DefaultTableModel) clientTable.getModel()).removeRow(selectedRow); 
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Cliente no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            });
+
+         // VER DETALLES
+            details.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int selectedRow = clientTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Cliente clienteSeleccionado = clientes.get(selectedRow);
+                        detailLabel.setText("<html><strong>Nombre:</strong> " + clienteSeleccionado.getNombre() + "<br/>" +
+                            "<strong>Dirección:</strong> " + clienteSeleccionado.getDireccion() + "<br/>" +
+                            "<strong>Email:</strong> " + clienteSeleccionado.getEmail() + "</html>");
+                    } else {
+                        JOptionPane.showMessageDialog(null, 
+                            "Por favor, seleccione un cliente para ver los detalles."
+                            );
+                    }
+                }
+            });
 
 
-        JButton details = new JButton("Ver Detalles");
-        customizeButton(details, buttonFont, 1280, 800);
-        add(details);
-
-        // Crear JPanel para mostrar los detalles del cliente
+        // PANEL DETALLES
         detailPanel = new JPanel();
         detailPanel.setLayout(new GridBagLayout());
-        detailPanel.setBounds(1550, 200, 300, 400); // Mover hacia abajo y alargar
+        detailPanel.setBounds(1550, 200, 300, 400); 
         detailPanel.setBackground(new Color(240, 255, 240));
         add(detailPanel);
 
-        // Crear JLabel estático para "Detalles del Cliente:"
+        // DETALLES JLABEL
         staticDetailLabel = new JLabel("Detalles del Cliente:");
         staticDetailLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         staticDetailLabel.setForeground(new Color(0, 128, 0));
@@ -256,59 +280,17 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         gbcStatic.gridy = 0;
         detailPanel.add(staticDetailLabel, gbcStatic);
 
-        // Crear JLabel para mostrar los detalles
+        //JLABEL DETALLES
         detailLabel = new JLabel();
         detailLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         detailLabel.setForeground(new Color(0, 128, 0));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 1; // Cambiar la posición a 1 para mover hacia abajo
+        gbc.gridy = 1; 
         detailPanel.add(detailLabel, gbc);
 
-     // Acción para el botón "Ver Detalles"
-        details.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = clientTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    Cliente clienteSeleccionado = clientes.get(selectedRow);
-                    detailLabel.setText("<html><strong>Nombre:</strong> " + clienteSeleccionado.getNombre() + "<br/>" +
-                        "<strong>Dirección:</strong> " + clienteSeleccionado.getDireccion() + "<br/>" +
-                        "<strong>Email:</strong> " + clienteSeleccionado.getEmail() + "</html>");
-                } else {
-                    // Mostrar mensaje de advertencia
-                    JOptionPane.showMessageDialog(null, 
-                        "Por favor, seleccione un cliente para ver los detalles."
-                        );
-                }
-            }
-        });
 
-        
-
-     // Acción para el botón "Eliminar"
-        deleteClient.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = clientTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    int confirm = JOptionPane.showConfirmDialog(null, 
-                        "¿Está seguro de que desea eliminar este cliente?", 
-                        "Confirmar Eliminación", 
-                        JOptionPane.YES_NO_OPTION);
-                    
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        // Eliminar cliente
-                        clientes.remove(selectedRow);
-                        ((DefaultTableModel) clientTable.getModel()).removeRow(selectedRow);
-                        detailLabel.setText("<html><i>Seleccione un cliente para ver los detalles.</i></html>");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.");
-                }
-            }
-        });  
-
-        
     }
     
     private void customizeButton(JButton button, Font font, int x, int y) {
