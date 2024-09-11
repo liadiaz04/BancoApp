@@ -16,6 +16,7 @@ public class Banco {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         this.agencias = new ArrayList<Agencia>();
+        this.contratos = new ArrayList<>(); 
         
         loadTestUsers(); 
         crearCuentasBancarias();
@@ -38,9 +39,9 @@ public class Banco {
     
     public Cliente buscarClientePorId(String idCliente) {
     	Cliente aux = null;
-        for (int i = 0 ; i < clientes.size() && aux != null; i++ ) {
+    	for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getIdCliente().equals(idCliente)) {
-               aux = clientes.get(i);
+                aux = clientes.get(i);
             }
         }
         return aux; 
@@ -85,6 +86,9 @@ public class Banco {
          }
          return aux; 
      }
+     
+
+
     
      public void agregarAgencia(String gerente , String direccion) {
          int numeroAgencia = this.agencias.size() + 1;
@@ -155,11 +159,29 @@ public class Banco {
     	    addCliente("06040178177", "Calle D 4", "Ana", "45678901", "ana.martinez@gmail.com");
     	    addCliente("07040178178", "Calle E 5", "Luis", "56789012", "luis.rodriguez@gmail.com");
     	    
-    	    C_MLC cuenta = new C_MLC("011", 1000.0, "Beneficiario1", "MLC"); 
+    	    C_MLC cuenta = new C_MLC("011", 1000.0, "Beneficiario1", "MLC");
+    	    C_MLC cuenta7 = new C_MLC("011", 1500.0, "Beneficiario1", "MLC");
     	    clientes.get(0).agregarCuenta(cuenta);
     	    clientes.get(1).agregarCuenta(cuenta);
     	    clientes.get(2).agregarCuenta(cuenta);
-    	}
+    	    clientes.get(0).agregarCuenta(cuenta7);
+    	    
+    	  
+    	        addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
+    	        addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
+    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parámetros según sea necesario
+    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parámetros según sea necesario
+    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parámetros según sea necesario
+
+    	        // Crear cuentas y asignar contratos
+    	        C_Formacion_Fondos cuentaFF1 = new C_Formacion_Fondos("004", 1000.0, "Beneficiario4", "CUP", "Entidad1", 12, 2500);
+    	        cuentaFF1.setContrato("Entidad1", 12, 2500);
+    	        clientes.get(0).agregarCuenta(cuentaFF1);
+
+
+    	    }
+
+    	
     
      private void crearCuentasBancarias() {
     	    
@@ -356,10 +378,10 @@ public class Banco {
         ArrayList<String> entidades = new ArrayList<>();
         ArrayList<Integer> conteos = new ArrayList<>();
 
-        for(int i = 0 ; i < contratos.size() ; i++){
-        	String entidad = contratos.get(i).getEntidad();
-        	
-        	if (entidades.contains(entidad)) {
+        for (int i = 0; i < contratos.size(); i++) {
+            String entidad = contratos.get(i).getEntidad();
+
+            if (entidades.contains(entidad)) {
                 int index = entidades.indexOf(entidad);
                 conteos.set(index, conteos.get(index) + 1);
             } else {
@@ -367,13 +389,14 @@ public class Banco {
                 conteos.add(1);
             }
         }
-        
+
         int posicionMaxima = encontrarPosicionMaxima(conteos);
-        
-        return entidades.get(posicionMaxima);
+        String entidad = entidades.get(posicionMaxima);
+        int cantidadContratos = conteos.get(posicionMaxima);
+
+        return entidad + " - " + cantidadContratos + " contratos";  // Retorna nombre y cantidad de contratos
     }
-    
-    
+
     private int encontrarPosicionMaxima(ArrayList<Integer> conteos) {
         int maxPosicion = 0;
         int maxValor = 0;
@@ -384,9 +407,10 @@ public class Banco {
                 maxPosicion = i;
             }
         }
-        
+
         return maxPosicion;
     }
+
    
 
     // 5. TODAS LAS CUENTAS DE FORMACION DE FONDOS ASOCIADAS A UNA ENTIDAD DADA 
