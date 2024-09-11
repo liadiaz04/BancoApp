@@ -19,10 +19,10 @@ public class Banco {
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         this.agencias = new ArrayList<Agencia>();
         
-        loadTestUsers(); 
+        /*loadTestUsers(); 
         crearCuentasBancarias();
         crearAgencias();
-        inicializarBilletes(); 
+        inicializarBilletes(); */
     }
      
 
@@ -124,7 +124,7 @@ public class Banco {
      }
     
      public void agregarAgencia(String gerente , String direccion) {
-         int numeroAgencia = this.agencias.size() + 1;
+    	 String numeroAgencia = generarDigitosAleatorios(2);
          String idAgencia = String.format("Ag%02d", numeroAgencia);
          agencias.add(new Agencia(idAgencia, gerente, direccion));
         
@@ -133,9 +133,9 @@ public class Banco {
      public boolean eliminarAgencia(String idAgencia) {
          boolean eliminado = false; 
          
-         for (int i = 0; i < clientes.size(); i++) {
-             if (clientes.get(i).getIdCliente().equals(idAgencia)) {
-                 clientes.remove(i);
+         for (int i = 0; i < agencias.size(); i++) {
+             if (agencias.get(i).getIdAgencia().equals(idAgencia)) {
+                 agencias.remove(i);
                  eliminado = true; 
              }
          }
