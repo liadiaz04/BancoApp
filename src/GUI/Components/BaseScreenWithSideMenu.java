@@ -42,7 +42,7 @@ public abstract class BaseScreenWithSideMenu extends BaseScreen {
         // Botones del Sidebar
         addSidebarButton(panel, "Principal", "/GUI/Icons/home.png", 150);
         addSidebarButton(panel, "Clientes", "/GUI/Icons/clientes.png", 230);
-        addSidebarButton(panel, "Cuentas", "/GUI/Icons/cuentas.png", 310);
+        addSidebarButton(panel, "Contratos", "/GUI/Icons/cuentas.png", 310);
         addSidebarButton(panel, "Agencias", "/GUI/Icons/agencias.png", 390);
         addSidebarButton(panel, "Reportes", "/GUI/Icons/reportes.png", 470);
     }

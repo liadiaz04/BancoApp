@@ -11,16 +11,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Clases.Banco;
-import Clases.CuentaBancaria;
+import Clases.Contrato;
 import GUI.Components.BaseScreenWithSideMenu;
-import GUI.Tables.AccountTable;
+import GUI.Tables.ContratoTable;
 
-public class AccountsScreen extends BaseScreenWithSideMenu{
-	private JTable accountTable;
+public class ContratoScreen extends BaseScreenWithSideMenu{
+
+	private JTable contratoTable;
 	private DefaultTableModel mt;
 	private JScrollPane s1;
 
-	public AccountsScreen(ActionListener listener) {
+	public ContratoScreen(ActionListener listener) {
 		super(listener);
 	}
 	
@@ -33,19 +34,19 @@ public class AccountsScreen extends BaseScreenWithSideMenu{
         label.setBounds(550, 50, 200, 30);
         add(label);
         
-        ArrayList<CuentaBancaria> cuentas = getAccountList();
-        String[] columns = new String[]{"No_Cuenta", "Saldo", "Beneficiario", "Moneda", "Estado","Fecha de Apertura", "TipoCuenta"};
+        ArrayList<Contrato> contratos = getContratosList();
+        String[] columns = new String[]{"Entidad", "Periodo de Tiempo", "Salario"};
         
         
-        AccountTable accountTable = new AccountTable(cuentas, columns);
-        accountTable.setBounds(550, 100, 1180, 600);
-        add(accountTable);
+        ContratoTable contratoTable = new ContratoTable(contratos, columns);
+        contratoTable.setBounds(550, 100, 1180, 600);
+        add(contratoTable);
 	}
 	
-	private ArrayList<CuentaBancaria> getAccountList() {
+	private ArrayList<Contrato> getContratosList() {
 		Banco banco = Banco.getInstancia();
-		ArrayList<CuentaBancaria> cuentas = banco.getCuentas();
-		return cuentas;
+		ArrayList<Contrato> contrato = banco.getContratos();
+		return contrato;
 	}
 }
 

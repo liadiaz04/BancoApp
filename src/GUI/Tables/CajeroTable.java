@@ -28,4 +28,6 @@ public class CajeroTable extends BaseTable<Cajero> {
         return tableModel; // Devuelve el modelo de tabla
     }
     
+    
+    
 }

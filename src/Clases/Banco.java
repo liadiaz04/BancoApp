@@ -21,7 +21,8 @@ public class Banco {
         loadTestUsers(); 
         crearCuentasBancarias();
         crearAgencias();
-        inicializarBilletes(); 
+        //inicializarBilletes(); 
+        inicializarCajerosConSaldoCero();
     }
      
 
@@ -32,8 +33,6 @@ public class Banco {
         return instancia;
     }
     
-   
-  
     
     //CLIENTES
     
@@ -186,7 +185,6 @@ public class Banco {
 
     	    }
 
-    	
     
      private void crearCuentasBancarias() {
     	    
@@ -226,16 +224,29 @@ public class Banco {
             Cajero cajero3 = new Cajero("C003");
             Cajero cajero4 = new Cajero("C004");
             Cajero cajero5 = new Cajero("C005");
+            Cajero cajero6 = new Cajero("C006"); 
 
             agencia1.getCajeros().add(cajero1);
             agencia1.getCajeros().add(cajero2);
             agencia2.getCajeros().add(cajero3);
             agencia2.getCajeros().add(cajero4);
             agencia3.getCajeros().add(cajero5);
+            agencia5.getCajeros().add(cajero6);
+            
+            
+            
+    	}
+
+     public void inicializarCajerosConSaldoCero() {
+    	    for (Agencia agencia : agencias) {
+    	        for (Cajero cajero : agencia.getCajeros()) {
+    	            cajero.getBilletes().clear();  // Vacía los billetes
+    	        }
+    	    }
     	}
 
      
-     private void inicializarBilletes() {
+    /* private void inicializarBilletes() {
     	    // Definir los billetes que se van a agregar
     	    int[] cantidades = {3, 20, 10}; // Cantidades de billetes de 500, 100 y 50
     	    TipoBillete[] tipos = {TipoBillete.Quiniento, TipoBillete.Cien, TipoBillete.Cincuenta};
@@ -249,11 +260,16 @@ public class Banco {
     	            }
     	        }
     	    }
-    	}
+     }*/
 
      
      
-     //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
+     public ArrayList<Contrato> getContratos() {
+		return contratos;
+	}
+
+
+	//DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
      public ArrayList<CuentaBancaria> getCuentasDadoCliente(String id) {
     	 
     	 ArrayList<CuentaBancaria> cuentasUsuario = new ArrayList<CuentaBancaria>();
@@ -420,7 +436,7 @@ public class Banco {
 
    
 
-    // 5. TODAS LAS CUENTAS DE FORMACION DE FONDOS ASOCIADAS A UNA ENTIDAD DADA 
+   // 5. TODAS LAS CUENTAS DE FORMACION DE FONDOS ASOCIADAS A UNA ENTIDAD DADA 
 
     public ArrayList<CuentaBancaria> cuentasFormacionFondosDeEntidadDada (String entidad){
     	ArrayList<CuentaBancaria> cuentasFF = new  ArrayList<CuentaBancaria>();
@@ -435,16 +451,16 @@ public class Banco {
 
     	return cuentasFF;
     }
+    
 
-
-    // 6.CAJEROS CON SALDO INSUFICIENTE DE CADA AGENCIA 
+    // 6.CAJEROS CON SALDO INSUFICIENTE 
     public ArrayList<Cajero> cajerosConSaldoInsuficiente (){
 
     	ArrayList<Cajero> cajerosSinSaldo = new ArrayList<>();
 
     	for(Agencia a : agencias){
     		for (Cajero c : a.getCajeros()){
-    			if(c.getBilletes().size()==0){
+    			if(c.mostrarSaldoTotal()==0){
     				cajerosSinSaldo.add(c);
     			}
     		}

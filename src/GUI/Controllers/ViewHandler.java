@@ -8,11 +8,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import GUI.Components.BaseScreen;
-import GUI.Views.AccountsScreen;
 import GUI.Views.AgencyScreen;
 import GUI.Views.CajerosSinSaldo;
 import GUI.Views.ClientScreen;
 import GUI.Views.ClienteConSaldoSuperior;
+import GUI.Views.ContratoScreen;
 import GUI.Views.CuentasFFondosAsociadas;
 import GUI.Views.EntidadMasContratos;
 import GUI.Views.MainScreen;
@@ -34,7 +34,7 @@ public class ViewHandler {
 	public void loadViews() {
 	    BaseScreen mainScreen = loadMainScreen();
 	    BaseScreen clientScreen = loadClientScreen();
-	    BaseScreen accountScreen = loadAccountScreen();
+	    BaseScreen contratoScreen = loadContratoScreen();
 	    BaseScreen agencyScreen = loadAgencyScreen();
 	    BaseScreen reportScreen = loadReportScreen();
 	    BaseScreen userAccountScreen = loadUserAccountScreen();
@@ -45,7 +45,7 @@ public class ViewHandler {
 	    
 	    mainScreen.setName("MainScreen");
 	    clientScreen.setName("ClientScreen");
-	    accountScreen.setName("AccountScreen");
+	    contratoScreen.setName("ContratoScreen");
 	    agencyScreen.setName("AgencyScreen");
 	    reportScreen.setName("ReportScreen");
 	    userAccountScreen.setName("Cuentas del Cliente");
@@ -56,7 +56,7 @@ public class ViewHandler {
 
 	    contentPane.add(mainScreen, "MainScreen");
 	    contentPane.add(clientScreen, "ClientScreen");
-	    contentPane.add(accountScreen, "AccountScreen");
+	    contentPane.add(contratoScreen, "ContratoScreen");
 	    contentPane.add(agencyScreen, "AgencyScreen");
 	    contentPane.add(reportScreen, "ReportScreen");
 	    contentPane.add(userAccountScreen, "Cuentas del Cliente");
@@ -79,8 +79,8 @@ public class ViewHandler {
 	        cardLayout.show(contentPane, "MainScreen");
 	    } else if ("Clientes".equals(command)) {
 	        cardLayout.show(contentPane, "ClientScreen");
-	    } else if ("Cuentas".equals(command)) {
-	        cardLayout.show(contentPane, "AccountScreen");
+	    } else if ("Contratos".equals(command)) {
+	        cardLayout.show(contentPane, "ContratoScreen");
 	    } else if ("Agencias".equals(command)) {
 	        cardLayout.show(contentPane, "AgencyScreen");
 	    } else if ("Reportes".equals(command)) {
@@ -133,9 +133,9 @@ public class ViewHandler {
 		    });
 		}
     
-    private BaseScreen loadAccountScreen() {
+    private BaseScreen loadContratoScreen() {
     	
-    	return new AccountsScreen(new ActionListener() {
+    	return new ContratoScreen(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            Router(e);
 	        }
