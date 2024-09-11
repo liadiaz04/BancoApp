@@ -54,7 +54,7 @@ public abstract class BaseScreenWithSideMenu extends BaseScreen {
             Fonts.BUTTONS.getFont(),
             Colors.PRIMARY.getColor(),
             Colors.HOVER.getColor(),
-            Colors.TEXT.getColor()
+            Colors.TEXT.getColor(), listener
         );
         button.addToPanel(panel, 0, yPosition, 400, 80);
         

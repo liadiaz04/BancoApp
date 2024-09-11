@@ -32,5 +32,6 @@ public class ClientTable extends BaseTable<Cliente> {
 	}
 	
 	
-
+	
+	
 }

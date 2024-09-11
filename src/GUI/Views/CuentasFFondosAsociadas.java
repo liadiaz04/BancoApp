@@ -1,32 +1,33 @@
 package GUI.Views;
-
-import javax.swing.*;
-
-import GUI.Components.BaseScreenWithSideMenu;
-
-
 import java.awt.event.ActionListener;
+
 
 import javax.swing.JLabel;
 
 import GUI.Components.BaseScreenWithSideMenu;
 
-public class UltimasOperacionesScreen extends BaseScreenWithSideMenu {
-	
-	public UltimasOperacionesScreen(ActionListener listener) {
+public class CuentasFFondosAsociadas extends BaseScreenWithSideMenu{
+
+	public CuentasFFondosAsociadas(ActionListener listener) {
 		super(listener);
 		// TODO Auto-generated constructor stub
 	}
 
-
 	@Override
 	protected void loadContent() {
-		
-		JLabel label = new JLabel("Reportes");
+		JLabel label = new JLabel("FORMACION FONDOS");
         label.setBounds(550, 50, 200, 30);
         add(label);
-        
+
 		
 	}
 
+	
+	
 }
+
+
+
+
+
+

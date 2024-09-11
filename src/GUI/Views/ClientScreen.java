@@ -57,8 +57,8 @@ public class ClientScreen extends BaseScreenWithSideMenu {
     protected void loadContent() {
     	
         JLabel label = new JLabel("Clientes");
-        label.setFont(new Font("Tahoma", Font.BOLD, 24)); // Cambiar el tamaño de la fuente
-        label.setForeground(new Color(0, 128, 0)); // Cambiar el color de la fuente
+        label.setFont(new Font("Tahoma", Font.BOLD, 24)); 
+        label.setForeground(new Color(0, 128, 0)); 
         label.setBounds(550, 50, 200, 30);
         add(label);
 
