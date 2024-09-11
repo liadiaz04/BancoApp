@@ -2,6 +2,7 @@ package Clases;
 
 
 public class Contrato {
+	private String idContrato;
 	private String entidad;
 	   private int periodoTiempo;
 	   private double salario;
@@ -10,6 +11,13 @@ public class Contrato {
 	        setEntidad(entidad);
 	        setPeriodoTiempo(periodoTiempo);
 	        setSalario(salario);
+	   }
+	   
+	   public String getIdContrato() {
+		   return idContrato;
+		  }
+	   public void setIdContrato(String idContrato){
+		   this.idContrato = idContrato;
 	   }
 
 	  public String getEntidad() {

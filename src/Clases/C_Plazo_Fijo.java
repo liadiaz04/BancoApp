@@ -8,8 +8,8 @@ public class C_Plazo_Fijo extends CuentaBancaria implements Intereses,Deposito,E
 
 	private Plazo_Deposito plazo;
 
-	public C_Plazo_Fijo(String noCuenta, double saldo, String beneficiario, String moneda, Plazo_Deposito plazo,double cantInicial) {
-		super(noCuenta, saldo, beneficiario, moneda);
+	public C_Plazo_Fijo(String noCuenta, String beneficiario, String moneda, Plazo_Deposito plazo,double cantInicial) {
+		super(noCuenta, beneficiario, moneda);
 		this.plazo = plazo;
 		depositar(cantInicial);
 	}

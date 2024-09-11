@@ -11,6 +11,7 @@ public class Banco {
     private ArrayList<CuentaBancaria> cuentas;
     private ArrayList<Agencia> agencias;
 
+    
     // CONSTRUCTOR
     public Banco() {
         this.clientes = new ArrayList<Cliente>(); 
@@ -33,7 +34,6 @@ public class Banco {
     
    
   
-    
     //CLIENTES
     
     public Cliente buscarClientePorId(String idCliente) {
@@ -69,6 +69,24 @@ public class Banco {
         return eliminado; 
     }
      
+     
+     //CONTRATOS 
+     
+     public Contrato buscarContratoPorId(String idContrato) {
+      	Contrato aux = null;
+          for (int i = 0 ; i < contratos.size() && aux != null; i++ ) {
+              if (contratos.get(i).getIdContrato().equals(idContrato)) {
+                 aux = contratos.get(i);
+              }
+          }
+          return aux; 
+      }
+     
+     public void agregarContrato (){
+    	 
+     }
+     
+     
      //AGENCIAS 
      
      public ArrayList<Agencia> getAgencias() {
@@ -86,12 +104,12 @@ public class Banco {
          return aux; 
      }
     
-    /* public void agregarAgencia(String gerente , String direccion) {
+     public void agregarAgencia(String gerente , String direccion) {
          int numeroAgencia = this.agencias.size() + 1;
          String idAgencia = String.format("Ag%02d", numeroAgencia);
          agencias.add(new Agencia(idAgencia, gerente, direccion));
         
-     }*/
+     }
      
      public boolean eliminarAgencia(String idAgencia) {
          boolean eliminado = false; 
@@ -122,10 +140,36 @@ public class Banco {
      }
      
      
-     public void agregarCuenta (String tipo){
+     public void agregarCuentaTipo (Cliente cliente,String tipo,String beneficiario, String idContrato , Plazo_Deposito plazo, double cantInicial){
     	 
+    	 String numCuenta = generarNumeroCuenta (tipo);
+
+    	 if(tipo == "Formacion Fondos"){
+    		 Contrato c = buscarContratoPorId(idContrato);
+    		 if(c != null){
+    			 C_Formacion_Fondos aux = new C_Formacion_Fondos (numCuenta,beneficiario,"CUP",c);
+    			 cuentas.add(aux);
+    			 cliente.agregarCuenta(aux,tipo);
+    		 }else 
+    			 throw new IllegalArgumentException("Contrato no encontrado");
+    	 }else 
+    		 if(tipo == "Plazo Fijo"){
+    			 C_Plazo_Fijo aux2 = new  C_Plazo_Fijo (numCuenta,beneficiario,"MLC",plazo,cantInicial);
+    			 cuentas.add(aux2);
+    			 cliente.agregarCuenta(aux2,tipo);
+    	 }else 
+    		 if(tipo == "MLC"){
+    			 C_MLC aux3= new C_MLC(numCuenta, beneficiario, "MLC" );
+    			 cuentas.add(aux3);
+    			 cliente.agregarCuenta(aux3,tipo);
+    	 } else {
+    		 C_Corriente aux4 = new C_Corriente (numCuenta,beneficiario,"CUP");
+    		 cuentas.add(aux4);
+			 cliente.agregarCuenta(aux4,tipo);
+    	 }
+       
      }
-     
+
      public ArrayList<CuentaBancaria> getCuentasCliente(Cliente cliente) {
  		ArrayList<CuentaBancaria> cuentas = new ArrayList<>();
  		

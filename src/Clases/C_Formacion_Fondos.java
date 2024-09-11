@@ -8,10 +8,10 @@ public class C_Formacion_Fondos extends CuentaBancaria implements Intereses, Ext
 	private Contrato contrato;
 	private LocalDate fechaUltimaActualizacion;
 
-	public C_Formacion_Fondos(String noCuenta, double saldo, String beneficiario, String moneda,String entidad, int tiempo , double salario) {
+	public C_Formacion_Fondos(String noCuenta, String beneficiario, String moneda, Contrato contrato) {
 
-		super(noCuenta,saldo,beneficiario,moneda);
-		this.contrato = new Contrato (entidad,tiempo,salario);
+		super(noCuenta,beneficiario,moneda);
+		this.contrato = contrato;
 		this.fechaUltimaActualizacion = LocalDate.now();
 		this.saldo= 30;
 	}

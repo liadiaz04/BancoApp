@@ -102,7 +102,7 @@ public class Cliente {
 
 
 	public void agregarCuenta(CuentaBancaria cuenta) {
-		cuentas.add(cuenta);
+		cuentas.add(cuenta); // verificar las cantidades de un tipo que puede tener un cliente 
 	}
 	
 
