@@ -178,6 +178,11 @@ public class Banco {
     	        cuentaFF1.setContrato("Entidad1", 12, 2500);
     	        clientes.get(0).agregarCuenta(cuentaFF1);
 
+    	  
+    	        C_Formacion_Fondos cuenta2 = new C_Formacion_Fondos("005", 1500.0, "Beneficiario2", "CUP", "Etecsa", 6, 3000);
+    	        
+    	        // Agregar cuentas a los clientes
+    	        clientes.get(1).agregarCuenta(cuenta2);
 
     	    }
 
@@ -191,6 +196,7 @@ public class Banco {
          C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
          C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
          C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
+         C_Formacion_Fondos cuentaFF1 = new C_Formacion_Fondos("004", 1000.0, "Beneficiario4", "CUP", "Entidad1", 12, 2500);
          
          cuentas.add(cuenta3);
          cuentas.add(cuenta2);
@@ -198,6 +204,7 @@ public class Banco {
          cuentas.add(cuenta4);
          cuentas.add(cuenta5);
          cuentas.add(cuenta6);
+         cuentas.add(cuentaFF1);
 	} 
      
      private void crearAgencias() {
