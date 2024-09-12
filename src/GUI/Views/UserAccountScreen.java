@@ -15,6 +15,7 @@ import Clases.C_Plazo_Fijo;
 import Clases.Cliente;
 import Clases.CuentaBancaria;
 import Clases.Banco;
+import Clases.Operacion;
 import Clases.Plazo_Deposito;
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Controllers.SelectedUserManager;
@@ -78,6 +79,9 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         customizeButton(detailsButton, buttonFont, 1280, 800);
         add(detailsButton);
         
+        JButton lastOperations = new JButton("Últimas Operaciones");
+        customizeButton(lastOperations, buttonFont, 1600, 700);
+        add(lastOperations);
         
         
         depositButton.addActionListener(new ActionListener() {
@@ -105,6 +109,21 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         detailsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showAccountDetails(); 
+            }
+        });
+        
+   
+     // ÚLTIMAS OPERACIONES
+        lastOperations.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = accountTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
+                    ArrayList<Operacion> operaciones = cuentaSeleccionada.ultimasDiezOperaciones();
+                    mostrarOperaciones(operaciones);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione una cuenta para ver las operaciones.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
 
@@ -144,6 +163,26 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         revalidate(); // Refresh the panel
         repaint(); // Repaint the panel
     }
+    
+    private void mostrarOperaciones(ArrayList<Operacion> operaciones) {
+        if (operaciones.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay operaciones para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        StringBuilder operacionesText = new StringBuilder("<html><h3>Últimas Operaciones:</h3><ul>");
+        for (Operacion operacion : operaciones) {
+            operacionesText.append("<li>")
+                .append("Tipo: ").append(operacion.getTipo()).append(", ")
+                .append("Monto: ").append(operacion.getMonto()).append(", ")
+                .append("Fecha: ").append(operacion.getFecha().toString())
+                .append("</li>");
+        }
+        operacionesText.append("</ul></html>");
+
+        JOptionPane.showMessageDialog(null, operacionesText.toString(), "Operaciones", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     private void updateAccountTable() {
     	
@@ -206,12 +245,23 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                     double monto = Double.parseDouble(montoTextField.getText());
 
                     if (monto > 0) {
-                        // Actualizar el saldo de la cuenta
-                        cuentaSeleccionada.setSaldo(cuentaSeleccionada.getSaldo() + monto);
+                        // Verificar si la cuenta es de tipo C_Formacion_Fondos
+                        if (cuentaSeleccionada instanceof C_Formacion_Fondos) {
+                            JOptionPane.showMessageDialog(null, "No se pueden realizar depósitos en cuentas de Formación de Fondos.", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            // Llamar al método depositar según el tipo de cuenta
+                            if (cuentaSeleccionada instanceof C_Corriente) {
+                                ((C_Corriente) cuentaSeleccionada).depositar(monto);
+                            } else if (cuentaSeleccionada instanceof C_MLC) {
+                                ((C_MLC) cuentaSeleccionada).depositar(monto);
+                            } else if (cuentaSeleccionada instanceof C_Plazo_Fijo) {
+                                ((C_Plazo_Fijo) cuentaSeleccionada).depositar(monto);
+                            }
 
-                        // Actualizar la tabla de cuentas
-                        updateAccountTable();
-                        JOptionPane.showMessageDialog(null, "Depósito realizado con éxito.");
+                            // Actualizar la tabla de cuentas
+                            updateAccountTable();
+                            JOptionPane.showMessageDialog(null, "Depósito realizado con éxito.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -223,6 +273,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una cuenta para depositar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     
     private void realizarExtraccion() {
@@ -251,21 +302,29 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                     double monto = Double.parseDouble(montoTextField.getText());
 
                     if (monto > 0) {
-                        if (monto <= cuentaSeleccionada.getSaldo()) {
-                            // Actualizar el saldo de la cuenta restando el monto
-                            cuentaSeleccionada.setSaldo(cuentaSeleccionada.getSaldo() - monto);
-
-                            // Actualizar la tabla de cuentas
-                            updateAccountTable();
-                            JOptionPane.showMessageDialog(null, "Extracción realizada con éxito.");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Saldo insuficiente para realizar la extracción.", "Error", JOptionPane.ERROR_MESSAGE);
+                        // Llamar al método de extracción específico según el tipo de cuenta
+                        if (cuentaSeleccionada instanceof C_Corriente) {
+                            ((C_Corriente) cuentaSeleccionada).extraer(monto);
+                        } else if (cuentaSeleccionada instanceof C_MLC) {
+                            // Asumiendo que C_MLC no permite extracción, puedes manejarlo aquí si es necesario
+                            JOptionPane.showMessageDialog(null, "Las cuentas MLC no permiten extracciones.", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        } else if (cuentaSeleccionada instanceof C_Plazo_Fijo) {
+                            ((C_Plazo_Fijo) cuentaSeleccionada).extraer(monto);
+                        } else if (cuentaSeleccionada instanceof C_Formacion_Fondos) {
+                            ((C_Formacion_Fondos) cuentaSeleccionada).extraer(monto);
                         }
+
+                        // Actualizar la tabla de cuentas
+                        updateAccountTable();
+                        JOptionPane.showMessageDialog(null, "Extracción realizada con éxito.");
                     } else {
                         JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IllegalArgumentException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else {

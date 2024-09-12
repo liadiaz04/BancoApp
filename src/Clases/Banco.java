@@ -193,6 +193,9 @@ public class Banco {
     	        C_Formacion_Fondos cuentaFF1 = new C_Formacion_Fondos("004", 1000.0, "Beneficiario4", "CUP", "Entidad1", 12, 2500);
     	        cuentaFF1.setContrato("Entidad1", 12, 2500);
     	        clientes.get(0).agregarCuenta(cuentaFF1);
+    	        
+    	        C_Corriente corriente = new C_Corriente("005", 1000, "Lia", "CUP");
+    	        clientes.get(1).agregarCuenta(corriente);
 
     	  
     	        C_Formacion_Fondos cuenta2 = new C_Formacion_Fondos("005", 1500.0, "Beneficiario2", "CUP", "Etecsa", 6, 3000);
