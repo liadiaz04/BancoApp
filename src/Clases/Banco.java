@@ -149,6 +149,23 @@ public class Banco {
          return aux; 
      }
      
+
+     public void agregarContrato(String entidad, int periodo, double salario) {
+         Contrato nuevoContrato = new Contrato(entidad, periodo, salario);
+         contratos.add(nuevoContrato);
+     }
+
+     public boolean eliminarContrato(String entidad) {
+    	 boolean delete = false;
+         for (int i = 0; i < contratos.size() && !delete; i++) {
+             if (contratos.get(i).getEntidad().equals(entidad)) {
+                 contratos.remove(i);
+                 delete = true; 
+             }
+         }
+         return delete; 
+     }
+     
      
      //FUNCIONES DE PRUEBA DE DATOS
      private void loadTestUsers() {
@@ -467,4 +484,10 @@ public class Banco {
     	}
     	return cajerosSinSaldo;
     }
+
+
+	public void agregarContrato(Contrato nuevoContrato) {
+		contratos.add(nuevoContrato);
+		
+	}
 }
