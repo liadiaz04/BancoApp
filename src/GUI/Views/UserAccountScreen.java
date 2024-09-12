@@ -185,15 +185,12 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
 
 
     private void updateAccountTable() {
-    	
-    	String name = cliente == null ? "" : cliente.getNombre();
-    	nameLabel.setText("Cuentas de " + name);
+        String name = cliente == null ? "" : cliente.getNombre();
+        nameLabel.setText("Cuentas de " + name);
 
-        
-    	
         if (cliente != null) {
             cuentas = getAccountList(cliente);
-            String[] columns = new String[]{"Número de Cuenta", "Saldo", "Beneficiario"};
+            String[] columns = new String[]{"Número de Cuenta", "Saldo", "Beneficiario", "Moneda", "Fecha de Apertura", "Tipo de Cuenta"}; // Nueva columna
 
             if (accountTable == null) {
                 AccountTable accountTable = new AccountTable(cuentas, columns);
@@ -202,15 +199,23 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                 accountTable.setBounds(480, 100, 1000, 600);
                 add(accountTable);
             } else {
-                // Update the existing table model with new data
+                // Actualizar el modelo de la tabla existente con nuevos datos
                 DefaultTableModel model = (DefaultTableModel) accountTable.getModel();
-                model.setRowCount(0); // Clear existing rows
+                model.setRowCount(0); // Limpiar las filas existentes
                 for (CuentaBancaria cuenta : cuentas) {
-                    model.addRow(new Object[]{cuenta.getNoCuenta(), cuenta.getSaldo(), cuenta.getBeneficiario()});
+                    model.addRow(new Object[]{
+                        cuenta.getNoCuenta(),
+                        cuenta.getSaldo(),
+                        cuenta.getBeneficiario(),
+                        cuenta.getMoneda(),
+                        cuenta.getFechaApertura(),
+                        cuenta.getClass().getSimpleName() // Mostrar el tipo de cuenta
+                    });
                 }
             }
         }
     }
+
     
     private void customizeButton(JButton button, Font font, int x, int y) {
         button.setBounds(x, y, 185, 53);

@@ -5,7 +5,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import GUI.Components.BaseScreen;
 import GUI.Views.AgencyScreen;
@@ -84,9 +86,9 @@ public class ViewHandler {
 	    } else if ("Agencias".equals(command)) {
 	        cardLayout.show(contentPane, "AgencyScreen");
 	    } else if ("Reportes".equals(command)) {
-	        cardLayout.show(contentPane, "ReportScreen");
-	    }
-	    else if ("Cuentas del Cliente".equals(command)) {
+	        // En lugar de mostrar la pantalla de reportes, puedes abrir un menú aquí
+	        mostrarMenuReportes(e); // Nueva función para mostrar el menú de reportes
+	    } else if ("Cuentas del Cliente".equals(command)) {
 	        cardLayout.show(contentPane, "Cuentas del Cliente");
 
 	        for (Component component : contentPane.getComponents()) {
@@ -97,21 +99,62 @@ public class ViewHandler {
 	            }
 	        }
 	    } else if ("CuentasFFondosAsociadas".equals(command)) {
-	        // Aquí cargamos la pantalla de últimas operaciones
 	        cardLayout.show(contentPane, "CuentasFFondosAsociadas");
-	    }
-	    else if ("ClienteConSaldoSuperior".equals(command)){
-	    	cardLayout.show(contentPane, "ClienteConSaldoSuperior");
-	    }
-	    else if ("EntidadMasContratos".equals(command)){
-	    	cardLayout.show(contentPane, "EntidadMasContratos");
-	    }
-	    else if ("CajerosSinSaldo".equals(command)){
-	    	cardLayout.show(contentPane, "CajerosSinSaldo");
+	    } else if ("ClienteConSaldoSuperior".equals(command)) {
+	        cardLayout.show(contentPane, "ClienteConSaldoSuperior");
+	    } else if ("EntidadMasContratos".equals(command)) {
+	        cardLayout.show(contentPane, "EntidadMasContratos");
+	    } else if ("CajerosSinSaldo".equals(command)) {
+	        cardLayout.show(contentPane, "CajerosSinSaldo");
 	    }
 	}
 
-	
+	private void mostrarMenuReportes(ActionEvent e) {
+	    // Crear un popup menu
+	    JPopupMenu reportMenu = new JPopupMenu();
+
+	    // Crear las opciones del menú
+	    JMenuItem clienteSaldoSuperior = new JMenuItem("Clientes con saldo superior");
+	    JMenuItem entidadMasContratos = new JMenuItem("Entidad con más contratos");
+	    JMenuItem cuentasFFondosAsociadas = new JMenuItem("Cuentas FF Asociadas");
+	    JMenuItem cajerosSinSaldo = new JMenuItem("Cajeros sin saldo");
+
+	    // Añadir ActionListeners a las opciones del menú
+	    clienteSaldoSuperior.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            cardLayout.show(contentPane, "ClienteConSaldoSuperior");
+	        }
+	    });
+	    
+	    entidadMasContratos.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            cardLayout.show(contentPane, "EntidadMasContratos");
+	        }
+	    });
+	    
+	    cuentasFFondosAsociadas.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            cardLayout.show(contentPane, "CuentasFFondosAsociadas");
+	        }
+	    });
+	    
+	    cajerosSinSaldo.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            cardLayout.show(contentPane, "CajerosSinSaldo");
+	        }
+	    });
+
+	    // Añadir los elementos al popup
+	    reportMenu.add(clienteSaldoSuperior);
+	    reportMenu.add(entidadMasContratos);
+	    reportMenu.add(cuentasFFondosAsociadas);
+	    reportMenu.add(cajerosSinSaldo);
+
+	    // Mostrar el popup donde se hizo clic
+	    Component source = (Component) e.getSource();
+	    reportMenu.show(source, source.getWidth() / 2, source.getHeight());
+	}
+
 	
 	
     //Crear las llamadas a las Pantallas

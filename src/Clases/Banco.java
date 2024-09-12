@@ -261,6 +261,7 @@ public class Banco {
     	    for (Agencia agencia : agencias) {
     	        for (Cajero cajero : agencia.getCajeros()) {
     	            cajero.getBilletes().clear();  // Vacía los billetes
+    	            System.out.println("Cajero " + cajero.getIdCajero() + " inicializado con saldo cero."); // Debug
     	        }
     	    }
     	}
@@ -473,7 +474,7 @@ public class Banco {
     }
     
 
-    // 6.CAJEROS CON SALDO INSUFICIENTE 
+    // 6.CAJEROS CON SALDO INSUFICIENTE DE CADA AGENCIA
     public ArrayList<Cajero> cajerosConSaldoInsuficiente (){
 
     	ArrayList<Cajero> cajerosSinSaldo = new ArrayList<>();
@@ -487,6 +488,20 @@ public class Banco {
     	}
     	return cajerosSinSaldo;
     }
+    
+    public String obtenerAgenciaPorCajero(String idCajero) {
+    	String idAgencia = null;
+    	
+        for (Agencia agencia : agencias) {
+            for (Cajero cajero : agencia.getCajeros()) {
+                if (cajero.getIdCajero().equals(idCajero)) {
+                    idAgencia = agencia.getIdAgencia(); 
+                }
+            }
+        }
+        return idAgencia; 
+    }
+
 
 
 	public void agregarContrato(Contrato nuevoContrato) {
