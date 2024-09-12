@@ -102,22 +102,23 @@ public class Cliente {
 
 
 	public void agregarCuenta(CuentaBancaria cuenta , String tipo) {
-		int cant= cantCuentasDeUnTipo(tipo);
+		int cant= cantCuentasDeUnTipo(cuenta);
 		if((!(cuenta instanceof C_Corriente)) && cant < 1){
 			cuentas.add(cuenta);
 		} else 
-			cuentas.add(cuenta);
+			if(cuenta instanceof C_Corriente)
+				cuentas.add(cuenta);
 	}
 
-	public int cantCuentasDeUnTipo ( String tipo){
-		int cant = 0;
-		for(int i = 0 ; i < cuentas.size(); i++){
-			String className = cuentas.get(i).getClass().getName();
-			if(className.equals(tipo)){
-				cant ++;
-			}
-		}
-		return cant;
+	public int cantCuentasDeUnTipo (CuentaBancaria cuenta){
+	    int cant = 0;
+	    for(int i = 0 ; i < cuentas.size(); i++){
+	        Class<?> tipo = cuentas.get(i).getClass();
+	        if(tipo.equals(cuenta.getClass())){
+	            cant ++;
+	        }
+	    }
+	    return cant;
 	}
 
 	public ArrayList<CuentaBancaria> getCuentas() {

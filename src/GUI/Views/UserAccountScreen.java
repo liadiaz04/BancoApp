@@ -294,7 +294,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     }
     
     private void agregarCuenta() {
-        String[] tiposCuentas = {"Cuenta Corriente", "Formacion de Fondos", "Cuenta MLC", "Plazo Fijo"};
+        String[] tiposCuentas = {"Corriente", "Formacion de Fondos", "MLC", "Plazo Fijo"};
         String tipoSeleccionado = (String) JOptionPane.showInputDialog(
             null, 
             "Seleccione el tipo de cuenta a agregar:",
