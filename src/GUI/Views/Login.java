@@ -25,6 +25,7 @@ import java.awt.Component;
 import javax.swing.JPasswordField;
 
 import Clases.Banco;
+import Clases.InfoWindow;
 
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
@@ -47,17 +48,18 @@ public class Login extends JFrame {
 	public Login() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 500);
+		setSize(800, 500);
+		setLocationRelativeTo(null);
 		setVisible(true);
 		
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		contentPane.setBackground(new Color(229,229,229));
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panelBienvenida = new JPanel();
-		panelBienvenida.setBackground(new Color(124, 189, 107));
+		panelBienvenida.setBackground(new Color(0, 153, 102));
 		panelBienvenida.setBounds(0, 0, 384, 466);
 		contentPane.add(panelBienvenida);
 		panelBienvenida.setLayout(null);
@@ -73,7 +75,7 @@ public class Login extends JFrame {
 		panelBienvenida.add(lblNewLabel);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/GUI/Icons/bancoLogin.png")));
+		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/GUI/Icons/bancoMet.png")));
 		lblNewLabel_3.setBounds(73, 62, 234, 192);
 		panelBienvenida.add(lblNewLabel_3);
 		
@@ -113,13 +115,13 @@ public class Login extends JFrame {
 
         			
         		} else {
-        			//Panelito de error
+        			mostrarPanel();
         		}
 			}
 		});
 		entrarBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		entrarBtn.setFocusable(false);
-		entrarBtn.setBackground(new Color(124, 189, 107));
+		entrarBtn.setBackground(new Color(0, 153, 102));
 		entrarBtn.setForeground(UIManager.getColor("Button.disabledShadow"));
 		entrarBtn.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		entrarBtn.setBounds(512, 382, 136, 34);
@@ -130,6 +132,10 @@ public class Login extends JFrame {
 		contentPane.add(passwordField);
 		
 		
+	}
+	
+	public void mostrarPanel(){
+		InfoWindow w = new InfoWindow (this,InfoWindow.ERROR,"Usted no esta autenticado en la plataforma");
 	}
 	
 	public JButton getBtnEnviar (){
@@ -143,5 +149,4 @@ public class Login extends JFrame {
 	    public char[] getPassword() {
 	        return passwordField.getPassword();
 	    }
-    
 }

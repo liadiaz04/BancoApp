@@ -11,6 +11,7 @@ public class Banco {
     private ArrayList<CuentaBancaria> cuentas;
     private ArrayList<Agencia> agencias;
     private ArrayList<User> usuarios;
+    private ArrayList<Plazo_Deposito> plazos;
 
     
     // CONSTRUCTOR
@@ -20,15 +21,25 @@ public class Banco {
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         this.agencias = new ArrayList<Agencia>();
+        this.plazos = new ArrayList <Plazo_Deposito> ();
+        this.contratos=new ArrayList<Contrato>();
         
-        /*loadTestUsers(); 
-        crearCuentasBancarias();
-        crearAgencias();
-        inicializarBilletes(); */
+        loadTestUsers(); 
+        //crearCuentasBancarias();
+        //crearAgencias();
+        //inicializarBilletes(); 
         usuariosValidos();
+        crearContratos();
     }
      
-
+    public void crearContratos(){
+    	try{
+    		contratos.add(new Contrato("2122","Entidad",5,6000.5));
+    	}catch(Exception e){
+    		//manejar error
+    	}
+    	
+    }
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
@@ -36,10 +47,24 @@ public class Banco {
         return instancia;
     }
     
+    public ArrayList<Plazo_Deposito> getPlazos(){
+    	return plazos;
+    }
+    
+    public Plazo_Deposito buscarPlazoDeposito (int cantMeses){
+    	Plazo_Deposito aux = null;
+        for (int i = 0 ; i < plazos.size() && aux != null; i++ ) {
+            if (plazos.get(i).getMeses() == cantMeses) {
+               aux = plazos.get(i);
+            }
+        }
+        return aux; 
+    }
+    
    //USUARIOS
     
     public void usuariosValidos(){
-    	usuarios.add(new User("Clari", "55659908"));
+    	usuarios.add(new User("Banco", "12345"));
     }
     
     public boolean authenticateUser(String username,String  password){
@@ -92,10 +117,13 @@ public class Banco {
      //CONTRATOS 
      
      public Contrato buscarContratoPorId(String idContrato) {
+    	 int size=contratos.size();
+    	System.out.println("entra a buscar el contrato en la lista de tamanno" + size);
       	Contrato aux = null;
-          for (int i = 0 ; i < contratos.size() && aux != null; i++ ) {
+          for (int i = 0 ; i < contratos.size() && aux == null; i++ ) {
               if (contratos.get(i).getIdContrato().equals(idContrato)) {
                  aux = contratos.get(i);
+                 System.out.println("encontro contrato con id" + aux.getIdContrato());
               }
           }
           return aux; 
@@ -133,7 +161,7 @@ public class Banco {
      
      public Agencia buscarAgenciaPorId(String idAgencia) {
      	Agencia aux = null;
-         for (int i = 0 ; i < agencias.size() && aux != null; i++ ) {
+         for (int i = 0 ; i < agencias.size() && aux == null; i++ ) {
              if (agencias.get(i).getIdAgencia().equals(idAgencia)) {
                 aux = agencias.get(i);
              }
@@ -168,7 +196,7 @@ public class Banco {
     	 
     	 CuentaBancaria aux = null;
       
-    	 for (int i = 0 ; i < cuentas.size() && aux != null; i++ ) {
+    	 for (int i = 0 ; i < cuentas.size() && aux == null; i++ ) {
              if (cuentas.get(i).getNoCuenta().equals(noCuenta)) {
                 aux = cuentas.get(i);
              }
@@ -176,37 +204,47 @@ public class Banco {
          return aux; 
      }
      
-     
-     public void agregarCuentaTipo (Cliente cliente,String tipo,String beneficiario, String idContrato , Plazo_Deposito plazo, double cantInicial){
+     public void agregarCuentaFormacionFondos(Cliente cliente,String beneficiario, String idcontrato , String tipo){
     	 
     	 String numCuenta = generarNumeroCuenta (tipo);
-
-    	 if(tipo == "Formacion de Fondos"){
-    		 Contrato c = buscarContratoPorId(idContrato);
-    		 if(c != null){
-    			 C_Formacion_Fondos aux = new C_Formacion_Fondos (numCuenta,beneficiario,"CUP",c);
-    			 cuentas.add(aux);
-    			 cliente.agregarCuenta(aux,tipo);
-    		 }else 
-    			 throw new IllegalArgumentException("Contrato no encontrado");
-    	 }else 
-    		 if(tipo == "Plazo Fijo"){
-    			 C_Plazo_Fijo aux2 = new  C_Plazo_Fijo (numCuenta,beneficiario,"MLC",plazo,cantInicial);
-    			 cuentas.add(aux2);
-    			 cliente.agregarCuenta(aux2,tipo);
-    	 }else 
-    		 if(tipo == "MLC"){
-    			 C_MLC aux3= new C_MLC(numCuenta, beneficiario, "MLC" );
-    			 cuentas.add(aux3);
-    			 cliente.agregarCuenta(aux3,tipo);
-    	 } else {
-    		 C_Corriente aux4 = new C_Corriente (numCuenta,beneficiario,"CUP");
-    		 cuentas.add(aux4);
-			 cliente.agregarCuenta(aux4,tipo);
-    	 }
-       
+    	
+    	 Contrato c = buscarContratoPorId(idcontrato);
+    	
+    	 if(c != null){
+    		 
+			 C_Formacion_Fondos aux = new C_Formacion_Fondos (numCuenta,beneficiario,"CUP",c);
+			
+			 cuentas.add(aux);
+			 cliente.agregarCuenta(aux,tipo);
+		 }else 
+			 throw new IllegalArgumentException("Contrato no encontrado");
      }
-
+     
+     public void agregarCuentaCorriente(Cliente cliente,String beneficiario, String tipo){
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	 C_Corriente aux = new C_Corriente (numCuenta,beneficiario,"CUP");
+		 cuentas.add(aux);
+		 cliente.agregarCuenta(aux,tipo);
+     }
+     
+     public void agregarCuentaMLC(Cliente cliente,String beneficiario, String tipo){
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	 C_MLC aux= new C_MLC(numCuenta, beneficiario, "MLC" );
+		 cuentas.add(aux);
+		 cliente.agregarCuenta(aux,tipo);
+     }
+    
+     public void agregarCuentaPlazoFijo(Cliente cliente,String beneficiario,double cantInicial,int plazo,String tipo){
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	 Plazo_Deposito p = buscarPlazoDeposito(plazo);
+    	 if(p != null){
+    		 C_Plazo_Fijo aux = new  C_Plazo_Fijo (numCuenta,beneficiario,"MLC",p,cantInicial);
+    		 cuentas.add(aux);
+    		 cliente.agregarCuenta(aux,tipo);
+    	 }else
+    		 throw new IllegalArgumentException("Plazo de mes no valido");
+     }
+    
      public ArrayList<CuentaBancaria> getCuentasCliente(Cliente cliente) {
  		ArrayList<CuentaBancaria> cuentas = new ArrayList<>();
  		
@@ -218,21 +256,21 @@ public class Banco {
  	
      
      //FUNCIONES DE PRUEBA DE DATOS
-     /*private void loadTestUsers() {
+     private void loadTestUsers() {
     	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
     	    addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
     	    addCliente("05040178176", "Calle C 3", "Carlos", "34567890", "carlos.garcia@gmail.com");
     	    addCliente("06040178177", "Calle D 4", "Ana", "45678901", "ana.martinez@gmail.com");
     	    addCliente("07040178178", "Calle E 5", "Luis", "56789012", "luis.rodriguez@gmail.com");
     	    
-    	    C_MLC cuenta = new C_MLC("011", 1000.0, "Beneficiario1", "MLC"); 
-    	    clientes.get(0).agregarCuenta(cuenta);
-    	    clientes.get(1).agregarCuenta(cuenta);
-    	    clientes.get(2).agregarCuenta(cuenta);
-    	    clientes.get(3).agregarCuenta(cuenta);
-    	}
+    	    C_MLC cuenta = new C_MLC("011", "Beneficiario1", "MLC"); 
+    	    clientes.get(0).agregarCuenta(cuenta,"MLC");
+    	    clientes.get(1).agregarCuenta(cuenta,"MLC");
+    	    clientes.get(2).agregarCuenta(cuenta, "MLC");
+    	    clientes.get(3).agregarCuenta(cuenta,"MLC");
+   	}
     
-     private void crearCuentasBancarias() {
+     /*private void crearCuentasBancarias() {
     	    
          C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
          C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
@@ -320,17 +358,19 @@ public class Banco {
     // FUNCION PARA LA GENERACION DE NUMEROS DE CUENTAS
 
     public static String generarNumeroCuenta(String tipoCuenta) {
+    	
     	String primerosCuatroDigitos = "";
 
-    	switch (tipoCuenta.toLowerCase()) {
-    	case "corriente":
-    	case "plazo fijo":
+    	switch (tipoCuenta) {
+    	case "Corriente":
+    	case "Plazo Fijo":
     		primerosCuatroDigitos = "9205";
+    		
     		break;
-    	case "formacion de fondos":
+    	case "Formacion de Fondos":
     		primerosCuatroDigitos = "9227";
     		break;
-    	case "mlc":
+    	case "MLC":
     		primerosCuatroDigitos = "9235";
     		break;
     	default:

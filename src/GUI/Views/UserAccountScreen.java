@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Clases.C_Corriente;
 import Clases.C_Formacion_Fondos;
@@ -15,6 +17,7 @@ import Clases.C_Plazo_Fijo;
 import Clases.Cliente;
 import Clases.CuentaBancaria;
 import Clases.Banco;
+import Clases.InfoWindow;
 import Clases.Plazo_Deposito;
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Controllers.SelectedUserManager;
@@ -291,7 +294,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     }
     
     private void agregarCuenta() {
-        String[] tiposCuentas = {"Cuenta Corriente", "Formación de Fondos", "Cuenta MLC", "Plazo Fijo"};
+        String[] tiposCuentas = {"Cuenta Corriente", "Formacion de Fondos", "Cuenta MLC", "Plazo Fijo"};
         String tipoSeleccionado = (String) JOptionPane.showInputDialog(
             null, 
             "Seleccione el tipo de cuenta a agregar:",
@@ -307,112 +310,102 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         }
     }
 
-    private void abrirFormularioCuenta(String tipoSeleccionado) {
-        JPanel panelCuenta = new JPanel(new GridLayout(0, 2));
-        JTextField noCuentaField = new JTextField();
-        JTextField saldoField = new JTextField();
-        JTextField beneficiarioField = new JTextField();
-        JLabel monedaLabel = new JLabel();
+    private void abrirFormularioCuenta(String tipoSeleccionado){
 
-        panelCuenta.add(new JLabel("Número de cuenta:"));
-        panelCuenta.add(noCuentaField);
-        panelCuenta.add(new JLabel("Saldo:"));
-        panelCuenta.add(saldoField);
-        panelCuenta.add(new JLabel("Beneficiario:"));
-        panelCuenta.add(beneficiarioField);
-        panelCuenta.add(new JLabel("Moneda:"));
-        panelCuenta.add(monedaLabel);
+    	JPanel panelCuenta = crearPanelCuenta(tipoSeleccionado);
 
-        // Definir la moneda según el tipo de cuenta
-        if (tipoSeleccionado.equals("Cuenta Corriente") || tipoSeleccionado.equals("Formación de Fondos") || tipoSeleccionado.equals("Plazo Fijo")) {
-            monedaLabel.setText("CUP");
-        } else if (tipoSeleccionado.equals("Cuenta MLC")) {
-            monedaLabel.setText("MLC");
-        }
+    	int result = JOptionPane.showConfirmDialog(null, panelCuenta, "Agregar " + tipoSeleccionado, JOptionPane.OK_CANCEL_OPTION);
 
-        // Campos adicionales según el tipo de cuenta
-        JTextField entidadField = null;
-        JTextField tiempoField = null;
-        JTextField salarioField = null;
-        JTextField plazoField = null;
-        JTextField cantInicialField = null;
+    	if (result == JOptionPane.OK_OPTION) {
+    		procesarDatosIngreso(panelCuenta, tipoSeleccionado);
+    	}
+    	updateAccountTable();
+    }	 
 
-        if (tipoSeleccionado.equals("Formación de Fondos")) {
-            entidadField = new JTextField();
-            tiempoField = new JTextField();
-            salarioField = new JTextField();
-            
-            panelCuenta.add(new JLabel("Entidad:"));
-            panelCuenta.add(entidadField);
-            panelCuenta.add(new JLabel("Tiempo:"));
-            panelCuenta.add(tiempoField);
-            panelCuenta.add(new JLabel("Salario:"));
-            panelCuenta.add(salarioField);
-        } else if (tipoSeleccionado.equals("Plazo Fijo")) {
-            plazoField = new JTextField();
-            cantInicialField = new JTextField();
+    private JPanel crearPanelCuenta(String tipoSeleccionado){
 
-            panelCuenta.add(new JLabel("Plazo:"));
-            panelCuenta.add(plazoField);
-            panelCuenta.add(new JLabel("Cantidad Inicial:"));
-            panelCuenta.add(cantInicialField);
-        }
+    	//CAMPOS GENERALES
+    	JPanel panelCuenta = new JPanel(new GridLayout(0, 2));
+    	JTextField beneficiarioField = new JTextField();
+    	JLabel monedaLabel = new JLabel();
 
-        int result = JOptionPane.showConfirmDialog(null, panelCuenta, "Agregar " + tipoSeleccionado, JOptionPane.OK_CANCEL_OPTION);
-        
-        if (result == JOptionPane.OK_OPTION) {
-            // Validaciones
-            if (noCuentaField.getText().trim().isEmpty() || saldoField.getText().trim().isEmpty() || beneficiarioField.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Todos los campos deben estar completos.");
-                return;
-            }
+    	panelCuenta.add(new JLabel("Beneficiario:"));
+    	panelCuenta.add(beneficiarioField);
+    	panelCuenta.add(new JLabel("Moneda:"));
+    	panelCuenta.add(monedaLabel);
 
-            try {
-                double saldo = Double.parseDouble(saldoField.getText());
-                if (saldo < 0) {
-                    JOptionPane.showMessageDialog(null, "El saldo no puede ser negativo.");
-                    return;
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "El saldo debe ser un número válido.");
-                return;
-            }
+    	//ESPECIFICACION DE MONEDA 
+    	if (tipoSeleccionado.equals("Cuenta MLC")) {
+    		monedaLabel.setText("MLC");
+    	}else {
+    		monedaLabel.setText("CUP");
+    	}
 
-            if (tipoSeleccionado.equals("Formación de Fondos")) {
-                if (entidadField.getText().trim().isEmpty() || tiempoField.getText().trim().isEmpty() || salarioField.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Todos los campos de Formación de Fondos deben estar completos.");
-                    return;
-                }
-            } else if (tipoSeleccionado.equals("Plazo Fijo")) {
-                if (plazoField.getText().trim().isEmpty() || cantInicialField.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Todos los campos de Plazo Fijo deben estar completos.");
-                    return;
-                }
-
-                try {
-                    double cantInicial = Double.parseDouble(cantInicialField.getText());
-                    if (cantInicial < 0) {
-                        JOptionPane.showMessageDialog(null, "La cantidad inicial no puede ser negativa.");
-                        return;
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "La cantidad inicial debe ser un número válido.");
-                    return;
-                }
-            }
-
-            // Aquí se procesaría la creación de la cuenta si todo está correcto
-            String noCuenta = noCuentaField.getText();
-            String beneficiario = beneficiarioField.getText();
-            String moneda = monedaLabel.getText();
-
-            // Lógica para procesar los datos ingresados
-            JOptionPane.showMessageDialog(null, "Cuenta creada exitosamente.");
-        }
+    	// CAMPOS ADICIONALES SEGUN EL TIPO DE CUENTA
+    	switch (tipoSeleccionado) {
+    	case "Formacion de Fondos":
+    		JTextField idContratoField = new JTextField();
+    		panelCuenta.add(new JLabel("Código del Contrato:"));
+    		panelCuenta.add(idContratoField);
+    		break;
+    	case "Plazo Fijo":
+    		JTextField plazoField = new JTextField();
+    		JTextField cantInicialField = new JTextField();
+    		panelCuenta.add(new JLabel("Plazo:"));
+    		panelCuenta.add(plazoField);
+    		panelCuenta.add(new JLabel("Cantidad Inicial:"));
+    		panelCuenta.add(cantInicialField);
+    		break;
+    	}
+    	return panelCuenta;
     }
 
-
-
+    private void procesarDatosIngreso(JPanel panelCuenta,String tipoSeleccionado ){
+    	String beneficiario = ((JTextField) panelCuenta.getComponent(1)).getText();
+    	
+    	
+    	switch (tipoSeleccionado) {
+    	case "Formacion de Fondos":
+    		String idContrato = ((JTextField) panelCuenta.getComponent(5)).getText();
+    		try{
+    			//VALIDACIONES DE LOS CAMPOS
+    			System.out.println("a punto de entrar");
+    			Banco.getInstancia().agregarCuentaFormacionFondos(cliente, beneficiario, idContrato, tipoSeleccionado);
+    			System.out.println("se deberia de haber agregado" + beneficiario);
+    		}catch(Exception e){
+    			//MANEJAR ERROR 
+    		}
+    		break;
+    	case "Plazo Fijo":
+    		double cantInicial = Double.parseDouble(((JTextField)panelCuenta.getComponent(7)).getText());
+    		int plazo= Integer.parseInt(((JTextField)panelCuenta.getComponent(5)).getText());
+    		try{
+    			//VALIDACIONES DE LOS CAMPOS
+    			Banco.getInstancia().agregarCuentaPlazoFijo(cliente, beneficiario, cantInicial, plazo, tipoSeleccionado);
+    		}catch(Exception e){
+    			//MANEJAR ERROR 
+    		}
+    		break;
+    	case "Corriente":
+    		try{
+    			//VALIDACIONES DE LOS CAMPOS
+    			Banco.getInstancia().agregarCuentaCorriente(cliente, beneficiario,tipoSeleccionado);
+    		}catch(Exception e){
+    			//MANEJAR ERROR 
+    		}
+    		break;
+    	case "MLC":
+    		try{
+    			//VALIDACIONES DE LOS CAMPOS
+    			Banco.getInstancia().agregarCuentaMLC(cliente, beneficiario,tipoSeleccionado);
+    		}catch(Exception e){
+    			//MANEJAR ERROR 
+    		}
+    		break;
+    	 }
+     }
+    
+   
     
     private ArrayList<CuentaBancaria> getAccountList(Cliente cliente) {
         Banco banco = Banco.getInstancia();
