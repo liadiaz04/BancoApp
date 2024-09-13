@@ -86,12 +86,15 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         NavigationButton clientButton = new NavigationButton(
         	    "Cuentas del Cliente", 
         	    null, 
-        	    new Font("Arial", Font.PLAIN, 16), 
-        	    Color.BLACK, 
-        	    Color.LIGHT_GRAY, 
-        	    Color.WHITE, 
+        	    buttonFont,  
+        	    new Color(119, 221, 119),  
+        	    new Color(144, 238, 144),  
+        	    Color.WHITE,  
         	    "Cuentas del Cliente"
         	);
+        	customizeButton(clientButton, buttonFont, 1020, 800);
+        	add(clientButton);
+
         
         JButton details = new JButton("Ver Detalles");
         customizeButton(details, buttonFont, 1280, 800);
