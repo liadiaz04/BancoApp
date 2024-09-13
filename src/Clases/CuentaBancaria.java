@@ -13,10 +13,10 @@ public abstract class CuentaBancaria {
 	protected LocalDate fechaApertura;
 	protected ArrayList<Operacion> operaciones;
 	
-	public CuentaBancaria(String noCuenta, double saldo, String beneficiario, String moneda) {
+	public CuentaBancaria(String noCuenta, String beneficiario, String moneda) {
 		
 		this.noCuenta = noCuenta;
-		setSaldo(saldo);
+		this.saldo =0;
 		setBeneficiario(beneficiario);
 		setMoneda(moneda);
 		this.fechaApertura =  LocalDate.now();

@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 
 public class Cliente {
-	
+
 	private String idCliente;
 	private String nombre;
 	private String direccion;
 	private String telefono;
 	private String email;
 	private ArrayList <CuentaBancaria> cuentas;
-	
+
 	public Cliente(String idCliente, String nombre, String direccion,
 			String telefono, String email) {
-		
+
 		setIdCliente(idCliente);
 		setNombre(nombre);
 		setDireccion(direccion);
@@ -23,12 +23,10 @@ public class Cliente {
 		this.cuentas = new ArrayList<CuentaBancaria>();
 	}
 
-	
+
 	public String getIdCliente() {
 		return idCliente;
 	}
-
-
 
 	public void setIdCliente(String idCliente) {
 		try{
@@ -42,7 +40,7 @@ public class Cliente {
 
 
 	public String getNombre() {
-		
+
 		return nombre;
 	}
 
@@ -101,10 +99,25 @@ public class Cliente {
 	}
 
 
-	public void agregarCuenta(CuentaBancaria cuenta) {
-		cuentas.add(cuenta);
+	public void agregarCuenta(CuentaBancaria cuenta , String tipo) {
+		int cant= cantCuentasDeUnTipo(cuenta);
+		if((!(cuenta instanceof C_Corriente)) && cant < 1){
+			cuentas.add(cuenta);
+		} else 
+			if(cuenta instanceof C_Corriente)
+				cuentas.add(cuenta);
 	}
-	
+
+	public int cantCuentasDeUnTipo (CuentaBancaria cuenta){
+	    int cant = 0;
+	    for(int i = 0 ; i < cuentas.size(); i++){
+	        Class<?> tipo = cuentas.get(i).getClass();
+	        if(tipo.equals(cuenta.getClass())){
+	            cant ++;
+	        }
+	    }
+	    return cant;
+	}
 
 	public ArrayList<CuentaBancaria> getCuentas() {
 		return cuentas;
@@ -114,13 +127,13 @@ public class Cliente {
 
 
 	public ArrayList<String> obtenerSaldosPorCuenta() {
-        ArrayList<String> saldos = new ArrayList<String>();
-        for (CuentaBancaria cuenta : cuentas) {
-            String saldoInfo = "Cuenta ID: " + cuenta.getNoCuenta() + ", Saldo: " + cuenta.getSaldo() + " " + cuenta.getMoneda();
-            saldos.add(saldoInfo);
-        }
-        return saldos;
-    }
+		ArrayList<String> saldos = new ArrayList<String>();
+		for (CuentaBancaria cuenta : cuentas) {
+			String saldoInfo = "Cuenta ID: " + cuenta.getNoCuenta() + ", Saldo: " + cuenta.getSaldo() + " " + cuenta.getMoneda();
+			saldos.add(saldoInfo);
+		}
+		return saldos;
+	}
 
 
 }

@@ -6,9 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import Clases.Banco;
 import GUI.Components.BaseScreen;
 import GUI.Views.AgencyScreen;
 import GUI.Views.CajerosSinSaldo;
@@ -17,6 +19,8 @@ import GUI.Views.ClienteConSaldoSuperior;
 import GUI.Views.ContratoScreen;
 import GUI.Views.CuentasFFondosAsociadas;
 import GUI.Views.EntidadMasContratos;
+import GUI.Views.Application;
+import GUI.Views.Login;
 import GUI.Views.MainScreen;
 import GUI.Views.ReportsScreen;
 import GUI.Views.UserAccountScreen;
@@ -31,8 +35,10 @@ public class ViewHandler {
 	public ViewHandler(JPanel contentPane, CardLayout cardLayout) {
 		this.contentPane = contentPane;
 		this.cardLayout = cardLayout;
+		
 	}
 	
+
 	public void loadViews() {
 	    BaseScreen mainScreen = loadMainScreen();
 	    BaseScreen clientScreen = loadClientScreen();
@@ -86,8 +92,8 @@ public class ViewHandler {
 	    } else if ("Agencias".equals(command)) {
 	        cardLayout.show(contentPane, "AgencyScreen");
 	    } else if ("Reportes".equals(command)) {
-	        // En lugar de mostrar la pantalla de reportes, puedes abrir un menú aquí
-	        mostrarMenuReportes(e); // Nueva función para mostrar el menú de reportes
+	        // En lugar de mostrar la pantalla de reportes, puedes abrir un menï¿½ aquï¿½
+	        mostrarMenuReportes(e); // Nueva funciï¿½n para mostrar el menï¿½ de reportes
 	    } else if ("Cuentas del Cliente".equals(command)) {
 	        cardLayout.show(contentPane, "Cuentas del Cliente");
 
@@ -113,13 +119,13 @@ public class ViewHandler {
 	    // Crear un popup menu
 	    JPopupMenu reportMenu = new JPopupMenu();
 
-	    // Crear las opciones del menú
+	    // Crear las opciones del menï¿½
 	    JMenuItem clienteSaldoSuperior = new JMenuItem("Clientes con saldo superior");
-	    JMenuItem entidadMasContratos = new JMenuItem("Entidad con más contratos");
+	    JMenuItem entidadMasContratos = new JMenuItem("Entidad con mï¿½s contratos");
 	    JMenuItem cuentasFFondosAsociadas = new JMenuItem("Cuentas FF Asociadas");
 	    JMenuItem cajerosSinSaldo = new JMenuItem("Cajeros sin saldo");
 
-	    // Añadir ActionListeners a las opciones del menú
+	    // Aï¿½adir ActionListeners a las opciones del menï¿½
 	    clienteSaldoSuperior.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            cardLayout.show(contentPane, "ClienteConSaldoSuperior");
@@ -159,13 +165,79 @@ public class ViewHandler {
 	
     //Crear las llamadas a las Pantallas
 	
+
+		//Instancias de los componenetes
+		BaseScreen mainScreen = loadMainScreen();
+		BaseScreen clientScreen = loadClientScreen();
+		BaseScreen accountScreen = loadAccountScreen();
+		BaseScreen agencyScreen = loadAgencyScreen();
+		BaseScreen reportScreen = loadReportScreen();
+		BaseScreen userAccountScreen = loadUserAccountScreen();
+
+		//nombres de los componentes
+		mainScreen.setName("MainScreen");
+		clientScreen.setName("ClientScreen");
+		accountScreen.setName("AccountScreen");
+		agencyScreen.setName("AgencyScreen");
+		reportScreen.setName("ReportScreen");
+		userAccountScreen.setName("Cuentas del Cliente");
+
+		//Agrgando los componenets a la pantalla
+		contentPane.add(mainScreen, "MainScreen");
+		contentPane.add(clientScreen, "ClientScreen");
+		contentPane.add(accountScreen, "AccountScreen");
+		contentPane.add(agencyScreen, "AgencyScreen");
+		contentPane.add(reportScreen, "ReportScreen");
+		contentPane.add(userAccountScreen, "Cuentas del Cliente");
+
+		// Mostrar la pantalla principal por defecto
+		cardLayout.show(contentPane, "MainScreen");
+
+	}
+
+	//El router para desplazarse entre las views
+
+	private void Router(ActionEvent e) {
+
+		String command = e.getActionCommand();
+
+		if ("Principal".equals(command)) {
+			cardLayout.show(contentPane, "MainScreen");
+		} else if ("Clientes".equals(command)) {
+			cardLayout.show(contentPane, "ClientScreen");
+		} else if ("Cuentas".equals(command)) {
+			cardLayout.show(contentPane, "AccountScreen");
+		} else if ("Agencias".equals(command)) {
+			cardLayout.show(contentPane, "AgencyScreen");
+		} else if ("Reportes".equals(command)) {
+			cardLayout.show(contentPane, "ReportScreen");
+		}else if ("Cuentas del Cliente".equals(command)) {
+			cardLayout.show(contentPane, "Cuentas del Cliente");
+
+			for (Component component : contentPane.getComponents()) {
+				if (component.getName().equals("Cuentas del Cliente")) {
+					UserAccountScreen cuentasDelClienteScreen = (UserAccountScreen) component;
+					cuentasDelClienteScreen.refreshContent();
+					break;
+				}
+			}
+
+
+		}
+	}
+
+
+
+
+	//Crear las llamadas a las Pantallas
+
 	private BaseScreen loadMainScreen() {
-		
-	    return new MainScreen(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            Router(e);
-	        }
-	    });
+
+		return new MainScreen(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Router(e);
+			}
+		});
 	}
 	private BaseScreen loadClientScreen() {
 			
@@ -248,3 +320,50 @@ public class ViewHandler {
 	
 	
 }
+
+		return new ClientScreen(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Router(e);
+			}
+		});
+	}
+
+	private BaseScreen loadAccountScreen() {
+
+		return new AccountsScreen(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Router(e);
+			}
+		});
+	}
+
+	private BaseScreen loadAgencyScreen() {
+
+		return new AgencyScreen(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Router(e);
+			}
+		});
+	}
+
+	private BaseScreen loadReportScreen() {
+
+		return new ReportsScreen(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Router(e);
+			}
+		});
+	}
+
+	private BaseScreen loadUserAccountScreen() {
+
+		return new UserAccountScreen(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Router(e);
+			}
+		});
+	}
+
+
+}
+

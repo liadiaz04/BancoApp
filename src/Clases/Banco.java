@@ -10,12 +10,18 @@ public class Banco {
     private ArrayList<Cliente> clientes;
     private ArrayList<CuentaBancaria> cuentas;
     private ArrayList<Agencia> agencias;
+    private ArrayList<User> usuarios;
+    private ArrayList<Plazo_Deposito> plazos;
 
+    
     // CONSTRUCTOR
+    
     public Banco() {
+        this.usuarios = new ArrayList<User>();
         this.clientes = new ArrayList<Cliente>(); 
         this.cuentas = new ArrayList<CuentaBancaria>(); 
         this.agencias = new ArrayList<Agencia>();
+        this.plazos = new ArrayList <Plazo_Deposito> ();
         this.contratos = new ArrayList<>(); 
         
         loadTestUsers(); 
@@ -23,9 +29,97 @@ public class Banco {
         crearAgencias();
         //inicializarBilletes(); 
         inicializarCajerosConSaldoCero();
+        inicializar(); 
     }
      
+    	
+    	
+    	
+    
 
+    //FUNCIONES DE PRUEBA DE DATOS
+    
+    public void inicializar(){
+    	loadUsers();
+    	loadClientes();
+    	loadCuentas();
+    	loadAgencias();
+    	loadPlazos();
+    	loadContratos();
+    }   
+    
+    private void loadContratos() {
+		
+		
+	}
+
+	private void loadAgencias() {
+		
+	}
+
+	private void loadPlazos() {
+	
+		
+	}
+
+	private void loadCuentas() {
+
+
+	}
+
+
+	public void loadClientes() {
+        String[] nombres = {"Juan Pï¿½rez", "Marï¿½a Garcï¿½a", "Carlos Lï¿½pez", "Ana Rodrï¿½guez",
+                            "Pedro Martï¿½nez", "Sofï¿½a Hernï¿½ndez", "Luis Fernï¿½ndez", "Eva Gï¿½mez",
+                            "Tomï¿½s Dï¿½az", "Isabel Sï¿½nchez", "Antonio Moreno", "Cristina Santos",
+                            "David Gonzï¿½lez", "Lucia ï¿½lvarez", "Javier Torres", "Laura Jimï¿½nez",
+                            "Miguel Fernï¿½ndez", "Natalia Gï¿½mez", "Alejandro Moreno", "Patricia Hernï¿½ndez"};
+
+        String[] direcciones = {"Calle 123, 45678 Ciudad", "Avenida Principal, 78900 Poblaciï¿½n",
+                                "Paseo Marï¿½timo, 10111 Costa", "Plaza Central, 23456 Capital",
+                                "Carretera Nacional, 56789 Provincia", "Avda. de la Constituciï¿½n, 89012 Municipio",
+                                "Ctra. de la Libertad, 34567 Comunidad", "Pza. del Ayuntamiento, 67890 Localidad",
+                                "Calle de las Flores, 24680 Distrito", "Ave. de los Hombres Ilustres, 13579 Barrio",
+                                "Paseo del Rï¿½o, 54321 Sector", "Calle de la Repï¿½blica, 98765 Zona"};
+
+        String[] telefonos = {"12345678", "98765432", "55511122", "44433300",
+                              "66677788", "99900011", "22233344", "55566677",
+                              "88899900", "12345678", "98765432", "55511122",
+                              "44433300", "66677788", "99900011", "22233344",
+                              "55566677", "88899900", "12345678", "98765432"};
+
+        String[] emails = {"juan.perez@email.com", "maria.garcia@email.com", "carlos.lopez@email.com",
+                           "ana.rodriguez@email.com", "pedro.martinez@email.com", "sofia.hernandez@email.com",
+                           "luis.fernandez@email.com", "eva.gomez@email.com", "tomas.diaz@email.com",
+                           "isabel.sanchez@email.com", "antonio.moreno@email.com", "cristina.santos@email.com",
+                           "david.gonzalez@email.com", "lucia.alvarez@email.com", "javier.torres@email.com",
+                           "laura.jimenez@email.com", "miguel.fernandez@email.com", "natalia.gomez@email.com",
+                           "alejandro.moreno@email.com", "patricia.hernandez@email.com"};
+       
+        String[] carnets ={"44050202340", "08030377632", "75071813361", "93072021983", "96030623213", "08110560210", "65081033529",
+        		"67060931981", "31121557974", "80102140698", "67121145159", "44101738182", "06050265281", "52060654120",
+        		"81040740818", "92030536779", "62071215367", "06110887030", "76032354972", "29082250105"};
+
+        for (int i = 0; i < 20; i++) {
+            
+            clientes.add(new Cliente(carnets[i], nombres[i], direcciones[i % direcciones.length],
+                                    telefonos[i % telefonos.length], emails[i]));
+        }
+    }
+
+	public void loadUsers(){
+    	
+    }
+    
+   
+	public void crearContratos(){
+    	try{
+    		contratos.add(new Contrato("2122","Entidad",5,6000.5));
+    	}catch(Exception e){
+    		//manejar error
+    	}
+    	
+    }
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
@@ -33,7 +127,37 @@ public class Banco {
         return instancia;
     }
     
+    public ArrayList<Plazo_Deposito> getPlazos(){
+    	return plazos;
+    }
     
+    public Plazo_Deposito buscarPlazoDeposito (int cantMeses){
+    	Plazo_Deposito aux = null;
+        for (int i = 0 ; i < plazos.size() && aux != null; i++ ) {
+            if (plazos.get(i).getMeses() == cantMeses) {
+               aux = plazos.get(i);
+            }
+        }
+        return aux; 
+    }
+    
+   //USUARIOS
+    
+    public void usuariosValidos(){
+    	usuarios.add(new User("Banco", "12345"));
+    }
+    
+    public boolean authenticateUser(String username,String  password){
+    	boolean found = false;
+     for(int i = 0 ; i < usuarios.size() && !found ; i++){
+    	 User user = usuarios.get(i);
+    	 if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+    		 found = true;
+    	 }
+     }
+     return found;
+    }
+  
     //CLIENTES
     
     public Cliente buscarClientePorId(String idCliente) {
@@ -52,7 +176,7 @@ public class Banco {
             Cliente cliente = new Cliente(idCliente, direccion, nombre, telefono, correo);
             clientes.add(cliente);
         } else {
-            System.out.println("El cliente con ID " + idCliente + " ya existe.");
+        	throw new IllegalArgumentException("El cliente con ID " + idCliente + " ya existe.");
         }
     }
     
@@ -69,6 +193,45 @@ public class Banco {
         return eliminado; 
     }
      
+     
+     //CONTRATOS 
+     
+     public Contrato buscarContratoPorId(String idContrato) {
+    	 int size=contratos.size();
+    	System.out.println("entra a buscar el contrato en la lista de tamanno" + size);
+      	Contrato aux = null;
+          for (int i = 0 ; i < contratos.size() && aux == null; i++ ) {
+              if (contratos.get(i).getIdContrato().equals(idContrato)) {
+                 aux = contratos.get(i);
+                 System.out.println("encontro contrato con id" + aux.getIdContrato());
+              }
+          }
+          return aux; 
+      }
+     
+     public void agregarContrato (String entidad, int periodoTiempo , double salario ){
+    	 boolean existe= contratoExistente(entidad, periodoTiempo, salario);
+    	 if(!existe){
+    		 String idContrato = generarDigitosAleatorios(5);
+    		 contratos.add(new Contrato (idContrato,entidad,periodoTiempo,salario));
+    	 }
+     }
+     
+
+     public boolean contratoExistente(String entidad, int periodoTiempo , double salario ){
+    	 boolean found = false;
+
+    	 for(int i = 0; i < contratos.size() && !found ; i++){
+    		 Contrato c= contratos.get(i);
+    		 if((c.getEntidad().equalsIgnoreCase(entidad))&& (c.getPeriodoTiempo()== periodoTiempo) && (c.getSalario()== salario)){
+    			 found = true;
+    		 }
+    	 }
+    	 return found;
+     }
+     
+     
+
      //AGENCIAS 
      
      public ArrayList<Agencia> getAgencias() {
@@ -78,7 +241,7 @@ public class Banco {
      
      public Agencia buscarAgenciaPorId(String idAgencia) {
      	Agencia aux = null;
-         for (int i = 0 ; i < agencias.size() && aux != null; i++ ) {
+         for (int i = 0 ; i < agencias.size() && aux == null; i++ ) {
              if (agencias.get(i).getIdAgencia().equals(idAgencia)) {
                 aux = agencias.get(i);
              }
@@ -90,7 +253,7 @@ public class Banco {
 
     
      public void agregarAgencia(String gerente , String direccion) {
-         int numeroAgencia = this.agencias.size() + 1;
+    	 String numeroAgencia = generarDigitosAleatorios(2);
          String idAgencia = String.format("Ag%02d", numeroAgencia);
          agencias.add(new Agencia(idAgencia, gerente, direccion));
         
@@ -99,9 +262,9 @@ public class Banco {
      public boolean eliminarAgencia(String idAgencia) {
          boolean eliminado = false; 
          
-         for (int i = 0; i < clientes.size(); i++) {
-             if (clientes.get(i).getIdCliente().equals(idAgencia)) {
-                 clientes.remove(i);
+         for (int i = 0; i < agencias.size(); i++) {
+             if (agencias.get(i).getIdAgencia().equals(idAgencia)) {
+                 agencias.remove(i);
                  eliminado = true; 
              }
          }
@@ -116,7 +279,7 @@ public class Banco {
     	 
     	 CuentaBancaria aux = null;
       
-    	 for (int i = 0 ; i < cuentas.size() && aux != null; i++ ) {
+    	 for (int i = 0 ; i < cuentas.size() && aux == null; i++ ) {
              if (cuentas.get(i).getNoCuenta().equals(noCuenta)) {
                 aux = cuentas.get(i);
              }
@@ -124,11 +287,47 @@ public class Banco {
          return aux; 
      }
      
-     
-     public void agregarCuenta (String tipo){
+     public void agregarCuentaFormacionFondos(Cliente cliente,String beneficiario, String idcontrato , String tipo){
     	 
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	
+    	 Contrato c = buscarContratoPorId(idcontrato);
+    	
+    	 if(c != null){
+    		 
+			 C_Formacion_Fondos aux = new C_Formacion_Fondos (numCuenta,beneficiario,"CUP",c);
+			
+			 cuentas.add(aux);
+			 cliente.agregarCuenta(aux,tipo);
+		 }else 
+			 throw new IllegalArgumentException("Contrato no encontrado");
      }
      
+     public void agregarCuentaCorriente(Cliente cliente,String beneficiario, String tipo){
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	 C_Corriente aux = new C_Corriente (numCuenta,beneficiario,"CUP");
+		 cuentas.add(aux);
+		 cliente.agregarCuenta(aux,tipo);
+     }
+     
+     public void agregarCuentaMLC(Cliente cliente,String beneficiario, String tipo){
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	 C_MLC aux= new C_MLC(numCuenta, beneficiario, "MLC" );
+		 cuentas.add(aux);
+		 cliente.agregarCuenta(aux,tipo);
+     }
+    
+     public void agregarCuentaPlazoFijo(Cliente cliente,String beneficiario,double cantInicial,int plazo,String tipo){
+    	 String numCuenta = generarNumeroCuenta (tipo);
+    	 Plazo_Deposito p = buscarPlazoDeposito(plazo);
+    	 if(p != null){
+    		 C_Plazo_Fijo aux = new  C_Plazo_Fijo (numCuenta,beneficiario,"MLC",p,cantInicial);
+    		 cuentas.add(aux);
+    		 cliente.agregarCuenta(aux,tipo);
+    	 }else
+    		 throw new IllegalArgumentException("Plazo de mes no valido");
+     }
+    
      public ArrayList<CuentaBancaria> getCuentasCliente(Cliente cliente) {
  		ArrayList<CuentaBancaria> cuentas = new ArrayList<>();
  		
@@ -150,10 +349,10 @@ public class Banco {
      }
      
 
-     public void agregarContrato(String entidad, int periodo, double salario) {
+     /*public void agregarContrato(String entidad, int periodo, double salario) {
          Contrato nuevoContrato = new Contrato(entidad, periodo, salario);
          contratos.add(nuevoContrato);
-     }
+     }*/
 
      public boolean eliminarContrato(String entidad) {
     	 boolean delete = false;
@@ -185,9 +384,9 @@ public class Banco {
     	  
     	        addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
     	        addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
-    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parámetros según sea necesario
-    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parámetros según sea necesario
-    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parámetros según sea necesario
+    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parï¿½metros segï¿½n sea necesario
+    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parï¿½metros segï¿½n sea necesario
+    	        contratos.add(new Contrato("Etecsa", 12, 2500)); // Cambia los parï¿½metros segï¿½n sea necesario
 
     	        // Crear cuentas y asignar contratos
     	        C_Formacion_Fondos cuentaFF1 = new C_Formacion_Fondos("004", 1000.0, "Beneficiario4", "CUP", "Entidad1", 12, 2500);
@@ -260,7 +459,7 @@ public class Banco {
      public void inicializarCajerosConSaldoCero() {
     	    for (Agencia agencia : agencias) {
     	        for (Cajero cajero : agencia.getCajeros()) {
-    	            cajero.getBilletes().clear();  // Vacía los billetes
+    	            cajero.getBilletes().clear();  // Vacï¿½a los billetes
     	            System.out.println("Cajero " + cajero.getIdCajero() + " inicializado con saldo cero."); // Debug
     	        }
     	    }
@@ -284,6 +483,7 @@ public class Banco {
      }*/
 
      
+ 	   
      
      public ArrayList<Contrato> getContratos() {
 		return contratos;
@@ -315,17 +515,19 @@ public class Banco {
     // FUNCION PARA LA GENERACION DE NUMEROS DE CUENTAS
 
     public static String generarNumeroCuenta(String tipoCuenta) {
+    	
     	String primerosCuatroDigitos = "";
 
-    	switch (tipoCuenta.toLowerCase()) {
-    	case "corriente":
-    	case "plazo fijo":
+    	switch (tipoCuenta) {
+    	case "Corriente":
+    	case "Plazo Fijo":
     		primerosCuatroDigitos = "9205";
+    		
     		break;
-    	case "formacion de fondos":
+    	case "Formacion de Fondos":
     		primerosCuatroDigitos = "9227";
     		break;
-    	case "mlc":
+    	case "MLC":
     		primerosCuatroDigitos = "9235";
     		break;
     	default:

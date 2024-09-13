@@ -19,6 +19,7 @@ public class Application extends JFrame {
     private JPanel contentPane;
     private CardLayout cardLayout;
     private ViewHandler viewHandler;
+   
     
 
     public static void main(String[] args) {
@@ -39,7 +40,6 @@ public class Application extends JFrame {
     	
         setConfigs(); //Inicializa las configuraciones de la pantalla
         setApplicationValues(); //Inicializa el panel de contenido y el layout de la pantalla
-        
     }
     
     
@@ -48,7 +48,7 @@ public class Application extends JFrame {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setBounds(100, 100, 450, 300);
-    }
+    } 
     
     private void setApplicationValues() {
     	contentPane = new JPanel();
@@ -57,12 +57,11 @@ public class Application extends JFrame {
         setContentPane(contentPane);
         cardLayout = new CardLayout();
         contentPane.setLayout(cardLayout);
-        
+
         this.viewHandler = new ViewHandler(contentPane, cardLayout);
         this.viewHandler.loadViews();
+
     }
-
-
 
 
 }

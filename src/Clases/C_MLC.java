@@ -6,9 +6,9 @@ import java.util.ArrayList;
 public class C_MLC extends CuentaBancaria implements Deposito {
 
 
-	public C_MLC(String noCuenta, double saldo, String beneficiario, String moneda) {
+	public C_MLC(String noCuenta, String beneficiario, String moneda) {
 
-		super(noCuenta, saldo, beneficiario, moneda);
+		super(noCuenta, beneficiario, moneda);
 	}
 
 

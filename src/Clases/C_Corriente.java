@@ -8,9 +8,9 @@ public class C_Corriente extends CuentaBancaria implements Intereses, Deposito, 
 
 
 
-	public C_Corriente(String noCuenta, double saldo, String beneficiario, String moneda) {
+	public C_Corriente(String noCuenta, String beneficiario, String moneda) {
 
-		super(noCuenta, saldo, beneficiario, moneda);
+		super(noCuenta, beneficiario, moneda);
 		depositar(50);
 
 	}
