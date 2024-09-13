@@ -28,8 +28,6 @@ public class Cliente {
 		return idCliente;
 	}
 
-
-
 	public void setIdCliente(String idCliente) {
 		try{
 			Validaciones.validarCI(idCliente);

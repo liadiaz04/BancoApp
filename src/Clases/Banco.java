@@ -18,21 +18,91 @@ public class Banco {
     
     public Banco() {
     	this.usuarios = new ArrayList<User>();
-        this.clientes = new ArrayList<Cliente>(); 
-        this.cuentas = new ArrayList<CuentaBancaria>(); 
-        this.agencias = new ArrayList<Agencia>();
-        this.plazos = new ArrayList <Plazo_Deposito> ();
-        this.contratos=new ArrayList<Contrato>();
-        
-        loadTestUsers(); 
-        //crearCuentasBancarias();
-        //crearAgencias();
-        //inicializarBilletes(); 
-        usuariosValidos();
-        crearContratos();
+    	this.clientes = new ArrayList<Cliente>(); 
+    	this.cuentas = new ArrayList<CuentaBancaria>(); 
+    	this.agencias = new ArrayList<Agencia>();
+    	this.plazos = new ArrayList <Plazo_Deposito> ();
+    	this.contratos=new ArrayList<Contrato>();
+
+    	inicializar(); 
     }
-     
-    public void crearContratos(){
+
+    //FUNCIONES DE PRUEBA DE DATOS
+    
+    public void inicializar(){
+    	loadUsers();
+    	loadClientes();
+    	loadCuentas();
+    	loadAgencias();
+    	loadPlazos();
+    	loadContratos();
+    }   
+    
+    private void loadContratos() {
+		
+		
+	}
+
+	private void loadAgencias() {
+		
+	}
+
+	private void loadPlazos() {
+	
+		
+	}
+
+	private void loadCuentas() {
+
+
+	}
+
+
+	public void loadClientes() {
+        String[] nombres = {"Juan Pérez", "María García", "Carlos López", "Ana Rodríguez",
+                            "Pedro Martínez", "Sofía Hernández", "Luis Fernández", "Eva Gómez",
+                            "Tomás Díaz", "Isabel Sánchez", "Antonio Moreno", "Cristina Santos",
+                            "David González", "Lucia Álvarez", "Javier Torres", "Laura Jiménez",
+                            "Miguel Fernández", "Natalia Gómez", "Alejandro Moreno", "Patricia Hernández"};
+
+        String[] direcciones = {"Calle 123, 45678 Ciudad", "Avenida Principal, 78900 Población",
+                                "Paseo Marítimo, 10111 Costa", "Plaza Central, 23456 Capital",
+                                "Carretera Nacional, 56789 Provincia", "Avda. de la Constitución, 89012 Municipio",
+                                "Ctra. de la Libertad, 34567 Comunidad", "Pza. del Ayuntamiento, 67890 Localidad",
+                                "Calle de las Flores, 24680 Distrito", "Ave. de los Hombres Ilustres, 13579 Barrio",
+                                "Paseo del Río, 54321 Sector", "Calle de la República, 98765 Zona"};
+
+        String[] telefonos = {"12345678", "98765432", "55511122", "44433300",
+                              "66677788", "99900011", "22233344", "55566677",
+                              "88899900", "12345678", "98765432", "55511122",
+                              "44433300", "66677788", "99900011", "22233344",
+                              "55566677", "88899900", "12345678", "98765432"};
+
+        String[] emails = {"juan.perez@email.com", "maria.garcia@email.com", "carlos.lopez@email.com",
+                           "ana.rodriguez@email.com", "pedro.martinez@email.com", "sofia.hernandez@email.com",
+                           "luis.fernandez@email.com", "eva.gomez@email.com", "tomas.diaz@email.com",
+                           "isabel.sanchez@email.com", "antonio.moreno@email.com", "cristina.santos@email.com",
+                           "david.gonzalez@email.com", "lucia.alvarez@email.com", "javier.torres@email.com",
+                           "laura.jimenez@email.com", "miguel.fernandez@email.com", "natalia.gomez@email.com",
+                           "alejandro.moreno@email.com", "patricia.hernandez@email.com"};
+       
+        String[] carnets ={"44050202340", "08030377632", "75071813361", "93072021983", "96030623213", "08110560210", "65081033529",
+        		"67060931981", "31121557974", "80102140698", "67121145159", "44101738182", "06050265281", "52060654120",
+        		"81040740818", "92030536779", "62071215367", "06110887030", "76032354972", "29082250105"};
+
+        for (int i = 0; i < 20; i++) {
+            
+            clientes.add(new Cliente(carnets[i], nombres[i], direcciones[i % direcciones.length],
+                                    telefonos[i % telefonos.length], emails[i]));
+        }
+    }
+
+	public void loadUsers(){
+    	
+    }
+    
+   
+	public void crearContratos(){
     	try{
     		contratos.add(new Contrato("2122","Entidad",5,6000.5));
     	}catch(Exception e){
@@ -253,85 +323,7 @@ public class Banco {
  		
  		return cuentas;
  	}
- 	
-     
-     //FUNCIONES DE PRUEBA DE DATOS
-     private void loadTestUsers() {
-    	    addCliente("04040178174", "Calle A 1", "Juan", "12345678", "juan.perez@gmail.com");
-    	    addCliente("03040178175", "Calle B 2", "Maria", "23456789", "maria.lopez@gmail.com");
-    	    addCliente("05040178176", "Calle C 3", "Carlos", "34567890", "carlos.garcia@gmail.com");
-    	    addCliente("06040178177", "Calle D 4", "Ana", "45678901", "ana.martinez@gmail.com");
-    	    addCliente("07040178178", "Calle E 5", "Luis", "56789012", "luis.rodriguez@gmail.com");
-    	    
-    	    C_MLC cuenta = new C_MLC("011", "Beneficiario1", "MLC"); 
-    	    clientes.get(0).agregarCuenta(cuenta,"MLC");
-    	    clientes.get(1).agregarCuenta(cuenta,"MLC");
-    	    clientes.get(2).agregarCuenta(cuenta, "MLC");
-    	    clientes.get(3).agregarCuenta(cuenta,"MLC");
-   	}
-    
-     /*private void crearCuentasBancarias() {
-    	    
-         C_MLC cuenta1 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
-         C_MLC cuenta2 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
-         C_MLC cuenta3 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
-         C_MLC cuenta4 = new C_MLC("001", 1000.0, "Beneficiario1", "MLC");
-         C_MLC cuenta5 = new C_MLC("002", 2000.0, "Beneficiario2", "MLC");
-         C_MLC cuenta6 = new C_MLC("003", 3000.0, "Beneficiario3", "MLC");
-         
-         cuentas.add(cuenta3);
-         cuentas.add(cuenta2);
-         cuentas.add(cuenta1);
-         cuentas.add(cuenta4);
-         cuentas.add(cuenta5);
-         cuentas.add(cuenta6);
-	} 
-     
-     private void crearAgencias() {
-    	    Agencia agencia1 = new Agencia("A001", "Gerente1", "Direccion1");
-    	    Agencia agencia2 = new Agencia("A002", "Gerente2", "Direccion2");
-    	    Agencia agencia3 = new Agencia("A003", "Gerente3", "Direccion3");
-    	    Agencia agencia4 = new Agencia("A004", "Gerente4", "Direccion4");
-    	    Agencia agencia5 = new Agencia("A005", "Gerente5", "Direccion5");
-
-    	    agencias.add(agencia1);
-    	    agencias.add(agencia2);
-    	    agencias.add(agencia3);
-    	    agencias.add(agencia4);
-    	    agencias.add(agencia5);
-    	    
-    	 // Crear cajeros y asignarlos a las agencias
-            Cajero cajero1 = new Cajero("C001");
-            Cajero cajero2 = new Cajero("C002");
-            Cajero cajero3 = new Cajero("C003");
-            Cajero cajero4 = new Cajero("C004");
-            Cajero cajero5 = new Cajero("C005");
-
-            agencia1.getCajeros().add(cajero1);
-            agencia1.getCajeros().add(cajero2);
-            agencia2.getCajeros().add(cajero3);
-            agencia2.getCajeros().add(cajero4);
-            agencia3.getCajeros().add(cajero5);
-    	}
-
-     
-     private void inicializarBilletes() {
-    	    // Definir los billetes que se van a agregar
-    	    int[] cantidades = {3, 20, 10}; // Cantidades de billetes de 500, 100 y 50
-    	    TipoBillete[] tipos = {TipoBillete.Quiniento, TipoBillete.Cien, TipoBillete.Cincuenta};
-
-    	    // Asignar billetes a cada cajero
-    	    for (Agencia agencia : agencias) {
-    	        for (Cajero cajero : agencia.getCajeros()) {
-    	            for (int i = 0; i < tipos.length; i++) {
-    	                Billete billete = new Billete(tipos[i], cantidades[i]);
-    	                cajero.getBilletes().add(billete);
-    	            }
-    	        }
-    	    }
-    	}
-*/
-     
+ 	   
      
      //DADO UN CLIENTE RETORNA TODAS SUS CUENTAS 
      public ArrayList<CuentaBancaria> getCuentasDadoCliente(String id) {

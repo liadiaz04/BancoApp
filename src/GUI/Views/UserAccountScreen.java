@@ -369,9 +369,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     		String idContrato = ((JTextField) panelCuenta.getComponent(5)).getText();
     		try{
     			//VALIDACIONES DE LOS CAMPOS
-    			System.out.println("a punto de entrar");
     			Banco.getInstancia().agregarCuentaFormacionFondos(cliente, beneficiario, idContrato, tipoSeleccionado);
-    			System.out.println("se deberia de haber agregado" + beneficiario);
     		}catch(Exception e){
     			//MANEJAR ERROR 
     		}
