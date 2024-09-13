@@ -12,8 +12,6 @@ public class Agencia {
 		setIdAgencia(idAgencia);
 		this.gerente = gerente;
 		this.direccion = direccion;
-		//setGerente(gerente);
-		//setDireccion(direccion);
 		this.cajeros = new ArrayList<Cajero>();
 	}
 

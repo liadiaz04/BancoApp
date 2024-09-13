@@ -24,92 +24,10 @@ public class Banco {
     	this.plazos = new ArrayList <Plazo_Deposito> ();
     	this.contratos=new ArrayList<Contrato>();
 
-    	inicializar(); 
+    	Inicializadora.inicializar(clientes, usuarios, contratos, agencias, plazos, cuentas); 
     }
-
-    //FUNCIONES DE PRUEBA DE DATOS
+  
     
-    public void inicializar(){
-    	loadUsers();
-    	loadClientes();
-    	loadCuentas();
-    	loadAgencias();
-    	loadPlazos();
-    	loadContratos();
-    }   
-    
-    private void loadContratos() {
-		
-		
-	}
-
-	private void loadAgencias() {
-		
-	}
-
-	private void loadPlazos() {
-	
-		
-	}
-
-	private void loadCuentas() {
-
-
-	}
-
-
-	public void loadClientes() {
-        String[] nombres = {"Juan Pérez", "María García", "Carlos López", "Ana Rodríguez",
-                            "Pedro Martínez", "Sofía Hernández", "Luis Fernández", "Eva Gómez",
-                            "Tomás Díaz", "Isabel Sánchez", "Antonio Moreno", "Cristina Santos",
-                            "David González", "Lucia Álvarez", "Javier Torres", "Laura Jiménez",
-                            "Miguel Fernández", "Natalia Gómez", "Alejandro Moreno", "Patricia Hernández"};
-
-        String[] direcciones = {"Calle 123, 45678 Ciudad", "Avenida Principal, 78900 Población",
-                                "Paseo Marítimo, 10111 Costa", "Plaza Central, 23456 Capital",
-                                "Carretera Nacional, 56789 Provincia", "Avda. de la Constitución, 89012 Municipio",
-                                "Ctra. de la Libertad, 34567 Comunidad", "Pza. del Ayuntamiento, 67890 Localidad",
-                                "Calle de las Flores, 24680 Distrito", "Ave. de los Hombres Ilustres, 13579 Barrio",
-                                "Paseo del Río, 54321 Sector", "Calle de la República, 98765 Zona"};
-
-        String[] telefonos = {"12345678", "98765432", "55511122", "44433300",
-                              "66677788", "99900011", "22233344", "55566677",
-                              "88899900", "12345678", "98765432", "55511122",
-                              "44433300", "66677788", "99900011", "22233344",
-                              "55566677", "88899900", "12345678", "98765432"};
-
-        String[] emails = {"juan.perez@email.com", "maria.garcia@email.com", "carlos.lopez@email.com",
-                           "ana.rodriguez@email.com", "pedro.martinez@email.com", "sofia.hernandez@email.com",
-                           "luis.fernandez@email.com", "eva.gomez@email.com", "tomas.diaz@email.com",
-                           "isabel.sanchez@email.com", "antonio.moreno@email.com", "cristina.santos@email.com",
-                           "david.gonzalez@email.com", "lucia.alvarez@email.com", "javier.torres@email.com",
-                           "laura.jimenez@email.com", "miguel.fernandez@email.com", "natalia.gomez@email.com",
-                           "alejandro.moreno@email.com", "patricia.hernandez@email.com"};
-       
-        String[] carnets ={"44050202340", "08030377632", "75071813361", "93072021983", "96030623213", "08110560210", "65081033529",
-        		"67060931981", "31121557974", "80102140698", "67121145159", "44101738182", "06050265281", "52060654120",
-        		"81040740818", "92030536779", "62071215367", "06110887030", "76032354972", "29082250105"};
-
-        for (int i = 0; i < 20; i++) {
-            
-            clientes.add(new Cliente(carnets[i], nombres[i], direcciones[i % direcciones.length],
-                                    telefonos[i % telefonos.length], emails[i]));
-        }
-    }
-
-	public void loadUsers(){
-    	
-    }
-    
-   
-	public void crearContratos(){
-    	try{
-    		contratos.add(new Contrato("2122","Entidad",5,6000.5));
-    	}catch(Exception e){
-    		//manejar error
-    	}
-    	
-    }
     public static Banco getInstancia() {
         if (instancia == null) {
             instancia = new Banco();
