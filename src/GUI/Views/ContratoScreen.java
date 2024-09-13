@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,9 +15,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import Clases.Banco;
-import Clases.Contrato;
+
 import GUI.Components.BaseScreenWithSideMenu;
+import Logic.Banco;
+import Logic.Contrato;
 
 public class ContratoScreen extends BaseScreenWithSideMenu {
 
@@ -38,22 +40,22 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
         add(label);
 
         ArrayList<Contrato> contratos = getContratosList();
-        String[] columns = new String[]{"Entidad", "Periodo de Tiempo (Meses)", "Salario"};
+        String[] columns = new String[]{"ID Contrato", "Entidad", "Periodo de Tiempo (Meses)", "Salario"};
 
-        // Crear la tabla con el modelo de datos
+
         tableModel = new DefaultTableModel(columns, 0);
         contratoTable = new JTable(tableModel);
         s1 = new JScrollPane(contratoTable);
         s1.setBounds(550, 100, 1180, 600);
         add(s1);
 
-        // Estilizar la tabla para que tenga un diseño similar al de AgencyScreen
+     
         styleTable(contratoTable);
 
-        // Llenar la tabla inicialmente
+      
         fillTable(contratos);
 
-        // Crear botones
+     
         Font buttonFont = new Font("Tahoma", Font.BOLD, 16);
 
         JButton addContractButton = new JButton("Agregar Contrato");
@@ -64,7 +66,7 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
         customizeButton(deleteContractButton, buttonFont, 1200, 800);
         add(deleteContractButton);
 
-        // Añadir funcionalidad al botón de agregar contrato
+      
         addContractButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,23 +74,22 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
             }
         });
         
-     // ELIMINAR CONTRATO
+        // ELIMINAR CONTRATO
         deleteContractButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = contratoTable.getSelectedRow();
                 if (selectedRow != -1) {
-                    String contractEntity = (String) contratoTable.getValueAt(selectedRow, 0); // Suponiendo que la entidad está en la primera columna
+                    String contractId = (String) contratoTable.getValueAt(selectedRow, 0); 
                     int response = JOptionPane.showConfirmDialog(null, 
-                        "¿Estás seguro de que deseas eliminar el contrato de " + contractEntity + "?", 
+                        "¿Estás seguro de que deseas eliminar el contrato con ID " + contractId + "?", 
                         "Confirmar eliminación", 
                         JOptionPane.YES_NO_OPTION, 
                         JOptionPane.QUESTION_MESSAGE);
                     
                     if (response == JOptionPane.YES_OPTION) {
-                        boolean deleted = Banco.getInstancia().eliminarContrato(contractEntity);
+                        boolean deleted = Banco.getInstancia().eliminarContrato(contractId);
                         if (deleted) {
                             JOptionPane.showMessageDialog(null, "Contrato eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            // Actualizar la tabla, si es necesario
                             ((DefaultTableModel) contratoTable.getModel()).removeRow(selectedRow);
                         } else {
                             JOptionPane.showMessageDialog(null, "Contrato no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -102,7 +103,7 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
 
     }
 
-    // Método para mostrar el formulario emergente
+    
     private void mostrarDialogoAgregarContrato() {
         JTextField entidadField = new JTextField(15);
         JTextField periodoField = new JTextField(5);
@@ -115,44 +116,74 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
         panel.add(periodoField);
         panel.add(new JLabel("Salario:"));
         panel.add(salarioField);
-
+        
         int result = JOptionPane.showConfirmDialog(null, panel, "Agregar Contrato", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                String entidad = entidadField.getText();
-                int periodo = Integer.parseInt(periodoField.getText());
-                double salario = Double.parseDouble(salarioField.getText());
+                String entidad = entidadField.getText().trim();
+                String periodoStr = periodoField.getText().trim();
+                String salarioStr = salarioField.getText().trim();
 
-                // Agregar el contrato a la lógica
-                agregarContrato(entidad, periodo, salario);
+                if (entidad.isEmpty() || !validarNombre(entidad)) {
+                    JOptionPane.showMessageDialog(null, "La entidad solo debe contener letras y no estar vacía.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                // Actualizar la tabla
+                int periodo;
+                try {
+                    periodo = Integer.parseInt(periodoStr);
+                    if (periodo <= 0) {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "El periodo debe ser un número entero positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                double salario;
+                try {
+                    salario = Double.parseDouble(salarioStr);
+                    if (salario <= 0) {
+                        throw new NumberFormatException(); 
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "El salario debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Banco.getInstancia().agregarContrato(entidad, periodo, salario);
+
                 actualizarTabla();
 
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor ingresa valores válidos.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    // Método para agregar un nuevo contrato al banco
-    private void agregarContrato(String entidad, int periodo, double salario) {
-        Banco banco = Banco.getInstancia();
-        banco.agregarContrato(entidad, periodo, salario);
+
+    private boolean validarNombre(String nombre) {
+        String regex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+( [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$";
+        return nombre.matches(regex);
     }
 
-    // Método para actualizar la tabla después de agregar un contrato
+
     private void actualizarTabla() {
         ArrayList<Contrato> contratos = getContratosList();
         fillTable(contratos);
     }
 
-    // Llenar la tabla con la lista de contratos
+
     private void fillTable(ArrayList<Contrato> contratos) {
-        tableModel.setRowCount(0); // Limpiar la tabla
+        tableModel.setRowCount(0); 
         for (Contrato contrato : contratos) {
-            Object[] rowData = new Object[]{contrato.getEntidad(), contrato.getPeriodoTiempo(), contrato.getSalario()};
+            Object[] rowData = new Object[]{
+                contrato.getIdContrato(), 
+                contrato.getEntidad(),
+                contrato.getPeriodoTiempo(),
+                contrato.getSalario()
+            };
             tableModel.addRow(rowData);
         }
     }
@@ -169,7 +200,7 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
         button.setFont(font);
     }
 
-    // Método para estilizar la tabla, similar a la de AgencyScreen
+
     private void styleTable(JTable table) {
         table.setFont(new Font("Tahoma", Font.PLAIN, 16));
         table.setRowHeight(30);
@@ -177,8 +208,8 @@ public class ContratoScreen extends BaseScreenWithSideMenu {
         table.setForeground(Color.black);  
 
         JTableHeader tableHeader = table.getTableHeader();
-        tableHeader.setBackground(new Color(144, 238, 144)); // Color verde claro
-        tableHeader.setForeground(Color.white); // Texto blanco
-        tableHeader.setFont(new Font("Tahoma", Font.BOLD, 18)); // Fuente del encabezado
+        tableHeader.setBackground(new Color(144, 238, 144)); 
+        tableHeader.setForeground(Color.white); 
+        tableHeader.setFont(new Font("Tahoma", Font.BOLD, 18)); 
     }
 }

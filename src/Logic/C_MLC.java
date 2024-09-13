@@ -1,4 +1,4 @@
-package Clases;
+package Logic;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

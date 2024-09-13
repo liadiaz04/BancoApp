@@ -1,4 +1,4 @@
-package Clases;
+package Logic;
 
 public class Plazo_Deposito {
 	

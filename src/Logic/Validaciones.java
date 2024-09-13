@@ -1,4 +1,4 @@
-package Clases;
+package Logic;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 	            case '6': case '7': case '8': 
 	            	year = 2000 + Integer.parseInt(yearPart);
 	            	break;
-	            default : throw new IllegalArgumentException("El siglo no es valido");
+	            default : throw new IllegalArgumentException("Carnet de Identidad Inválido");
 	        };
 
 	        // CREAR LA FECHA DE NACIMIENTO
@@ -57,7 +57,7 @@ import java.util.regex.Pattern;
 	        try {
 	            birthDate = LocalDate.parse(birthDateStr, formatter);
 	        } catch (DateTimeParseException e) {
-	        	throw new IllegalArgumentException("La fecha de nacimiento no es válida");
+	        	throw new IllegalArgumentException("Carnet de Identidad Inválido");
 	        }
 
 	        // VALIDAR LA EDAd

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -12,9 +13,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import Clases.Banco;
-import Clases.Cajero;
 import GUI.Components.BaseScreenWithSideMenu;
+import Logic.Banco;
+import Logic.Cajero;
 
 public class CajerosSinSaldo extends BaseScreenWithSideMenu {
     private JTable cajeroTable; // Tabla para mostrar los resultados

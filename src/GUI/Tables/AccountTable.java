@@ -1,7 +1,8 @@
 package GUI.Tables;
 
 import java.util.List;
-import Clases.CuentaBancaria;
+
+import Logic.CuentaBancaria;
 
 public class AccountTable extends BaseTable<CuentaBancaria> {
 

@@ -22,9 +22,10 @@ public class MainScreen extends BaseScreenWithSideMenu {
     @Override
     protected void loadContent() {
         
-        JLabel label = new JLabel("Bienvenido");
-        label.setBounds(550, 50, 200, 30);
-        add(label);
+    	JLabel label = new JLabel("BIENVENIDO");
+    	label.setFont(new Font("Tahoma", Font.BOLD, 36)); 
+    	label.setBounds(1050, 150, 900, 330);
+    	add(label);
 
         
     }

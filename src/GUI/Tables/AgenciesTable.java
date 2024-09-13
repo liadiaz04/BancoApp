@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import Clases.Agencia;
+import Logic.Agencia;
 
 public class AgenciesTable extends BaseTable<Agencia> {
 	

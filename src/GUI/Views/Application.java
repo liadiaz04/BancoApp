@@ -38,12 +38,12 @@ public class Application extends JFrame {
 
     public Application() {
     	
-        setConfigs(); //Inicializa las configuraciones de la pantalla
-        setApplicationValues(); //Inicializa el panel de contenido y el layout de la pantalla
+        setConfigs(); 
+        setApplicationValues(); 
     }
     
     
-    //Configuraciones y valores de la ventana de la Applicacion
+
     private void setConfigs() {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -15,10 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import Clases.Banco;
-import Clases.CuentaBancaria;
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Tables.AccountTable;
+import Logic.Banco;
+import Logic.CuentaBancaria;
 
 public class CuentasFFondosAsociadas extends BaseScreenWithSideMenu {
 

@@ -23,16 +23,17 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import Clases.Banco;
-import Clases.C_Corriente;
-import Clases.C_Formacion_Fondos;
-import Clases.C_MLC;
-import Clases.Cliente;
-import Clases.CuentaBancaria;
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Components.NavigationButton;
 import GUI.Controllers.SelectedUserManager;
 import GUI.Tables.ClientTable;
+import Logic.Banco;
+import Logic.C_Corriente;
+import Logic.C_Formacion_Fondos;
+import Logic.C_MLC;
+import Logic.Cliente;
+import Logic.CuentaBancaria;
+import Logic.Validaciones;
 
 public class ClientScreen extends BaseScreenWithSideMenu {
     private JTable clientTable;
@@ -118,8 +119,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	    }
         	});
 
-        	
-        	
+        	    	
         	//AGREGAR CLIENTE 
         	addClient.addActionListener(new ActionListener() {
         	    public void actionPerformed(ActionEvent e) {
@@ -205,45 +205,61 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	                String telefono = phoneField.getText();
         	                String email = emailField.getText();
 
+        	             
         	                if (idCliente.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
         	                    JOptionPane.showMessageDialog(addClientDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
         	                    return;
         	                }
 
+        	             
+        	                try {
+        	                    Validaciones.validarCI(idCliente);
+        	                } catch (IllegalArgumentException ex) {
+        	                    JOptionPane.showMessageDialog(addClientDialog, ex.getMessage(), "Error de Validación", JOptionPane.ERROR_MESSAGE);
+        	                    return; 
+        	                }
+
+        	             
+        	                for (Cliente cliente : clientes) {
+        	                    if (cliente.getIdCliente().equals(idCliente)) {
+        	                        JOptionPane.showMessageDialog(addClientDialog, "Ya existe un cliente con este carnet de identidad.", "Error", JOptionPane.ERROR_MESSAGE);
+        	                        return; 
+        	                    }
+        	                }
+
         	                // AGREGAR CLIENTE
         	                Banco.getInstancia().addCliente(idCliente, nombre, direccion, telefono, email);
-
         	                ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{idCliente, nombre, telefono});
-
         	                addClientDialog.dispose();
         	            }
         	        });
+
 
         	        addClientDialog.setVisible(true);
         	    }
         	});
         	
         	//ELIMINAR CLIENTE
-            deleteClient.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    int selectedRow = clientTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String clientId = (String) clientTable.getValueAt(selectedRow, 0); 
-                        int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar al cliente " + clientId + "?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if (response == JOptionPane.YES_OPTION) {
-                          
-                            boolean deleted = Banco.getInstancia().eliminarCliente(clientId);
-                            if (deleted) {
-                                ((DefaultTableModel) clientTable.getModel()).removeRow(selectedRow); 
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Cliente no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                            }
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-            });
+        	deleteClient.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent e) {
+        	        int selectedRow = clientTable.getSelectedRow();
+        	        if (selectedRow != -1) {
+        	            String clientId = (String) clientTable.getValueAt(selectedRow, 0); 
+        	            System.out.println("Intentando eliminar cliente con ID: " + clientId); // Debug
+        	            int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar al cliente " + clientId + "?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        	            if (response == JOptionPane.YES_OPTION) {
+        	                boolean deleted = Banco.getInstancia().eliminarCliente(clientId);
+        	                if (deleted) {
+        	                    ((DefaultTableModel) clientTable.getModel()).removeRow(selectedRow); 
+        	                } else {
+        	                    JOptionPane.showMessageDialog(null, "Cliente no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        	                }
+        	            }
+        	        } else {
+        	            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        	        }
+        	    }
+        	});
 
          // VER DETALLES
             details.addActionListener(new ActionListener() {

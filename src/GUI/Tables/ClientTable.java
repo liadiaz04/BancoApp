@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.JTable;
 
-import Clases.Cliente;
+import Logic.Cliente;
 
 
 public class ClientTable extends BaseTable<Cliente> {

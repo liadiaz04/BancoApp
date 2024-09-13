@@ -16,8 +16,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import GUI.Components.BaseScreenWithSideMenu;
-import Clases.Banco;
-import Clases.Cliente;
+import Logic.Banco;
+import Logic.Cliente;
 
 public class ClienteConSaldoSuperior extends BaseScreenWithSideMenu {
 

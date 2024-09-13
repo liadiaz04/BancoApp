@@ -1,7 +1,7 @@
 package GUI.Controllers;
 
-import Clases.Banco;
-import Clases.Cliente;
+import Logic.Banco;
+import Logic.Cliente;
 
 public class SelectedUserManager {
     private static SelectedUserManager instancia;

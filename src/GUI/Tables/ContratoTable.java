@@ -3,7 +3,7 @@ package GUI.Tables;
 
 import java.util.List;
 
-import Clases.Contrato;
+import Logic.Contrato;
 
 
 public class ContratoTable extends BaseTable<Contrato> {

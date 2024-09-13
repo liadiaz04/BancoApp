@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import Clases.Cajero;
+import Logic.Cajero;
 
 public class CajeroTable extends BaseTable<Cajero> {
 

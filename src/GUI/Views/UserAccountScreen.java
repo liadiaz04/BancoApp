@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import Clases.C_Corriente;
-import Clases.C_Formacion_Fondos;
-import Clases.C_MLC;
-import Clases.C_Plazo_Fijo;
-import Clases.Cliente;
-import Clases.CuentaBancaria;
-import Clases.Banco;
-import Clases.Operacion;
-import Clases.InfoWindow;
-import Clases.Plazo_Deposito;
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Controllers.SelectedUserManager;
 import GUI.Tables.AccountTable;
 import GUI.Tables.ClientTable;
+import Logic.Banco;
+import Logic.C_Corriente;
+import Logic.C_Formacion_Fondos;
+import Logic.C_MLC;
+import Logic.C_Plazo_Fijo;
+import Logic.Cliente;
+import Logic.CuentaBancaria;
+import Logic.InfoWindow;
+import Logic.Operacion;
+import Logic.Plazo_Deposito;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -42,13 +42,13 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     public UserAccountScreen(ActionListener listener) {
         super(listener);
         this.cliente = SelectedUserManager.getInstancia().getClienteSeleccionado();
-        loadContent(); // Initial load
+        loadContent(); 
     }
 
-    // New method to refresh the account table
+
     public void refreshContent() {
         this.cliente = SelectedUserManager.getInstancia().getClienteSeleccionado();
-        updateAccountTable(); // Update only the account table
+        updateAccountTable(); 
     }
 
     @Override
@@ -57,13 +57,13 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     	nameLabel = new JLabel();
     	nameLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
     	nameLabel.setForeground(new Color(0, 128, 0));
-    	nameLabel.setBounds(550, 50, 300, 30);
+    	nameLabel.setBounds(550, 50, 400, 30);
         add(nameLabel);
 
-        // Initialize account table
+
         updateAccountTable();
         
-     // Create buttons
+
         Font buttonFont = new Font("Tahoma", Font.BOLD, 16);
 
         JButton depositButton = new JButton("Depositar");
@@ -82,20 +82,20 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         customizeButton(detailsButton, buttonFont, 1280, 800);
         add(detailsButton);
         
-        JButton lastOperations = new JButton("ï¿½ltimas Operaciones");
+        JButton lastOperations = new JButton("Últimas Operaciones");
         customizeButton(lastOperations, buttonFont, 1600, 700);
         add(lastOperations);
         
         
         depositButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                realizarDeposito(); // Mï¿½todo que abre el diï¿½logo para el depï¿½sito
+                realizarDeposito(); 
             }
         });
 
         withdrawButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                realizarExtraccion(); // Mï¿½todo que abre el diï¿½logo para la extracciï¿½n
+                realizarExtraccion(); 
             }
         });
 
@@ -131,14 +131,13 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         });
 
         
-     // Crear JPanel para mostrar los detalles del cliente
+     // DETALLES DE LA CUENTA
         detailPanel = new JPanel();
         detailPanel.setLayout(new GridBagLayout());
-        detailPanel.setBounds(1550, 200, 300, 400); // Mover hacia abajo y alargar
+        detailPanel.setBounds(1550, 200, 300, 400); 
         detailPanel.setBackground(new Color(240, 255, 240));
         add(detailPanel);
 
-        // Crear JLabel estï¿½tico para "Detalles del Cliente:"
         detailLabel = new JLabel("Detalles de la Cuenta:");
         detailLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         detailLabel.setForeground(new Color(0, 128, 0));
@@ -148,32 +147,28 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         gbcStatic.gridy = 0;
         detailPanel.add(detailLabel, gbcStatic);
 
-        // Crear JLabel para mostrar los detalles
+
         detailLabel = new JLabel();
         detailLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         detailLabel.setForeground(new Color(0, 128, 0));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 1; // Cambiar la posiciï¿½n a 1 para mover hacia abajo
+        gbc.gridy = 1; 
         detailPanel.add(detailLabel, gbc);
         
-        
-        
 
-
-
-        revalidate(); // Refresh the panel
-        repaint(); // Repaint the panel
+        revalidate(); 
+        repaint(); 
     }
     
     private void mostrarOperaciones(ArrayList<Operacion> operaciones) {
         if (operaciones.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay operaciones para mostrar.", "Informaciï¿½n", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay operaciones para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
-        StringBuilder operacionesText = new StringBuilder("<html><h3>ï¿½ltimas Operaciones:</h3><ul>");
+        StringBuilder operacionesText = new StringBuilder("<html><h3>Últimas Operaciones:</h3><ul>");
         for (Operacion operacion : operaciones) {
             operacionesText.append("<li>")
                 .append("Tipo: ").append(operacion.getTipo()).append(", ")
@@ -193,7 +188,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
 
         if (cliente != null) {
             cuentas = getAccountList(cliente);
-            String[] columns = new String[]{"Nï¿½mero de Cuenta", "Saldo", "Beneficiario", "Moneda", "Fecha de Apertura", "Tipo de Cuenta"}; // Nueva columna
+            String[] columns = new String[]{"Número de Cuenta", "Saldo", "Beneficiario","Tipo de Cuenta"}; 
 
             if (accountTable == null) {
                 AccountTable accountTable = new AccountTable(cuentas, columns);
@@ -202,17 +197,14 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                 accountTable.setBounds(480, 100, 1000, 600);
                 add(accountTable);
             } else {
-                // Actualizar el modelo de la tabla existente con nuevos datos
                 DefaultTableModel model = (DefaultTableModel) accountTable.getModel();
-                model.setRowCount(0); // Limpiar las filas existentes
+                model.setRowCount(0); 
                 for (CuentaBancaria cuenta : cuentas) {
                     model.addRow(new Object[]{
                         cuenta.getNoCuenta(),
                         cuenta.getSaldo(),
                         cuenta.getBeneficiario(),
-                        cuenta.getMoneda(),
-                        cuenta.getFechaApertura(),
-                        cuenta.getClass().getSimpleName() // Mostrar el tipo de cuenta
+                        cuenta.getClass().getSimpleName() 
                     });
                 }
             }
@@ -232,11 +224,10 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         if (selectedRow != -1) {
             CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
 
-            // Crear el panel para la ventana emergente
             JPanel panelDeposito = new JPanel(new GridLayout(2, 2));
-            JLabel cuentaLabel = new JLabel("Depï¿½sito en cuenta:");
+            JLabel cuentaLabel = new JLabel("Depósito en cuenta:");
             JTextField cuentaTextField = new JTextField(cuentaSeleccionada.getNoCuenta());
-            cuentaTextField.setEditable(false); // No permitir la ediciï¿½n del nï¿½mero de cuenta
+            cuentaTextField.setEditable(false); 
             JLabel montoLabel = new JLabel("Monto a depositar:");
             JTextField montoTextField = new JTextField();
 
@@ -245,7 +236,6 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
             panelDeposito.add(montoLabel);
             panelDeposito.add(montoTextField);
 
-            // Mostrar la ventana emergente para ingresar el monto
             int result = JOptionPane.showConfirmDialog(null, panelDeposito, "Depositar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
@@ -253,11 +243,9 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                     double monto = Double.parseDouble(montoTextField.getText());
 
                     if (monto > 0) {
-                        // Verificar si la cuenta es de tipo C_Formacion_Fondos
                         if (cuentaSeleccionada instanceof C_Formacion_Fondos) {
-                            JOptionPane.showMessageDialog(null, "No se pueden realizar depï¿½sitos en cuentas de Formaciï¿½n de Fondos.", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "No se pueden realizar depósitos en cuentas de Formación de Fondos.", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            // Llamar al mï¿½todo depositar segï¿½n el tipo de cuenta
                             if (cuentaSeleccionada instanceof C_Corriente) {
                                 ((C_Corriente) cuentaSeleccionada).depositar(monto);
                             } else if (cuentaSeleccionada instanceof C_MLC) {
@@ -266,15 +254,15 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                                 ((C_Plazo_Fijo) cuentaSeleccionada).depositar(monto);
                             }
 
-                            // Actualizar la tabla de cuentas
+                           
                             updateAccountTable();
-                            JOptionPane.showMessageDialog(null, "Depï¿½sito realizado con ï¿½xito.");
+                            JOptionPane.showMessageDialog(null, "Depósito realizado con éxito.");
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto vï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto válido.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else {
@@ -289,11 +277,11 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         if (selectedRow != -1) {
             CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
 
-            // Crear el panel para la ventana emergente
+
             JPanel panelExtraccion = new JPanel(new GridLayout(2, 2));
             JLabel cuentaLabel = new JLabel("Extraer de cuenta:");
             JTextField cuentaTextField = new JTextField(cuentaSeleccionada.getNoCuenta());
-            cuentaTextField.setEditable(false); // No permitir la ediciï¿½n del nï¿½mero de cuenta
+            cuentaTextField.setEditable(false); 
             JLabel montoLabel = new JLabel("Monto a extraer:");
             JTextField montoTextField = new JTextField();
 
@@ -302,7 +290,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
             panelExtraccion.add(montoLabel);
             panelExtraccion.add(montoTextField);
 
-            // Mostrar la ventana emergente para ingresar el monto
+
             int result = JOptionPane.showConfirmDialog(null, panelExtraccion, "Extraer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
@@ -310,11 +298,9 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                     double monto = Double.parseDouble(montoTextField.getText());
 
                     if (monto > 0) {
-                        // Llamar al mï¿½todo de extracciï¿½n especï¿½fico segï¿½n el tipo de cuenta
                         if (cuentaSeleccionada instanceof C_Corriente) {
                             ((C_Corriente) cuentaSeleccionada).extraer(monto);
                         } else if (cuentaSeleccionada instanceof C_MLC) {
-                            // Asumiendo que C_MLC no permite extracciï¿½n, puedes manejarlo aquï¿½ si es necesario
                             JOptionPane.showMessageDialog(null, "Las cuentas MLC no permiten extracciones.", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         } else if (cuentaSeleccionada instanceof C_Plazo_Fijo) {
@@ -323,14 +309,14 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
                             ((C_Formacion_Fondos) cuentaSeleccionada).extraer(monto);
                         }
 
-                        // Actualizar la tabla de cuentas
+
                         updateAccountTable();
-                        JOptionPane.showMessageDialog(null, "Extracciï¿½n realizada con ï¿½xito.");
+                        JOptionPane.showMessageDialog(null, "Extracción realizada con éxito.");
                     } else {
                         JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto vï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto válido.", "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IllegalArgumentException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -346,10 +332,9 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         if (selectedRow != -1) {
             CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
             
-            // Formatear la fecha
+            // FORMATEAR LA FECHA
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             
-            // Establecer el texto en detailLabel
             detailLabel.setText("<html><strong>Moneda:</strong> " + cuentaSeleccionada.getMoneda() + "<br/>" +
                                 "<strong>Fecha de Apertura:</strong> " + cuentaSeleccionada.getFechaApertura().format(formatter) + "</html>");
         } else {

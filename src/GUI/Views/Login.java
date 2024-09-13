@@ -24,8 +24,8 @@ import java.awt.Component;
 
 import javax.swing.JPasswordField;
 
-import Clases.Banco;
-import Clases.InfoWindow;
+import Logic.Banco;
+import Logic.InfoWindow;
 
 import java.awt.Cursor;
 import java.awt.event.ActionListener;

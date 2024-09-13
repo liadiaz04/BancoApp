@@ -1,4 +1,4 @@
-package Clases;
+package Logic;
 
 public interface Intereses {
 	void interes();

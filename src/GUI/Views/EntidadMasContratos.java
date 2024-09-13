@@ -14,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Clases.Banco;
 import GUI.Components.BaseScreenWithSideMenu;
+import Logic.Banco;
 
 public class EntidadMasContratos extends BaseScreenWithSideMenu {
 

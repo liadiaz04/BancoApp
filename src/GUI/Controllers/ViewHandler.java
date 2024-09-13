@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-import Clases.Banco;
 import GUI.Components.BaseScreen;
 import GUI.Views.AgencyScreen;
 import GUI.Views.CajerosSinSaldo;
@@ -20,10 +19,10 @@ import GUI.Views.ContratoScreen;
 import GUI.Views.CuentasFFondosAsociadas;
 import GUI.Views.EntidadMasContratos;
 import GUI.Views.Application;
-import GUI.Views.Login;
 import GUI.Views.MainScreen;
 import GUI.Views.ReportsScreen;
 import GUI.Views.UserAccountScreen;
+import Logic.Banco;
 
 
 public class ViewHandler {
@@ -161,72 +160,6 @@ public class ViewHandler {
 	    reportMenu.show(source, source.getWidth() / 2, source.getHeight());
 	}
 
-	
-	
-    //Crear las llamadas a las Pantallas
-	
-
-		//Instancias de los componenetes
-		BaseScreen mainScreen = loadMainScreen();
-		BaseScreen clientScreen = loadClientScreen();
-		BaseScreen accountScreen = loadAccountScreen();
-		BaseScreen agencyScreen = loadAgencyScreen();
-		BaseScreen reportScreen = loadReportScreen();
-		BaseScreen userAccountScreen = loadUserAccountScreen();
-
-		//nombres de los componentes
-		mainScreen.setName("MainScreen");
-		clientScreen.setName("ClientScreen");
-		accountScreen.setName("AccountScreen");
-		agencyScreen.setName("AgencyScreen");
-		reportScreen.setName("ReportScreen");
-		userAccountScreen.setName("Cuentas del Cliente");
-
-		//Agrgando los componenets a la pantalla
-		contentPane.add(mainScreen, "MainScreen");
-		contentPane.add(clientScreen, "ClientScreen");
-		contentPane.add(accountScreen, "AccountScreen");
-		contentPane.add(agencyScreen, "AgencyScreen");
-		contentPane.add(reportScreen, "ReportScreen");
-		contentPane.add(userAccountScreen, "Cuentas del Cliente");
-
-		// Mostrar la pantalla principal por defecto
-		cardLayout.show(contentPane, "MainScreen");
-
-	}
-
-	//El router para desplazarse entre las views
-
-	private void Router(ActionEvent e) {
-
-		String command = e.getActionCommand();
-
-		if ("Principal".equals(command)) {
-			cardLayout.show(contentPane, "MainScreen");
-		} else if ("Clientes".equals(command)) {
-			cardLayout.show(contentPane, "ClientScreen");
-		} else if ("Cuentas".equals(command)) {
-			cardLayout.show(contentPane, "AccountScreen");
-		} else if ("Agencias".equals(command)) {
-			cardLayout.show(contentPane, "AgencyScreen");
-		} else if ("Reportes".equals(command)) {
-			cardLayout.show(contentPane, "ReportScreen");
-		}else if ("Cuentas del Cliente".equals(command)) {
-			cardLayout.show(contentPane, "Cuentas del Cliente");
-
-			for (Component component : contentPane.getComponents()) {
-				if (component.getName().equals("Cuentas del Cliente")) {
-					UserAccountScreen cuentasDelClienteScreen = (UserAccountScreen) component;
-					cuentasDelClienteScreen.refreshContent();
-					break;
-				}
-			}
-
-
-		}
-	}
-
-
 
 
 	//Crear las llamadas a las Pantallas
@@ -316,54 +249,9 @@ public class ViewHandler {
 	            Router(e);
 	        }
 	    });
-	}
-	
 	
 }
 
-		return new ClientScreen(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Router(e);
-			}
-		});
-	}
-
-	private BaseScreen loadAccountScreen() {
-
-		return new AccountsScreen(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Router(e);
-			}
-		});
-	}
-
-	private BaseScreen loadAgencyScreen() {
-
-		return new AgencyScreen(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Router(e);
-			}
-		});
-	}
-
-	private BaseScreen loadReportScreen() {
-
-		return new ReportsScreen(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Router(e);
-			}
-		});
-	}
-
-	private BaseScreen loadUserAccountScreen() {
-
-		return new UserAccountScreen(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Router(e);
-			}
-		});
-	}
-
-
+	
 }
 

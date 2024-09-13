@@ -1,4 +1,4 @@
-package Clases;
+package Logic;
 
 public enum TipoBillete {
     Uno(1),

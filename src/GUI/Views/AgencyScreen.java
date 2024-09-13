@@ -1,6 +1,7 @@
 package GUI.Views;
 
 import java.awt.Color;
+
 import GUI.Components.SaldoDesglosadoDialog;
 
 import java.awt.Dimension;
@@ -15,17 +16,17 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-import Clases.Agencia;
-import Clases.Banco;
-import Clases.Billete;
-import Clases.Cajero;
-import Clases.Cliente;
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Tables.AgenciesTable;
 
 
 
 import GUI.Tables.CajeroTable;
+import Logic.Agencia;
+import Logic.Banco;
+import Logic.Billete;
+import Logic.Cajero;
+import Logic.Cliente;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -261,7 +262,7 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                 saveButton.setFont(new Font("Tahoma", Font.BOLD, 14));
                 saveButton.setBackground(new Color(119, 221, 119));
                 saveButton.setForeground(Color.WHITE);
-                saveButton.setPreferredSize(new Dimension(150, 40)); // Hacer el botón más grande
+                saveButton.setPreferredSize(new Dimension(150, 40));
                 gbc.gridx = 0;
                 gbc.gridy = 4;
                 addAgencyDialog.add(saveButton, gbc);
@@ -271,9 +272,12 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                         String gerente = managerField.getText();
                         String direccion = addressField.getText();
 
-                        
-                        Banco.getInstancia().agregarAgencia(gerente, direccion);
+                        if (gerente.isEmpty() || direccion.isEmpty()) {
+                            JOptionPane.showMessageDialog(addAgencyDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
 
+                        Banco.getInstancia().agregarAgencia(gerente, direccion);
                         
                         ((DefaultTableModel) agenciesTable.getModel()).addRow(new Object[]{
                             Banco.getInstancia().getAgencias().get(Banco.getInstancia().getAgencias().size() - 1).getIdAgencia(),
@@ -288,25 +292,27 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
             }
         });
 
-        
-
      // ELIMINAR AGENCIA
         deleteAgencyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = agenciesTable.getSelectedRow();
                 if (selectedRow != -1) {
                     int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar esta agencia?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if (response == JOptionPane.YES_OPTION) { 
-                        String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0); 
-                        Banco.getInstancia().eliminarAgencia(agencyId); 
-                        agencias.remove(selectedRow); 
-                        ((DefaultTableModel) agenciesTable.getModel()).removeRow(selectedRow); 
+                    if (response == JOptionPane.YES_OPTION) {
+                        String agencyId = (String) agenciesTable.getValueAt(selectedRow, 0);
+                        
+                        Banco.getInstancia().eliminarAgencia(agencyId);
+                        
+                        ((DefaultTableModel) agenciesTable.getModel()).removeRow(selectedRow);
+                        
+                        agencias.remove(selectedRow);
                     }
-                } else { 
+                } else {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
+
  
       
     }
