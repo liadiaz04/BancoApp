@@ -144,7 +144,7 @@ public class ViewHandler {
 	        }
 	    });
 
-	    // Añadir los elementos al popup
+	    
 	    reportMenu.add(clienteSaldoSuperior);
 	    reportMenu.add(entidadMasContratos);
 	    reportMenu.add(cuentasFFondosAsociadas);
