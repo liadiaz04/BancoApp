@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 	        return valido;*/
 		 return true; 
 	    }
+	 
+	 
    
 	 public static boolean validarDinero (double cant){
 		 return cant > 0 ? true : false;

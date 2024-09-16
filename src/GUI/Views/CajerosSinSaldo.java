@@ -39,7 +39,7 @@ public class CajerosSinSaldo extends BaseScreenWithSideMenu {
         add(label);
 
         // Configuración de la tabla con nueva columna "Agencia"
-        String[] columnNames = { "ID Cajero", "Saldo Total", "Agencia" };  // Nueva columna
+        String[] columnNames = { "ID Cajero", "Saldo Total", "Agencia" };  
         tableModel = new DefaultTableModel(columnNames, 0);
         cajeroTable = new JTable(tableModel);
         styleTable(cajeroTable);
@@ -80,7 +80,6 @@ public class CajerosSinSaldo extends BaseScreenWithSideMenu {
         tableHeader.setFont(new Font("Tahoma", Font.BOLD, 18));
     }
 
-    // Método para cargar los cajeros con saldo insuficiente y mostrarlos en la tabla
     private void cargarDatosCajeros() {
         ArrayList<Cajero> cajerosSinSaldo = banco.cajerosConSaldoInsuficiente(); // Obtener cajeros con saldo insuficiente
         tableModel.setRowCount(0); // Limpiar la tabla

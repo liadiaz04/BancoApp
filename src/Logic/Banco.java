@@ -344,7 +344,6 @@ public class Banco {
     	    for (Agencia agencia : agencias) {
     	        for (Cajero cajero : agencia.getCajeros()) {
     	            cajero.getBilletes().clear();  
-    	            System.out.println("Cajero " + cajero.getIdCajero() + " inicializado con saldo cero."); // Debug
     	        }
     	    }
     	}
