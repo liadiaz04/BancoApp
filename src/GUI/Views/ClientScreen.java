@@ -64,7 +64,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         add(label);
 
         clientes = getClientList();
-        String[] columns = new String[]{"Identificador", "Nombre", "Teléfono"};
+        String[] columns = new String[]{"Identificador", "Nombre", "Dirección"};
 
         Font buttonFont = new Font("Tahoma", Font.BOLD, 16);
         

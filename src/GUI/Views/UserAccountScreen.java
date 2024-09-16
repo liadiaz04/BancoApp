@@ -64,25 +64,34 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         Font buttonFont = new Font("Tahoma", Font.BOLD, 16);
 
         JButton depositButton = new JButton("Depositar");
-        customizeButton(depositButton, buttonFont, 500, 800);
+        customizeButton(depositButton, buttonFont, 450, 800);
         add(depositButton);
 
         JButton withdrawButton = new JButton("Extraer");
-        customizeButton(withdrawButton, buttonFont, 760, 800);
+        customizeButton(withdrawButton, buttonFont, 650, 800);
         add(withdrawButton);
 
         JButton addAccount = new JButton("Agregar cuenta");
-        customizeButton(addAccount, buttonFont, 1020, 800);
+        customizeButton(addAccount, buttonFont, 850, 800);
         add(addAccount);
         
+        JButton deleteAccount = new JButton("Eliminar cuenta");
+        customizeButton(deleteAccount, buttonFont, 1050, 800);
+        add(deleteAccount);
+        
         JButton detailsButton = new JButton("Detalles de la Cuenta");
-        customizeButton(detailsButton, buttonFont, 1280, 800);
+        customizeButton(detailsButton, buttonFont, 1250, 800);
         add(detailsButton);
         
         JButton lastOperations = new JButton("Últimas Operaciones");
         customizeButton(lastOperations, buttonFont, 1600, 700);
         add(lastOperations);
         
+        /*deleteAccount.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                eliminarCuenta();
+            }
+        });*/
         
         depositButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -274,54 +283,64 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         if (selectedRow != -1) {
             CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
 
+            if (cuentaSeleccionada instanceof C_Plazo_Fijo) {
+                int result = JOptionPane.showConfirmDialog(null, 
+                    "¿Está seguro de que desea extraer de la cuenta " + cuentaSeleccionada.getNoCuenta() + "?",
+                    "Confirmar Extracción", 
+                    JOptionPane.OK_CANCEL_OPTION);
+                
+                if (result == JOptionPane.OK_OPTION) {
+                    ((C_Plazo_Fijo) cuentaSeleccionada).extraer(0); 
+                    updateAccountTable();
+                    JOptionPane.showMessageDialog(null, "Extracción realizada con éxito.");
+                }
+            } else {
+                
+                JPanel panelExtraccion = new JPanel(new GridLayout(2, 2));
+                JLabel cuentaLabel = new JLabel("Extraer de cuenta:");
+                JTextField cuentaTextField = new JTextField(cuentaSeleccionada.getNoCuenta());
+                cuentaTextField.setEditable(false); 
+                JLabel montoLabel = new JLabel("Monto a extraer:");
+                JTextField montoTextField = new JTextField();
 
-            JPanel panelExtraccion = new JPanel(new GridLayout(2, 2));
-            JLabel cuentaLabel = new JLabel("Extraer de cuenta:");
-            JTextField cuentaTextField = new JTextField(cuentaSeleccionada.getNoCuenta());
-            cuentaTextField.setEditable(false); 
-            JLabel montoLabel = new JLabel("Monto a extraer:");
-            JTextField montoTextField = new JTextField();
+                panelExtraccion.add(cuentaLabel);
+                panelExtraccion.add(cuentaTextField);
+                panelExtraccion.add(montoLabel);
+                panelExtraccion.add(montoTextField);
 
-            panelExtraccion.add(cuentaLabel);
-            panelExtraccion.add(cuentaTextField);
-            panelExtraccion.add(montoLabel);
-            panelExtraccion.add(montoTextField);
+                int result = JOptionPane.showConfirmDialog(null, panelExtraccion, "Extraer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
+                if (result == JOptionPane.OK_OPTION) {
+                    try {
+                        double monto = Double.parseDouble(montoTextField.getText());
 
-            int result = JOptionPane.showConfirmDialog(null, panelExtraccion, "Extraer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                        if (monto > 0) {
+                            if (cuentaSeleccionada instanceof C_Corriente) {
+                                ((C_Corriente) cuentaSeleccionada).extraer(monto);
+                            } else if (cuentaSeleccionada instanceof C_MLC) {
+                                JOptionPane.showMessageDialog(null, "Las cuentas MLC no permiten extracciones.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            } else if (cuentaSeleccionada instanceof C_Formacion_Fondos) {
+                                ((C_Formacion_Fondos) cuentaSeleccionada).extraer(monto);
+                            }
 
-            if (result == JOptionPane.OK_OPTION) {
-                try {
-                    double monto = Double.parseDouble(montoTextField.getText());
-
-                    if (monto > 0) {
-                        if (cuentaSeleccionada instanceof C_Corriente) {
-                            ((C_Corriente) cuentaSeleccionada).extraer(monto);
-                        } else if (cuentaSeleccionada instanceof C_MLC) {
-                            JOptionPane.showMessageDialog(null, "Las cuentas MLC no permiten extracciones.", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        } else if (cuentaSeleccionada instanceof C_Plazo_Fijo) {
-                            ((C_Plazo_Fijo) cuentaSeleccionada).extraer(monto);
-                        } else if (cuentaSeleccionada instanceof C_Formacion_Fondos) {
-                            ((C_Formacion_Fondos) cuentaSeleccionada).extraer(monto);
+                            updateAccountTable();
+                            JOptionPane.showMessageDialog(null, "Extracción realizada con éxito.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-
-
-                        updateAccountTable();
-                        JOptionPane.showMessageDialog(null, "Extracción realizada con éxito.");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "El monto debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (IllegalArgumentException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un monto válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (IllegalArgumentException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una cuenta para extraer.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     
     private void showAccountDetails() {
@@ -449,6 +468,30 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     	 }
      }
     
+  /*  private void eliminarCuenta() {
+        int selectedRow = accountTable.getSelectedRow();
+        if (selectedRow != -1) {
+            CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
+            String noCuenta = cuentaSeleccionada.getNoCuenta();
+            
+            int result = JOptionPane.showConfirmDialog(null, 
+                "¿Está seguro de que desea eliminar la cuenta " + noCuenta + "?",
+                "Confirmar Eliminación", 
+                JOptionPane.OK_CANCEL_OPTION);
+            
+            if (result == JOptionPane.OK_OPTION) {
+                boolean eliminado = Banco.getInstancia().eliminarCuenta(noCuenta);
+                if (eliminado) {
+                    updateAccountTable();
+                    JOptionPane.showMessageDialog(null, "Cuenta eliminada con éxito.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una cuenta para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }*/
    
     
     private ArrayList<CuentaBancaria> getAccountList(Cliente cliente) {
