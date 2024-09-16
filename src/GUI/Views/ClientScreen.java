@@ -290,10 +290,8 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	    public void actionPerformed(ActionEvent e) {
         	        int selectedRow = clientTable.getSelectedRow();
         	        if (selectedRow != -1) {
-        	            // Obtener el cliente seleccionado
         	            Cliente clienteSeleccionado = clientes.get(selectedRow);
-        	            
-        	            // Cargar los detalles en el panel
+
         	            detailLabel.setText("<html><strong>Nombre:</strong> " + clienteSeleccionado.getNombre() + "<br/>" +
         	                "<strong>Dirección:</strong> " + clienteSeleccionado.getDireccion() + "<br/>" +
         	                "<strong>Email:</strong> " + clienteSeleccionado.getEmail() + "<br/>" +
