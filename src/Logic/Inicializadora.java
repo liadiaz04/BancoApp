@@ -8,18 +8,20 @@ public class Inicializadora {
 	public Inicializadora(){
 	}
 	
-	public static void inicializar(ArrayList<Cliente> clientes,ArrayList<User> usuarios,ArrayList<Contrato> contratos,ArrayList<Agencia> agencias, ArrayList<Plazo_Deposito> plazos){
+	public static void inicializar(ArrayList<CuentaBancaria> cuentasBanco,ArrayList<Cliente> clientes,ArrayList<User> usuarios,ArrayList<Contrato> contratos,ArrayList<Agencia> agencias, ArrayList<Plazo_Deposito> plazos){
     	
 		loadUsers(usuarios);
     	loadAgencias(agencias);
-    	loadContratos(contratos);
-    	loadPlazos(plazos);	
-    	loadClientes(clientes);
+    	ArrayList<Contrato> con = loadContratos(contratos);
+    	ArrayList<Plazo_Deposito> pd= loadPlazos(plazos);	
+    	ArrayList<Cliente> c = loadClientes(clientes);
+    	loadCuentas(cuentasBanco,c,con,pd);
     }   
 	
     //FUNCIONES DE PRUEBA DE DATOS
     
-	public static void loadClientes(ArrayList<Cliente> clientes ) {
+	public static ArrayList<Cliente> loadClientes(ArrayList<Cliente> clientes ) {
+		ArrayList<Cliente> retorno= new ArrayList<>();
 		
 		int cont = 0;
         String[] nombres = {"Juan Pérez", "María García", "Carlos López", "Ana Rodríguez",
@@ -58,6 +60,8 @@ public class Inicializadora {
             Cliente aux = new Cliente(carnets[i], nombres[i], direcciones[i % direcciones.length],telefonos[i % telefonos.length], emails[i]);
         	clientes.add(aux);
         }
+        retorno = clientes;
+        return retorno;
 	}
 
 	public static void loadUsers(ArrayList<User> usuarios){
@@ -67,8 +71,8 @@ public class Inicializadora {
 	}
 
 
-	private static void loadContratos(ArrayList<Contrato> contratos) {
-		
+	private static ArrayList <Contrato>  loadContratos(ArrayList<Contrato> contratos) {
+		ArrayList <Contrato> contratos2= new ArrayList<>();
 		String[] ids = {"CON-01", "CON-02", "CON-03", "CON-04", "CON-05",
 				"CON-06", "CON-07", "CON-08", "CON-09", "CON-10",
 				"CON-11", "CON-12", "CON-13", "CON-14", "CON-15",
@@ -101,7 +105,8 @@ public class Inicializadora {
 
 			contratos.add(new Contrato(idContrato, entidad, periodoTiempo, salario));
 		}
-		
+		contratos2 = contratos;
+		return contratos2;
 	}
 
 	private static void loadAgencias(ArrayList<Agencia> agencias) {
@@ -141,17 +146,20 @@ public class Inicializadora {
 		}
 	}
 
-	private static void loadPlazos(ArrayList<Plazo_Deposito> plazos) {
+	private static ArrayList<Plazo_Deposito> loadPlazos(ArrayList<Plazo_Deposito> plazos) {
+		ArrayList<Plazo_Deposito> pd= new ArrayList<Plazo_Deposito>();
 		double [] interes = {2,2.50,4.00,5.00,6.00,6.25,6.50};
 		int [] meses = {3,6,12,24,36,48,60};
 
 		for(int i =0 ; i < 7 ; i++ ){
 			plazos.add(new Plazo_Deposito(meses[i], interes[i]));
 		}
+		pd = plazos;
+		return pd;
 		
 	}
 
-	public static void loadCuentas(ArrayList<Cliente> clientes,ArrayList<Contrato> contratos ,ArrayList<Plazo_Deposito> plazos) {
+	public static void loadCuentas(ArrayList<CuentaBancaria> cuentasBanco ,ArrayList<Cliente> clientes,ArrayList<Contrato> contratos ,ArrayList<Plazo_Deposito> plazos) {
 		int cont =0;
 		String[] cuentasCorrientes = {
 				"9205959800000012", "9205959800000023", "9205959800000034", "9205959800000045",
@@ -216,11 +224,14 @@ public class Inicializadora {
 			    6000.00, 3400.60, 4100.80, 5300.45
 			};
 		
-		for(int i = 0 ; i < 20 ; i++){
-			clientes.add(new C_Corriente (cuentasCorrientes[i],beneficiarios[cont++],"CUP"));
-			clientes.add(new C_MLC (cuentasMLC[i],beneficiarios[cont++],"MLC"));
-			clientes.add(new C_Formacion_Fondos(cuentasFormacionFondos[i], beneficiarios[cont++], "CUP", contratos.get(i)));
-			clientes.add(new C_Plazo_Fijo(cuentasPlazoFijo[i], beneficiarios[cont++], "CUP", plazos.get(i),cantidades[i]));
+		for(int i = 0 ; i < clientes.size() ; i++){
+			  int index = i % plazos.size();
+			ArrayList<CuentaBancaria> cuentas = clientes.get(i).getCuentas();
+			cuentas.add(new C_Corriente (cuentasCorrientes[i],beneficiarios[cont++],"CUP"));
+			cuentas.add(new C_MLC (cuentasMLC[i],beneficiarios[cont++],"MLC"));
+			cuentas.add(new C_Formacion_Fondos(cuentasFormacionFondos[i], beneficiarios[cont++], "CUP", contratos.get(i)));
+			cuentas.add(new C_Plazo_Fijo(cuentasPlazoFijo[i], beneficiarios[cont++], "CUP", plazos.get(index),cantidades[index]));
+			cuentasBanco.addAll(cuentas);
 		}
       
 	}

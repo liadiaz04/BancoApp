@@ -24,8 +24,8 @@ public class Banco {
         this.plazos = new ArrayList <Plazo_Deposito> ();
         this.contratos = new ArrayList<>(); 
         
-       Inicializadora.inicializar(clientes, usuarios, contratos, agencias, plazos);
-       loadCuentas();
+       Inicializadora.inicializar(cuentas,clientes, usuarios, contratos, agencias, plazos);
+      
     }
      
     	
