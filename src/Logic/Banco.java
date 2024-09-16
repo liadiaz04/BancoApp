@@ -249,6 +249,15 @@ public class Banco {
 
 		return cuentas;
 	}
+	
+	public void eliminarCuenta (String idCliente ,String noCuenta){
+		CuentaBancaria cuenta= buscarCuentaBancariaPorNo(noCuenta);
+		Cliente cliente= buscarClientePorId(idCliente);
+		if(cuenta != null){
+			cliente.getCuentas().remove(cuenta);
+			cuentas.remove(cuenta);
+		}
+	}
 
 	//CONTRATOS
 	public Contrato buscarContratoporEntidad(String entidad) {
