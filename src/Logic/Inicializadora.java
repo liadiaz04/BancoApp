@@ -138,11 +138,14 @@ public class Inicializadora {
 				"Pza. del Ayuntamiento, 67890 Localidad", "Calle de las Flores, 24680 Distrito"};
 
 		for (int i = 0; i < 30; i++) {
+			
+			ArrayList<Cajero> cajeros = inicializarCajeros();
 			String idAgencia = ids[i];
 			String gerente = gerentes[i % gerentes.length];
 			String direccion = direcciones[i % direcciones.length];
-
-			agencias.add(new Agencia(idAgencia, gerente, direccion));
+			Agencia agencia= new Agencia(idAgencia, gerente, direccion);
+			agencia.setCajeros(cajeros);
+			agencias.add(agencia);
 		}
 	}
 
@@ -235,5 +238,26 @@ public class Inicializadora {
 		}
       
 	}
+
+	public static ArrayList<Cajero> inicializarCajeros() {
+		ArrayList<Cajero> cajeros = new ArrayList<>();
+
+		for (int i = 0; i < 5; i++) {
+			String idCajero = "Cajero" + (i + 1); 
+			Cajero cajero = new Cajero(idCajero);
+
+
+			if (i != 0) {
+					cajero.agregarBillete(new Billete(TipoBillete.Diez, 10)); 
+					cajero.agregarBillete(new Billete(TipoBillete.Veinte, 5)); 
+					cajero.agregarBillete(new Billete(TipoBillete.Cien, 2)); 
+					cajero.agregarBillete(new Billete(TipoBillete.Mil, 100)); 
+				}
+
+				cajeros.add(cajero);
+			}
+
+	        return cajeros;
+	    }
 
 }

@@ -42,6 +42,10 @@ public class Agencia {
     public ArrayList<Cajero> getCajeros() {
         return cajeros;
     }
+    
+    public void setCajeros (ArrayList<Cajero> caj){
+    	this.cajeros = caj;
+    }
 
     public void agregarCajero() {
         int cantCajeros = this.cajeros.size();

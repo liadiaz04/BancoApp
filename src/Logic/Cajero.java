@@ -11,7 +11,9 @@ public class Cajero {
 		this.billetes = new ArrayList<Billete>();
 	}
 
-	
+	public void agregarBillete(Billete billete) {
+        billetes.add(billete);
+    }
 
 	public String getIdCajero() {
 		return idCajero;
@@ -43,6 +45,7 @@ public class Cajero {
 	    }
 	    return desglosado.toString();
 	}
+
 
 }
 
