@@ -2,14 +2,12 @@ package GUI.Views;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import GUI.Components.BaseScreenWithSideMenu;
 import GUI.Controllers.SelectedUserManager;
 import GUI.Tables.AccountTable;
@@ -24,7 +22,6 @@ import Logic.CuentaBancaria;
 import Logic.InfoWindow;
 import Logic.Operacion;
 import Logic.Plazo_Deposito;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -438,7 +435,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     			//VALIDACIONES DE LOS CAMPOS
     			Banco.getInstancia().agregarCuentaCorriente(cliente, beneficiario,tipoSeleccionado);
     		}catch(Exception e){
-    			//MANEJAR ERROR 
+    			
     		}
     		break;
     	case "MLC":
