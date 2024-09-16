@@ -158,6 +158,13 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 1;
         	        addClientDialog.add(nameField, gbc);
 
+
+        	        JLabel phoneLabel = new JLabel("Teléfono:");
+        	        phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 3;
+        	        addClientDialog.add(phoneLabel, gbc);
+        	        
         	        JLabel addressLabel = new JLabel("Dirección:");
         	        addressLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -168,12 +175,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridx = 1;
         	        gbc.gridy = 2;
         	        addClientDialog.add(addressField, gbc);
-
-        	        JLabel phoneLabel = new JLabel("Teléfono:");
-        	        phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-        	        gbc.gridx = 0;
-        	        gbc.gridy = 3;
-        	        addClientDialog.add(phoneLabel, gbc);
 
         	        final JTextField phoneField = new JTextField(20);
         	        gbc.gridx = 1;
