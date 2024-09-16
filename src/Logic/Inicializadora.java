@@ -1,15 +1,18 @@
 package Logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Inicializadora {
-	
+   
+	private static final Random random = new Random();
 	
 	public Inicializadora(){
 	}
-	
+
 	public static void inicializar(ArrayList<CuentaBancaria> cuentasBanco,ArrayList<Cliente> clientes,ArrayList<User> usuarios,ArrayList<Contrato> contratos,ArrayList<Agencia> agencias, ArrayList<Plazo_Deposito> plazos){
-    	
+
 		loadUsers(usuarios);
     	loadAgencias(agencias);
     	ArrayList<Contrato> con = loadContratos(contratos);
@@ -259,5 +262,59 @@ public class Inicializadora {
 
 	        return cajeros;
 	    }
+ 
+	//-------------------------------------------------------------------------------------//
+
+	//PARA LA EXPO//
+
+	public static void modificarFechasApertura (ArrayList<CuentaBancaria> cuentas){
+		ArrayList<LocalDate> newFechas = generarFechasAleatorias(80); 
+		for(int i=0; i < cuentas.size(); i++){
+			cuentas.get(i).setFechaApertura(newFechas.get(i));
+		}
+	}
+
+	public static ArrayList<LocalDate> generarFechasAleatorias(int cantidad) {
+		ArrayList<LocalDate> fechas = new ArrayList<>();
+
+		for (int i = 0; i < cantidad; i++) {
+
+			int año = random.nextInt(LocalDate.now().getYear() - 2015 + 1) + 2015;
+			int mes = random.nextInt(12) + 1;
+			int dia = random.nextInt(diasEnMes(mes, año)) + 1;
+
+			LocalDate fecha = LocalDate.of(año, mes, dia);
+			fechas.add(fecha);
+		}
+
+		return fechas;
+	}
+
+	private static int diasEnMes(int mes, int año) {
+
+		int dias = 0; 
+		switch (mes) {
+		case 1: 
+		case 3: 
+		case 5: 
+		case 7:
+		case 8: 
+		case 10:
+		case 12:
+			dias = 31;
+			break;
+		case 4: 
+		case 6: 
+		case 9: 
+		case 11:
+			dias = 30; 
+			break;
+		case 2: 
+			dias = (LocalDate.of(año, 2, 1).isLeapYear()) ? 29 : 28;
+			break;
+		}
+		return dias; 
+	}
+
 
 }

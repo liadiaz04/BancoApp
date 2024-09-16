@@ -24,6 +24,10 @@ public abstract class CuentaBancaria {
 
 	}
 	
+	public void setFechaApertura(LocalDate fecha){
+		this.fechaApertura = fecha;
+	}
+	
 	public String getNoCuenta() {
 		return noCuenta;
 	}
