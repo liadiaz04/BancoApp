@@ -72,7 +72,6 @@ import java.util.regex.Pattern;
 
 	    }
 	 
-	 //EVENTOS CUJAE VALIDATIONS 
 	 public static boolean validarTelefono(String telefono){
 			boolean valido = false;
 			
