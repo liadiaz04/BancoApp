@@ -12,8 +12,7 @@ public class Cliente {
 	private String email;
 	private ArrayList <CuentaBancaria> cuentas;
 
-	public Cliente(String idCliente, String nombre, String direccion,
-			String telefono, String email) {
+	public Cliente(String idCliente, String nombre, String direccion,String telefono, String email) {
 
 		setIdCliente(idCliente);
 		setNombre(nombre);
@@ -21,7 +20,7 @@ public class Cliente {
 		setTelefono(telefono);
 		setEmail(email);
 		this.cuentas = new ArrayList<CuentaBancaria>();
-	}
+	} 
 
 
 	public String getIdCliente() {
@@ -104,8 +103,11 @@ public class Cliente {
 		if((!(cuenta instanceof C_Corriente)) && cant < 1){
 			cuentas.add(cuenta);
 		} else 
-			if(cuenta instanceof C_Corriente)
+			if(cuenta instanceof C_Corriente){
 				cuentas.add(cuenta);
+		}else 
+			throw new IllegalArgumentException ("Ya usted posee el limite maximo de cuentas de este tipo");
+				
 	}
 
 	public int cantCuentasDeUnTipo (CuentaBancaria cuenta){
@@ -123,9 +125,7 @@ public class Cliente {
 		return cuentas;
 	}
 
-
-
-
+	
 	public ArrayList<String> obtenerSaldosPorCuenta() {
 		ArrayList<String> saldos = new ArrayList<String>();
 		for (CuentaBancaria cuenta : cuentas) {

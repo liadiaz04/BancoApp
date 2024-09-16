@@ -71,7 +71,7 @@ public class Banco {
     
     public Plazo_Deposito buscarPlazoDeposito (int cantMeses){
     	Plazo_Deposito aux = null;
-        for (int i = 0 ; i < plazos.size() && aux != null; i++ ) {
+        for (int i = 0 ; i < plazos.size() && aux == null; i++ ) {
             if (plazos.get(i).getMeses() == cantMeses) {
                aux = plazos.get(i);
             }

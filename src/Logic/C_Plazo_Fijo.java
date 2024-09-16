@@ -7,6 +7,10 @@ import java.util.ArrayList;
 public class C_Plazo_Fijo extends CuentaBancaria implements Intereses,Deposito,Extraccion{
 
 	private Plazo_Deposito plazo;
+	
+	public Plazo_Deposito getPlazo(){
+		return this.plazo;
+	}
 
 	public C_Plazo_Fijo(String noCuenta, String beneficiario, String moneda, Plazo_Deposito plazo,double cantInicial) {
 		super(noCuenta, beneficiario, moneda);
