@@ -64,7 +64,7 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         add(label);
 
         clientes = getClientList();
-        String[] columns = new String[]{"Identificador", "Nombre", "Teléfono"};
+        String[] columns = new String[]{"Identificador", "Nombre", "Dirección"};
 
         Font buttonFont = new Font("Tahoma", Font.BOLD, 16);
         
@@ -158,6 +158,13 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridy = 1;
         	        addClientDialog.add(nameField, gbc);
 
+
+        	        JLabel phoneLabel = new JLabel("Teléfono:");
+        	        phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        	        gbc.gridx = 0;
+        	        gbc.gridy = 3;
+        	        addClientDialog.add(phoneLabel, gbc);
+        	        
         	        JLabel addressLabel = new JLabel("Dirección:");
         	        addressLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         	        gbc.gridx = 0;
@@ -168,12 +175,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        gbc.gridx = 1;
         	        gbc.gridy = 2;
         	        addClientDialog.add(addressField, gbc);
-
-        	        JLabel phoneLabel = new JLabel("Teléfono:");
-        	        phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-        	        gbc.gridx = 0;
-        	        gbc.gridy = 3;
-        	        addClientDialog.add(phoneLabel, gbc);
 
         	        final JTextField phoneField = new JTextField(20);
         	        gbc.gridx = 1;
@@ -208,13 +209,12 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	                String telefono = phoneField.getText();
         	                String email = emailField.getText();
 
-        	             
-        	                if (idCliente.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
-        	                    JOptionPane.showMessageDialog(addClientDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        	                String validacionError = validarCampos(idCliente, nombre, direccion, telefono, email);
+        	                if (validacionError != null) {
+        	                    JOptionPane.showMessageDialog(addClientDialog, validacionError, "Error de Validación", JOptionPane.ERROR_MESSAGE);
         	                    return;
         	                }
 
-        	             
         	                try {
         	                    Validaciones.validarCI(idCliente);
         	                } catch (IllegalArgumentException ex) {
@@ -222,7 +222,6 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	                    return; 
         	                }
 
-        	             
         	                for (Cliente cliente : clientes) {
         	                    if (cliente.getIdCliente().equals(idCliente)) {
         	                        JOptionPane.showMessageDialog(addClientDialog, "Ya existe un cliente con este carnet de identidad.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -234,6 +233,26 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	                Banco.getInstancia().addCliente(idCliente, nombre, direccion, telefono, email);
         	                ((DefaultTableModel) clientTable.getModel()).addRow(new Object[]{idCliente, nombre, telefono});
         	                addClientDialog.dispose();
+        	            }
+
+        	            private String validarCampos(String idCliente, String nombre, String direccion, String telefono, String email) {
+        	                if (nombre.isEmpty() || !validarNombre(nombre)) {
+        	                    return "El nombre solo debe contener letras y no estar vacío.";
+        	                }
+
+        	                if (idCliente.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
+        	                    return "Por favor, complete todos los campos.";
+        	                }
+
+        	                if (!Validaciones.validadorCorreo(email)) {
+        	                    return "El email no es válido.";
+        	                }
+
+        	                if (!Validaciones.validarTelefono(telefono)) {
+        	                    return "El teléfono debe contener exactamente 8 dígitos numéricos.";
+        	                }
+
+        	                return null; // No hay errores
         	            }
         	        });
 
@@ -263,23 +282,28 @@ public class ClientScreen extends BaseScreenWithSideMenu {
         	        }
         	    }
         	});
+        	
+        	
+        	
 
          // VER DETALLES
-            details.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    int selectedRow = clientTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        Cliente clienteSeleccionado = clientes.get(selectedRow);
-                        detailLabel.setText("<html><strong>Nombre:</strong> " + clienteSeleccionado.getNombre() + "<br/>" +
-                            "<strong>Dirección:</strong> " + clienteSeleccionado.getDireccion() + "<br/>" +
-                            "<strong>Email:</strong> " + clienteSeleccionado.getEmail() + "</html>");
-                    } else {
-                        JOptionPane.showMessageDialog(null, 
-                            "Por favor, seleccione un cliente para ver los detalles."
-                            );
-                    }
-                }
-            });
+        	details.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent e) {
+        	        int selectedRow = clientTable.getSelectedRow();
+        	        if (selectedRow != -1) {
+        	            Cliente clienteSeleccionado = clientes.get(selectedRow);
+
+        	            detailLabel.setText("<html><strong>Nombre:</strong> " + clienteSeleccionado.getNombre() + "<br/>" +
+        	                "<strong>Dirección:</strong> " + clienteSeleccionado.getDireccion() + "<br/>" +
+        	                "<strong>Email:</strong> " + clienteSeleccionado.getEmail() + "<br/>" +
+        	                "<strong>Teléfono:</strong> " + clienteSeleccionado.getTelefono() + "</html>");
+        	        } else {
+        	            JOptionPane.showMessageDialog(null, 
+        	                "Por favor, seleccione un cliente para ver los detalles."
+        	            );
+        	        }
+        	    }
+        	});
 
 
         // PANEL DETALLES
@@ -311,6 +335,12 @@ public class ClientScreen extends BaseScreenWithSideMenu {
 
 
     }
+    
+    private boolean validarNombre(String nombre) {
+        String regex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+( [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$";
+        return nombre.matches(regex);
+    }
+
     
     private void customizeButton(JButton button, Font font, int x, int y) {
         button.setBounds(x, y, 185, 53);

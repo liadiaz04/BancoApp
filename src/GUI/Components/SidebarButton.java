@@ -21,12 +21,12 @@ public class SidebarButton extends JButton {
     private Color textColor;
     private Font font;
     private JPopupMenu popupMenu;
-    private ActionListener listener; // Aquí añadimos el ActionListener
+    private ActionListener listener; 
 
-    // Modificamos el constructor para aceptar el listener como parámetro
+
     public SidebarButton(String text, String iconPath, Font font, Color backgroundColor, Color hoverColor, Color textColor, ActionListener listener) {
         super(text);
-        this.listener = listener; // Guardamos el listener
+        this.listener = listener; 
         this.backgroundColor = backgroundColor;
         this.hoverColor = hoverColor;
         this.textColor = textColor;
@@ -46,7 +46,7 @@ public class SidebarButton extends JButton {
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
-        setHorizontalTextPosition(SwingConstants.RIGHT); // Alinear el texto a la derecha del ícono
+        setHorizontalTextPosition(SwingConstants.RIGHT); 
         setHorizontalAlignment(SwingConstants.LEFT);
 
         addMouseListener(new MouseAdapter() {

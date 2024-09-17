@@ -276,6 +276,11 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                             JOptionPane.showMessageDialog(addAgencyDialog, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+                        
+                        if (!validarNombre(gerente)) {
+                            JOptionPane.showMessageDialog(null, "El nombre del gerente solo debe contener letras.", "Error de ValidaciÛn", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
 
                         Banco.getInstancia().agregarAgencia(gerente, direccion);
                         
@@ -284,13 +289,22 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
                             gerente,
                             direccion
                         });
+
+                        JOptionPane.showMessageDialog(addAgencyDialog, "Agencia agregada con Èxito.", "…xito", JOptionPane.INFORMATION_MESSAGE);
+                        
+
                         addAgencyDialog.dispose();
                     }
                 });
+                
+                
 
                 addAgencyDialog.setVisible(true);
             }
         });
+        
+      
+
 
      // ELIMINAR AGENCIA
         deleteAgencyButton.addActionListener(new ActionListener() {
@@ -315,6 +329,11 @@ public class AgencyScreen extends BaseScreenWithSideMenu {
 
  
       
+    }
+    
+    private boolean validarNombre(String nombre) {
+        String regex = "^[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò—]+( [a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò—]+)*$";
+        return nombre.matches(regex);
     }
     
     private Agencia getSelectedAgency() {

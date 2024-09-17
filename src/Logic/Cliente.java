@@ -27,74 +27,50 @@ public class Cliente {
 		return idCliente;
 	}
 
-	public void setIdCliente(String idCliente) {
-		try{
-			Validaciones.validarCI(idCliente);
-			this.idCliente = idCliente;
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-	}
-
-
-
 	public String getNombre() {
 
 		return nombre;
 	}
 
-
-
-	public void setNombre(String nombre) {
-		if(Validaciones.validarNombre(nombre)){
-			this.nombre = nombre;
-		}else 
-			throw new IllegalArgumentException ("Nombre Invalido");
-	}
-
-
-
 	public String getDireccion() {
 		return direccion;
 	}
-
-
-
-	public void setDireccion(String direccion) {
-		if(Validaciones.validarNombre(direccion)){
-			this.direccion = direccion;
-		}else 
-			throw new IllegalArgumentException ("Nombre Invalido");
-	}
-
-
 
 	public String getTelefono() {
 		return this.telefono;
 	}
 
-
-
-	public void setTelefono(String telefono) {
-		if(Validaciones.validarTelefono(telefono)){
-			this.telefono = telefono;
-		}else 
-			throw new IllegalArgumentException ("Numero de telefono no valido");
-	}
-
-
-
 	public String getEmail() {
 		return email;
 	}
 
+	public void setIdCliente(String idCliente) {
+		this.idCliente = idCliente;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 
 
 	public void setEmail(String email) {
-		if(Validaciones.validadorCorreo(email)){
-			this.email = email;
-		}else 
-			throw new IllegalArgumentException ("Su correo electronico no es valido");
+		this.email = email;
+	}
+
+
+	public void setCuentas(ArrayList<CuentaBancaria> cuentas) {
+		this.cuentas = cuentas;
 	}
 
 

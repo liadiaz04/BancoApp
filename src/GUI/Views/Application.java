@@ -19,10 +19,6 @@ public class Application extends JFrame {
     private JPanel contentPane;
     private CardLayout cardLayout;
     private ViewHandler viewHandler;
-   
-    
-
-  
     
 
     public Application() {
