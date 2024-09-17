@@ -90,11 +90,11 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         customizeButton(lastOperations, buttonFont, 1600, 700);
         add(lastOperations);
         
-        /*deleteAccount.addActionListener(new ActionListener() {
+        deleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 eliminarCuenta();
             }
-        });*/
+        });
         
         depositButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -125,7 +125,7 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
         });
         
    
-     // ï¿½LTIMAS OPERACIONES
+     // ÚLTIMAS OPERACIONES
         lastOperations.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = accountTable.getSelectedRow();
@@ -471,31 +471,27 @@ public class UserAccountScreen extends BaseScreenWithSideMenu {
     	 }
      }
     
-  /*  private void eliminarCuenta() {
+    private void eliminarCuenta() {
         int selectedRow = accountTable.getSelectedRow();
         if (selectedRow != -1) {
             CuentaBancaria cuentaSeleccionada = cuentas.get(selectedRow);
             String noCuenta = cuentaSeleccionada.getNoCuenta();
-            
+            String idCliente = cliente.getIdCliente(); 
+
             int result = JOptionPane.showConfirmDialog(null, 
                 "¿Está seguro de que desea eliminar la cuenta " + noCuenta + "?",
                 "Confirmar Eliminación", 
                 JOptionPane.OK_CANCEL_OPTION);
             
             if (result == JOptionPane.OK_OPTION) {
-                boolean eliminado = Banco.getInstancia().eliminarCuenta(noCuenta);
-                if (eliminado) {
-                    updateAccountTable();
-                    JOptionPane.showMessageDialog(null, "Cuenta eliminada con éxito.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                Banco.getInstancia().eliminarCuenta(idCliente, noCuenta);
+                updateAccountTable();
+                JOptionPane.showMessageDialog(null, "Cuenta eliminada con éxito.");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una cuenta para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }*/
-   
+    }
     
     private ArrayList<CuentaBancaria> getAccountList(Cliente cliente) {
         Banco banco = Banco.getInstancia();
