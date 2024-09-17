@@ -77,7 +77,6 @@ public class ViewHandler {
 
 
 	
-	//El router para desplazarse entre las views
 	
 	private void Router(ActionEvent e) {
 	    String command = e.getActionCommand();
@@ -91,8 +90,8 @@ public class ViewHandler {
 	    } else if ("Agencias".equals(command)) {
 	        cardLayout.show(contentPane, "AgencyScreen");
 	    } else if ("Reportes".equals(command)) {
-	        // En lugar de mostrar la pantalla de reportes, puedes abrir un menï¿½ aquï¿½
-	        mostrarMenuReportes(e); // Nueva funciï¿½n para mostrar el menï¿½ de reportes
+
+	        mostrarMenuReportes(e); 
 	    } else if ("Cuentas del Cliente".equals(command)) {
 	        cardLayout.show(contentPane, "Cuentas del Cliente");
 
@@ -115,16 +114,16 @@ public class ViewHandler {
 	}
 
 	private void mostrarMenuReportes(ActionEvent e) {
-	    // Crear un popup menu
+
 	    JPopupMenu reportMenu = new JPopupMenu();
 
-	    // Crear las opciones del menï¿½
+
 	    JMenuItem clienteSaldoSuperior = new JMenuItem("Clientes con saldo superior");
-	    JMenuItem entidadMasContratos = new JMenuItem("Entidad con mï¿½s contratos");
+	    JMenuItem entidadMasContratos = new JMenuItem("Entidad con más contratos");
 	    JMenuItem cuentasFFondosAsociadas = new JMenuItem("Cuentas FF Asociadas");
 	    JMenuItem cajerosSinSaldo = new JMenuItem("Cajeros sin saldo");
 
-	    // Aï¿½adir ActionListeners a las opciones del menï¿½
+
 	    clienteSaldoSuperior.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            cardLayout.show(contentPane, "ClienteConSaldoSuperior");
@@ -155,14 +154,14 @@ public class ViewHandler {
 	    reportMenu.add(cuentasFFondosAsociadas);
 	    reportMenu.add(cajerosSinSaldo);
 
-	    // Mostrar el popup donde se hizo clic
+
 	    Component source = (Component) e.getSource();
 	    reportMenu.show(source, source.getWidth() / 2, source.getHeight());
 	}
 
 
 
-	//Crear las llamadas a las Pantallas
+	//LLAMADAS A LAS PANTALLAS
 
 	private BaseScreen loadMainScreen() {
 

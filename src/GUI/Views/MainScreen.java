@@ -62,7 +62,7 @@ public class MainScreen extends BaseScreenWithSideMenu {
         	    "<div style='text-align: justify;'>" + // Justificación del texto
         	    "<ul>" +
         	    "<li>Registro de Clientes y sus Cuentas de Ahorro: Agregue y administre información de clientes y sus respectivas cuentas.</li><br>" +
-        	    "<li>Operaciones Bancarias: Realice depósitos, retiros y transferencias de manera rápida y segura.</li><br>" +
+        	    "<li>Operaciones Bancarias: Realice depósitos y retiros de manera rápida y segura.</li><br>" +
         	    "<li>Creación y Eliminación de Registros: Administre la información de clientes y cuentas con facilidad.</li><br>" +
         	    "<li>Sección de Reportes: Acceda a informes detallados sobre las transacciones y el estado de las cuentas en el sistema.</li><br>" +
         	    "</ul>" +
