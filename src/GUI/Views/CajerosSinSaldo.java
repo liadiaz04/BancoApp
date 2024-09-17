@@ -1,6 +1,7 @@
 package GUI.Views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,20 +15,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import GUI.Components.BaseScreenWithSideMenu;
+import Logic.Agencia;
 import Logic.Banco;
 import Logic.Cajero;
 
 public class CajerosSinSaldo extends BaseScreenWithSideMenu {
-    private JTable cajeroTable; // Tabla para mostrar los resultados
-    private DefaultTableModel tableModel; // Modelo de la tabla
+    private JTable cajeroTable; 
+    private DefaultTableModel tableModel; 
+    private JScrollPane s1;
+    
     private Banco banco; 
-    private JButton loadButton; // Botón para cargar los cajeros
+    private JButton loadButton; 
 
     public CajerosSinSaldo(ActionListener listener) {
         super(listener);
         banco = Banco.getInstancia(); 
         setBackground(Color.WHITE);
-        loadContent(); // Cargar contenido de la pantalla
     }
 
     @Override
@@ -42,11 +45,15 @@ public class CajerosSinSaldo extends BaseScreenWithSideMenu {
         String[] columnNames = { "ID Cajero", "Saldo Total", "Agencia" };  
         tableModel = new DefaultTableModel(columnNames, 0);
         cajeroTable = new JTable(tableModel);
-        styleTable(cajeroTable);
 
-        JScrollPane scrollPane = new JScrollPane(cajeroTable);
-        scrollPane.setBounds(550, 170, 800, 500);
-        add(scrollPane);
+        s1 = new JScrollPane(cajeroTable);
+        s1.setBounds(550, 170, 800, 500); // Ensure this is set correctly
+        add(s1);
+        
+        styleTable(cajeroTable);
+        
+        cajeroTable.setPreferredScrollableViewportSize(new Dimension(800, 500));
+
 
         // Botón para cargar cajeros sin saldo
         loadButton = new JButton("Mostrar cajeros sin saldo");
@@ -81,18 +88,25 @@ public class CajerosSinSaldo extends BaseScreenWithSideMenu {
     }
 
     private void cargarDatosCajeros() {
-        ArrayList<Cajero> cajerosSinSaldo = banco.cajerosConSaldoInsuficiente(); // Obtener cajeros con saldo insuficiente
-        tableModel.setRowCount(0); // Limpiar la tabla
+    	tableModel.setRowCount(0);
+    	
+		ArrayList<Agencia> agencias = banco.getAgencias();
 
-        for (Cajero cajero : cajerosSinSaldo) {
-            // Obtener la agencia a la que pertenece el cajero
-            String agencia = banco.obtenerAgenciaPorCajero(cajero.getIdCajero());
-            
-            Object[] rowData = { cajero.getIdCajero(), cajero.mostrarSaldoTotal(), agencia }; // Mostrar ID, saldo y agencia
-            tableModel.addRow(rowData); // Agregar cada cajero a la tabla
-        }
-
-        tableModel.fireTableDataChanged(); // Notificar que los datos han cambiado
+		for(Agencia a : agencias){
+			ArrayList<Cajero> cajerosSinSaldo = a.getCajeros();
+			
+	        for (Cajero cajero : cajerosSinSaldo) {
+	        	if (cajero.mostrarSaldoTotal() == 0) {
+		            // Obtener la agencia a la que pertenece el cajero
+		            String agencia = a.getIdAgencia();
+		            
+		            Object[] rowData = { cajero.getIdCajero(), cajero.mostrarSaldoTotal(), agencia }; // Mostrar ID, saldo y agencia
+		            tableModel.addRow(rowData); // Agregar cada cajero a la tabla
+		        }
+		        tableModel.fireTableDataChanged(); // Notificar que los datos han cambiado
+	        }
+		}
     }
+
 
 }

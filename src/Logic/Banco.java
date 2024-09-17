@@ -466,13 +466,16 @@ public class Banco {
 
 
 	// 6.CAJEROS CON SALDO INSUFICIENTE DE CADA AGENCIA
-	public ArrayList<Cajero> cajerosConSaldoInsuficiente (){
+	public ArrayList<Cajero> cajerosConSaldoInsuficiente () {
 
 		ArrayList<Cajero> cajerosSinSaldo = new ArrayList<>();
 
 		for(Agencia a : agencias){
+			//System.out.println(a.getIdAgencia());
 			for (Cajero c : a.getCajeros()){
-				if(c.mostrarSaldoTotal()==0){
+				
+				if(c.mostrarSaldoTotal() == 0) {
+					//System.out.println(c.getIdCajero());
 					cajerosSinSaldo.add(c);
 				}
 			}
